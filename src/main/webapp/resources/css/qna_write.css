@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+
+.root {margin-top: 40px; margin-bottom: 20px;}
+.root a{color: black;} .root a:hover{text-decoration: none; color: #999;}
+.qna {margin-bottom: 20px;}
+
+  .qw-box {width: 100px; position: relative;}
+    .qw-img-box img {width: 100%;display: block; padding: 5px; float: left; margin-right: 20px;}
+    .clear{clear: both;}
+    .qw-search{border: 1px solid #e8e8e8; display: table; padding: 5px; border-radius: 3px;}
+    .qw-search a{color: black; text-decoration: none; font-weight: bolder;}    
+    
+    .qnatable tr{border-top: 1px solid #e8e8e8; height: 40px;}
+    .qnatable th{padding: 15px;}
+
+    .qnatable textarea {
+        width: 100%; height: 200px; box-sizing: border-box; resize: none;
+        border: solid 1px black; border-radius: 5px; font-size: 16px }
+    .listBtn{border: 1px solid #e8e8e8; width: fit-content; padding: 7px 25px; border-radius: 3px; float: left;}
+    .listBtn:hover{background: #e5e5e5;}
+    .listBtn a{color: black; text-decoration: none;}
+    
+    .submitBtn{border: 1px solid #e8e8e8; width: fit-content; padding: 7px 25px; border-radius: 3px; margin-right: 10px; float: right;}
+    .submitBtn:hover{background: #e5e5e5;;}
+    .submitBtn a{text-decoration: none; color: black}
+    
+    .cancleBtn{border: 1px solid #e8e8e8; width: fit-content; padding: 7px 25px; border-radius: 3px; margin-right: 5px;
+                float: right; background: #f0f0f0;}
+    .cancleBtn:hover{background: #e5e5e5;}
+    .cancleBtn a{color: black; text-decoration: none;}

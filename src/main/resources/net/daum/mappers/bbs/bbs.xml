@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Bbs"><!-- 매퍼태그 네임스페이스 명을 Bbs로 지정. mybatis 쿼리문을 다루는 매퍼태그. -->
+
+   <!-- 자료실 저장 -->
+   <insert id="bbs_in" parameterType="bbs"> <!-- parameterType은 전달인자 타입이고 생략가능함.  -->
+    insert into bbs (bbs_no,bbs_name,bbs_title,bbs_pwd,bbs_cont,bbs_file, bbs_ref,bbs_step,bbs_level,bbs_date)
+    values(bbs_no_seq.nextval, #{bbs_name}, #{bbs_title}, #{bbs_pwd},#{bbs_cont},#{bbs_file},bbs_no_seq.nextval, 0,0,sysdate)
+   </insert>
+   
+   <!-- 검색 전후 레코드 개수 -->
+   <select id="bbs_count" resultType="int"> <!-- resultType 속성은 반환 타입 -->
+     select count(bbs_no) from bbs 
+     <where>
+      <if test="find_field == ''"></if> <!-- 검색전 -->
+      <if test="find_field == 'bbs_title'">
+       bbs_title like #{find_name} <!-- 검색 필드가 제목인 경우 -->
+      </if>
+      <if test="find_field == 'bbs_cont'">
+       bbs_cont like #{find_name} <!-- 검색 필드가 내용인 경우 -->
+      </if>
+     </where>      
+   </select>
+   
+   <!-- 검색 전후 자료실 목록 -->
+   <select id="bbs_list" resultType="bbs">
+     select * from (
+       select rowNum rNum,bbs_no,bbs_name,bbs_title,bbs_hit,bbs_ref,bbs_step,bbs_level,bbs_date from
+       (select * from bbs
+       
+       <where>
+        <if test="find_field == ''"></if> <!-- 검색전 -->
+        <if test="find_field == 'bbs_title'">
+          bbs_title like #{find_name} <!-- 검색 필드가 제목인 경우 -->
+        </if>
+        <if test="find_field == 'bbs_cont'">
+           bbs_cont like #{find_name} <!-- 검색 필드가 내용인 경우 -->
+         </if>
+     </where> 
+     
+       order by bbs_ref desc, bbs_level asc))
+       where rNum &gt;= #{startrow} and rNum &lt;= #{endrow}    <!-- &gt;=은 ~보다 크거나 같다(>=), &lt;= ~보다 작거나 같다.(<=) -->
+   </select>
+   
+   <!-- 조회수 증가 -->
+   <update id="bbs_hi">
+       update bbs set bbs_hit = bbs_hit + 1 where bbs_no=#{bbs_no}
+   </update>
+   
+   <!-- 내용보기 -->
+   <select id="bbs_co" resultType="bbs">
+       select * from bbs where bbs_no=#{bbs_no}
+   </select>
+   
+   <!-- 답변 레벨 업 -->
+   <update id="level_up">
+       update bbs set bbs_level=bbs_level+1 where bbs_ref=#{bbs_ref} and bbs_level <![CDATA[ > ]]> #{bbs_level}
+   </update>
+   
+   <!-- 답변 저장 -->
+   <insert id="reply_in2">
+       insert into bbs (bbs_no,bbs_name,bbs_title,bbs_pwd,bbs_cont,bbs_ref,bbs_step,bbs_level,bbs_date)
+       values(bbs_no_seq.nextval, #{bbs_name} , #{bbs_title} , #{bbs_pwd}, #{bbs_cont}, #{bbs_ref}, #{bbs_step}+1, #{bbs_level}+1, sysdate)
+   </insert>
+   
+   <!-- 자료실 수정 -->
+   <update id="bbs_edit">
+       update bbs set bbs_name=#{bbs_name}, bbs_title=#{bbs_title}, bbs_cont=#{bbs_cont}, bbs_file=#{bbs_file} where bbs_no=#{bbs_no}
+   </update>   
+   
+   <!-- 자료실 삭제 -->
+   <delete id="bbs_del">
+     delete from bbs where bbs_no=#{bbs_no}
+   </delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Item">
+	<!-- info -->
+	<insert id="item_ii_in" parameterType="net.daum.vo.ItemInfoVO" useGeneratedKeys="true" keyProperty="item_no">
+		<selectKey keyProperty="item_no" resultType="int" order="BEFORE">
+			SELECT ITEM_NO_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		insert into ITEM_INFO (
+		ITEM_CO1, ITEM_CO2, ITEM_NAME, ITEM_PRICE, ITEM_CONT, ITEM_NO
+		)
+		values (
+		#{item_co1},#{item_co2},#{item_name},#{item_price}, #{item_cont},#{item_no}
+		)
+	</insert>
+	<!-- option -->
+	<insert id="item_op_in" parameterType="HashMap">
+		insert into ITEM_OPTION (
+		ITEM_NO, OPTION_ITEM_NO, OPTION_VAL1, OPTION_VAL2
+		)
+		values (
+		#{item_no}, ITEM_OP_NO_SEQ.NEXTVAL,#{option_val1},#{option_val2}
+		)		
+	</insert>
+	<!-- main -->
+	<insert id="item_ma_in" parameterType="HashMap">
+		insert into ITEM_MAIN_IMG (
+		ITEM_NO, MAIN_FILE_NO, MAIN_ITEM_IMG, MAIN_ITEM_ORIGIN_NAME
+		)
+		values(
+		#{item_no}, ITEM_MA_NO_SEQ.NEXTVAL, #{main_item_img}, #{main_item_origin_name}
+		)
+	</insert>
+	
+	<!-- sub -->
+	<insert id="item_su_in" parameterType="HashMap">
+		insert into ITEM_SUB_IMG (
+		ITEM_NO, SUB_FILE_NO, SUB_ITEM_IMG, SUB_ITEM_ORIGIN_NAME
+		)
+		values(
+		#{item_no}, ITEM_SU_NO_SEQ.NEXTVAL, #{sub_item_img}, #{sub_item_origin_name}
+		)
+	</insert>
+	
+	<!-- 레코드 수 -->
+	<select id="item_total" resultType="int">
+		select count(item_no) from ITEM_INFO 
+	</select>
+	
+	<!-- 상품목록 -->
+	<select id="item_list" resultType="item">
+		select * from(
+		select ROWNUM RN,A.* from(
+		select * from ITEM_INFO LEFT OUTER JOIN(
+		select * from(
+		select ROW_NUMBER() OVER(PARTITION BY ITEM_MAIN_IMG.ITEM_NO order by ITEM_MAIN_IMG.MAIN_FILE_NO asc)
+		AS RNUM, ITEM_MAIN_IMG.* from ITEM_MAIN_IMG
+		)where RNUM=1
+		)B
+		ON ITEM_INFO.ITEM_NO = B.ITEM_NO order by ITEM_INFO.ITEM_NO asc
+		)A
+		)where RN BETWEEN #{startrow} AND #{endrow}
+	</select>
+	
+	<!-- 메인 베스트 -->
+	<select id="bamalist" resultType="item">
+		select * from(
+        select ROWNUM RN, D.* from(
+		select * from (
+        select * from(
+		select ROW_NUMBER() OVER(PARTITION BY ITEM_MAIN_IMG.ITEM_NO order by ITEM_MAIN_IMG.MAIN_FILE_NO asc)
+		AS RNUMA, ITEM_MAIN_IMG.* from ITEM_MAIN_IMG
+		)where RNUMA=1 ) A
+        LEFT OUTER JOIN
+        (
+        select * from (
+        select * from(
+        select*from(
+        select ROW_NUMBER() OVER(PARTITION BY ITEM_OPTION.ITEM_NO order by ITEM_OPTION.REAL_SELCOUNT DESC)
+        AS RNUM, ITEM_OPTION.* from ITEM_OPTION) where RNUM=1)B order by B.REAL_SELCOUNT DESC ))C
+        ON A.ITEM_NO = C.ITEM_NO    
+        LEFT OUTER JOIN ITEM_INFO ON ITEM_INFO.ITEM_NO = C.ITEM_NO)D
+        )where RN BETWEEN 1 AND 8 
+	</select>
+	
+	<!-- 메인 최신  -->
+	<select id="newmalist" resultType="item">
+		select * from(
+        select ROWNUM RN, D.* from(
+        select * from (
+        select * from ITEM_INFO LEFT OUTER JOIN(
+		select * from(
+		select ROW_NUMBER() OVER(PARTITION BY ITEM_MAIN_IMG.ITEM_NO order by ITEM_MAIN_IMG.MAIN_FILE_NO asc)
+		AS RNUM, ITEM_MAIN_IMG.* from ITEM_MAIN_IMG
+		)where RNUM=1
+		)B
+		ON ITEM_INFO.ITEM_NO = B.ITEM_NO order by ITEM_INFO.ITEM_NO asc)C order by C.ITEM_WRITE_DATE DESC)D)
+        where RN BETWEEN 1 and 12
+	</select>
+	
+	<update id="item_re">
+		update ITEM_INFO set ITEM_NAME=#{item_name}, ITEM_PRICE=#{item_price} where ITEM_NO=#{item_no}
+	</update>
+	
+	<delete id="item_del1">
+		delete from ITEM_INFO where ITEM_NO=#{item_no}
+	</delete>
+	
+	<delete id="item_del2">
+		delete from ITEM_MAIN_IMG where ITEM_NO=#{item_no}
+	</delete>
+	
+	<delete id="item_del3">
+		delete from ITEM_SUB_IMG where ITEM_NO=#{item_no}
+	</delete>
+	
+	<delete id="item_del4">
+		delete from ITEM_OPTION where ITEM_NO=#{item_no}
+	</delete>
+	
+	<select id="item_stock" resultType="item">
+		select * from ITEM_OPTION A LEFT OUTER JOIN ITEM_INFO B ON A.ITEM_NO = B.ITEM_NO where A.ITEM_NO=#{item_no}
+	</select>
+	
+	<update id="stock_update">
+		update ITEM_OPTION set OPTION_VAL2 = #{option_val2}, SELCOUNT=0 where OPTION_VAL1=#{option_val1} AND ITEM_NO=#{item_no}
+	</update>
+	
+	<insert id="banner_in" parameterType="HashMap">
+		insert into ITEM_BANNER (ITEM_NO, BANNER_FILE_NO, BANNER_ITEM_IMG, BANNER_ORIGIN_NAME)
+		values (#{item_no}, ITEM_BA_NO_SEQ.NEXTVAL, #{banner_item_img}, #{banner_origin_name})
+	</insert>
+	
+	<select id="banner_total" resultType="item">
+		select * from ITEM_BANNER
+	</select>
+	
+	<delete id="badel">
+		delete from ITEM_BANNER where BANNER_FILE_NO in (
+		select BANNER_FILE_NO from(
+		select * from ITEM_BANNER order by BANNER_FILE_NO asc)
+		where ROWNUM = 1)
+	</delete>
+	
+	<!-- 상세보기 메인사진 -->
+	<select id="viewmain" resultType="item">
+		select * from ITEM_MAIN_IMG where ITEM_NO=#{item_no} order by MAIN_FILE_NO asc
+	</select>	
+	
+	<!-- 상세보기 서브사진 -->
+	<select id="viewsub" resultType="item">
+		select * from ITEM_SUB_IMG where ITEM_NO=#{item_no} order by SUB_FILE_NO asc
+	</select>
+	
+	<!-- 상세보기 옵션 -->
+	<select id="viewoption" resultType="item">
+		select * from ITEM_OPTION where ITEM_NO=#{item_no} order by OPTION_ITEM_NO asc
+	</select>
+	
+	<!-- 상세보기 정보 -->
+	<select id="viewinfo" resultType="item">
+		select * from ITEM_INFO where ITEM_NO=#{item_no}
+	</select>
+</mapper>

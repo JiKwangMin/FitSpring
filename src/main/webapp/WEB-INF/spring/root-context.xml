@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:aop="http://www.springframework.org/schema/aop"
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+   xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+   xmlns:tx="http://www.springframework.org/schema/tx"
+   xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+      http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+      http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	<aop:aspectj-autoproxy />
+	<!-- aop 자동 프록시 설정 -->
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@ommall_high?TNS_ADMIN=C:/DBC/wallet_OMMALL" />
+		<property name="username" value="ADMIN" />
+		<property name="password" value="TlqkftoRl123" />
+	</bean>
+		
+	<!-- spring과 mybatis 연결 설정, mybatis 환경설정파일 mybatis-config.xml, 쿼리문을 다루는 매퍼 xml(mybatis) -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	  <property name="dataSource" ref="dataSource" /><!-- setter() 메서드를 통한 의존성 주입 -->
+	  <property name="configLocation"  value="classpath:/mybatis-config.xml" />
+	  <!-- classpath 이클립스 메이븐 가상경로는 src/main/resources/ => 실제 톰캣 WAS 서버에 의해서 변경된 실제 경로는 /WEB-INF/classes/, mybatis-config.xml파일의 특징은
+	  데이터 저장빈 클래스의 객체 별칭을 관리.-->
+	  <property name="mapperLocations" value="classpath*:net/daum/mappers/**/*.xml" /><!-- mybatis 매퍼태그 경로 설정 -->	  
+	</bean>	
+	
+	<!-- 트랜잭션 매니져 설정 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	  <property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:annotation-driven /> <!-- 트랜잭션 설정 애너테이션. 애너테이션을 통한 트랜잭션 관리가 가능  -->
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache"> <!-- destroy-method="clearCache" 뜻은
+	임시 메모리를 비워서 데이터 베이스 연결을 해제 -->
+	  <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/> <!-- 생성자통한 의존성 주입 -->
+	</bean>
+	
+	<!-- DAOImpl의 @Repository가 설정된 부분을 스프링에서 오토 스캔(자동으로 찾아서)하여 인식하게 해줌. -->
+	<context:component-scan base-package="net.daum.dao" />
+	
+	<context:component-scan base-package="net.daum.utils" />
+	<!-- 비지니스 서비스 추가 이유(비지니스 서비스 오토 스캔 추가=> context:component-scan): 
+	     첫째, 컨트롤러와 모델 DAO를 연결하는 중간 매개체 역할, 둘째 고객의 추가 요구사항을 반영하는 부분, 셋째 가장 중요한 데이터 일치 그리고 사이트 신뢰도와 연결된 스프링의 AOP를 통한 트랜잭션 적용.
+	 -->
+	 <context:component-scan base-package="net.daum.service" />
+	 
+	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="52428800" />
+		<property name="maxInMemorySize" value="10485760" />
+	</bean>
+	 
+	 <aop:config /> <!--  aop xml방식 기능 설정 : aop환결 설정 태그 -->
+</beans>
+
+
+
+

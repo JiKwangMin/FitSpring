@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="AdminBoard">
+  
+    <!-- 검색전후 레코드 개수 -->
+    <select id="ab_count" parameterType="board"
+    resultType="int">
+      select count(board_no) from board
+     <where>
+     <if test="find_field == ''">
+      <!-- 검색조건이 없어서 총레코드 개수 -->
+     </if>
+     <if test="find_field == 'board_title'">
+      <!-- 검색 조건이 제목인 경우 -->
+      board_title like #{find_name} <!-- like는 오라클 검색
+      연산자 -->
+     </if>
+     <if test="find_field == 'board_cont'">
+      board_cont like #{find_name}
+     </if>
+     </where>
+    </select> 
+    
+    <!-- 검색 전후 목록 -->
+    <select id="ab_list" resultType="board">
+    <!--  resultType 속성은 반환 타입 -->
+      select * from 
+     (select rowNum rNum,board_no,board_name,board_title,
+     board_hit,board_ref,board_step,board_level,board_date
+     from (select * from board     
+     <where>
+     <if test="find_field == ''">
+      <!-- 검색조건이 없어서 총레코드 개수 -->
+     </if>
+     <if test="find_field == 'board_title'">
+      <!-- 검색 조건이 제목인 경우 -->
+      board_title like #{find_name} <!-- like는 오라클 검색
+      연산자 -->
+     </if>
+     <if test="find_field == 'board_cont'">
+      board_cont like #{find_name}
+     </if>
+     </where>     
+      order by board_ref desc,
+     board_level asc)) 
+     where rNum &gt;= #{startrow} and rNum &lt;= #{endrow}
+<!-- &gt;은 ~보다 크다(>), &lt;은 ~보다 작다(<) -->  
+    </select>  
+    
+    <!-- 관리자 게시판 저장 -->
+    <insert id="ab_in" parameterType="board">
+     insert into board (board_no,board_name,board_title,
+     board_pwd,board_cont,board_ref,board_step,board_level,
+     board_date) values(board_no_seq.nextval,#{board_name},
+     #{board_title},#{board_pwd},#{board_cont},
+     board_no_seq.nextval,0,0,sysdate)
+    </insert>
+    
+    <!-- 관리자 게시판 내용보기+수정폼 -->
+    <select id="ab_cont" parameterType="int" 
+    resultType="board">
+     select * from board where board_no=#{board_no}
+    </select>
+    
+    <!-- 관리자 게시판 수정완료 -->
+    <update id="ab_edit">
+     update board set board_name=#{board_name},
+     board_title=#{board_title},board_pwd=#{board_pwd},
+     board_cont=#{board_cont} where board_no=#{board_no}
+    </update>
+    
+    <!-- 관리자 게시판 삭제 -->
+    <delete id="ab_del" >
+     delete from board where board_no=#{no}
+    </delete>
+  </mapper>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

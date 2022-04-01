@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd" >
+
+<configuration>
+   <typeAliases>
+      <typeAlias type="net.daum.vo.Bbs1VO" alias="bbs"/>       
+      <typeAlias type="net.daum.vo.MemberVO" alias="member" />
+      <typeAlias type="net.daum.vo.ZipcodeVO" alias="zip" />
+      <typeAlias type="net.daum.vo.GongjiVO" alias="gongji" />
+      <typeAlias type="net.daum.vo.BoardVO" alias="board" />
+      <typeAlias type="net.daum.vo.QnaVO" alias="qna"/>
+      <typeAlias type="net.daum.vo.ProductVO" alias="pro"/>
+      <typeAlias type="net.daum.vo.ReviewVO" alias="re"/>
+      <typeAlias type="net.daum.vo.ItemInfoVO" alias="item"/>
+   </typeAliases>
+</configuration>

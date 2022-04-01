@@ -1,0 +1,145 @@
+@charset "UTF-8";
+
+/* admin_login.jsp ui */
+#aLogin_wrap{
+	width:340px; height:160px;
+	border:1px solid pink; box-shadow:20px 20px 20px #ccc;
+	margin-left:auto; margin-right:auto;
+	margin-top:170px; border-radius:25px;
+}
+#aLogin_wrap .aLogin_title{
+	margin:20px 0 0 96px; width:140px; font-size:19px;
+	background:skyblue; border-radius:15px;
+	text-align:center; padding:2px;
+}
+#aLogin_t{
+	margin:20px 0px 0px 10px;
+}
+#aLogin_t .login_btn{
+	height:47px; border:1px solid black; box-shadow:2px 2px 2px gray; margin-left:3px; border-radius:5px;
+}
+#aLogin_t .login_btn:hover{
+	cursor:pointer; cursor:hand; /*마우스 오버시 포인터가 손가락 모양으로 변경 */.
+	border:1px solid red; background:orange; font-weight:bold;
+}
+
+/* admin_main.jsp ui */
+#aMain_wrap{
+	width:860px; height:880px; border:1px solid blue;
+	border-radius:15px; box-shadow:15px 15px 15px #ccc;
+	margin-left:auto; margin-right:auto;
+	margin-top:30px;
+}
+#aMain_header{
+	width:840px; height:160px; border:1px solid red;
+	border-radius:15px; margin:10px 0px 0px 10px;
+}
+#aMain_logo{
+	width:150px; height:140px; border:1px solid skyblue;
+	border-radius:15px; margin:10px 0px 0px 10px;
+	float:left;/*div가 가로폭 전체를 차지하는 블록요소 태그를
+	내용물 크기만큼 차지하는 인라인 요소로 바꿔서 수직정렬이 수평
+	정렬로 바뀐다. */
+}
+#aMain_logo img{
+    width:120px; height:55px;margin:41px 0px 0px 14px;	
+}
+#aMain_menu{
+	width:380px; height:140px; border:1px solid skyblue;
+	border-radius:15px; margin:10px 0px 0px 10px;
+	float:left;
+}
+#aMain_menu ul li{
+    float:left;/*수직정렬을 수평정렬로 바꾼다.*/
+    list-style:none;/*목록앞 점 없앰*/
+    margin:97px 0px 0px 0px;
+    padding:0px 9px;/*상하 안여백은 0픽셀,좌우 안여백은 9픽셀*/	
+}
+#aMain_right{
+	width:264px; height:140px; border:1px solid skyblue;
+	border-radius:15px; margin:10px 0px 0px 10px;
+	float:left;
+}
+#aMain_right .aRight_title{
+    font-size:12px; margin-left:10px;	
+}
+.clear{
+	clear:both; /*위쪽 div가 float속성이 적용되었을때 빈공간이
+	발생하면 아래쪽 div가 위로 올라가서 ui가 깨진다. 이것을 막아
+	준다.결국은 div간 잘못된 css적용을 막아줌. float속성을 제거. */
+}
+
+#aMain_cont{
+    width:840px; height:600px;
+    border:1px solid red; border-radius:15px;
+    margin:10px 0px 0px 10px;	
+}
+#aMain_cont .aMainCont_title{
+	font-size:16px; margin:230px 0px 0px 320px;
+}
+#aMain_footer{
+	width:840px; height:74px; 
+	border:1px solid red; border-radius:15px;
+	margin:10px 0px 0px 10px;
+}
+#aMain_footer .aMainFooter_title{
+	font-size:14px; margin:20px 0px 0px 210px;
+}
+
+a:link{text-decoration:none;}
+a:visited{text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:active{text-decoration:none;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

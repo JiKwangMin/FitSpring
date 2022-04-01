@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="Product">
+
+  <!-- 상품목록 저장 -->  
+  <insert id="pro_in" parameterType="pro">
+   insert into product values(#{p_id},#{p_path},#{p_category1},#{p_category2},#{p_name},#{p_size},#{p_color},
+   		#{p_price},#{p_activition},#{p_stock},#{p_sell},sysdate)
+  </insert>
+  
+  <!-- 상품검색 전후 레코드 개수 -->
+  <select id="pro_count" resultType="int">
+	select count(p_id) from product
+	 <where>
+	  <if test="find_field == ''"></if> <!-- 검색 전 -->
+	  <if test="find_field == 'p_category1'">
+	  	p_category1 like #{find_name}	<!-- 대분류 검색 -->
+	  </if>
+	  <if test="find_field == 'p_category2'">
+	  	p_category2 like #{find_name}	<!-- 소분류 검색 -->
+	  </if>
+	  <if test="find_field == 'p_name'">
+	  	p_name like #{find_name}	<!-- 상품이름 검색 -->
+	  </if>
+	 </where>  
+  </select>
+  
+  <!-- 검색 전후 상품목록 -->
+  <select id="pro_list" resultType="pro">
+  select * from (
+       select rowNum rNum, p_id, p_path, p_category1, p_category2, p_name, p_date from
+       (select * from product  
+     <where>
+      <if test="find_field == ''"></if> <!-- 검색 전 -->
+	  <if test="find_field == 'p_category1'">
+	  	p_category1 like #{find_name}	<!-- 대분류 검색 -->
+	  </if>
+	  <if test="find_field == 'p_category2'">
+	  	p_category2 like #{find_name}	<!-- 소분류 검색 -->
+	  </if>
+	  <if test="find_field == 'p_name'">
+	  	p_name like #{find_name}	<!-- 상품이름 검색 -->
+	  </if>
+     </where> 
+     
+       order by p_id desc))
+       where rNum &gt;= #{startrow} and rNum &lt;= #{endrow}    <!-- &gt;=은 ~보다 크거나 같다(>=), &lt;= ~보다 작거나 같다.(<=) -->
+  </select>  
+  
+  <!-- 목록 상세보기 -->
+  <select id="product_con" resultType="pro">
+  	select * from product where p_id=#{p_id}
+  </select> 
+  
+ 
+
+  </mapper> 

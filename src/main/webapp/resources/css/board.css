@@ -1,0 +1,141 @@
+@charset "UTF-8";
+
+/* board_write.jsp ui */
+#bWrite_wrap{
+	width:420px; height:400px; 
+	border:1px solid red; border-radius:10px;
+	box-shadow:10px 10px 10px gray;
+	margin-left:auto; margin-right:auto;
+	margin-top:150px;
+}
+#bWrite_wrap .bWrite_title{
+	width:140px; font-size:19px;
+	background:pink; border-radius:15px;
+	text-align:center; padding:3px; 
+	margin:25px 0px 0px 130px;
+}
+#bWrite_t{
+	margin:25px 0px 0px 25px;
+}
+#bWrite_menu{
+	margin:25px 0px 0px 143px;
+}
+
+/* board_list.jsp ui + bbs_list.jsp ui */
+#bList_wrap{
+	width:700px; border:1px solid blue;
+	padding:10px; border-radius:20px;
+	box-shadow:3px 3px 3px #ccc; 
+	margin-left:auto; margin-right:auto; 
+	margin-top:5px;
+}
+#bList_wrap .bList_title{
+	margin:15px 0 0 230px; width:120px; font-size:19px;
+	background:pink; border-radius:15px; 
+	text-align:center;
+}
+#bList_wrap .bList_count{
+	margin:15px 0 0 500px; width:100px; background:pink;
+	border-radius:15px; text-align:center;
+}
+#bList_t{
+	margin:18px 0 0 17px;
+}
+a:link{text-decoration:none;}
+a:active{text-decoration:none;}
+a:visited{text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+#bList_paging{
+ margin:18px 0 0 160px;	
+}
+#bList_menu{
+	margin:14px 0 0 520px;
+}
+#bFind_wrap{
+    margin:14px 0 10px 170px;	
+}
+/* board_cont.jsp ui */
+#bCont_wrap{
+	width:300px; border:1px solid blue;
+	border-radius:20px; 
+	box-shadow:20px 20px 20px #ccc;
+	margin-left:auto; margin-right:auto;
+	margin-top:170px;
+}
+#bCont_wrap .bCont_title{
+	margin:18px 0px 0px 70px; width:160px;
+	font-size:19px; text-align:center;
+	background:pink; padding:2px; border-radius:15px;
+}
+#bCont_t{margin:18px 0px 0px 23px;}
+#bCont_menu{margin:18px 0px 10px 58px;}
+
+/* board_del.jsp ui */
+#bDel_wrap{
+	width:260px; height:150px;
+	border:1px solid blue; border-radius:15px;
+	box-shadow:20px 20px 20px #ccc;
+	margin-left:auto; margin-right:auto;
+	margin-top:170px;
+}
+#bDel_wrap .bDel_title{
+    margin:20px 0px 0px 66px; width:120px;
+    font-size:19px; background:pink; border-radius:15px;
+    text-align:center;	
+}
+#bDel_t{
+	margin:20px 0px 0px 25px;
+}
+#bDel_menu{
+	margin:20px 0px 0px 86px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

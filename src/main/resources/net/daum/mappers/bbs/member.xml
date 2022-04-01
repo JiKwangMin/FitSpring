@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Member">
+
+   <!-- 아이디 중복 검색 -->
+   <select id="idcheck" parameterType="String" resultType="Integer">
+     <!--  parameterType mybatis 매퍼태그 속성은 전달인자 자료형이고 생략가능. resultType은 반환타입. java.lang.은 생략가능 -->
+       select count(*) from member where mem_id=#{mem_id}
+   </select>
+   
+   <!-- 우편 주소 검색 -->
+   <select id="m_zip" resultType="zip">
+     select * from zipcode where dong like #{dong}
+   </select>
+   
+   <!-- 회원저장 -->
+   <insert id="memberJoin">
+    insert into member
+    (
+    mem_id,
+    mem_pw,
+    mem_name, 
+    mem_birth, 
+    mem_email,
+    mem_phone,
+    mem_oaddress,
+    mem_address,
+    mem_detailaddress,
+    mem_point
+    )
+		values(
+		#{mem_id},
+		#{mem_pw},
+		#{mem_name},
+		#{mem_birth},
+		#{mem_email},
+		#{mem_phone},
+		#{mem_oaddress},
+		#{mem_address},
+		#{mem_detailaddress},
+		0
+		)
+   </insert>
+   <!-- 로그인 인증 -->
+   <select id="login_ck" resultType="Integer">
+		select * from users where mem_id=#{mem_id} and mem_pw=#{mem_pw}
+	</select>
+	
+	<select id="findId" resultType="Integer">
+		select * from users where mem_name=#{mem_name} and mem_email=#{mem_email}
+	</select>
+	
+   
+   <!-- 임시비번 수정 -->
+   <update id="p_edit" >
+     update member set mem_pw=#{mem_pw} where mem_id=#{mem_id}
+   </update>
+   
+
+   <!-- 아이디에 해당하는 회원정보 구하기 -->
+   <select id="m_edit" parameterType="String" resultType="Integer">
+    <!-- parameterType 속성값 String에서 java.lang. 이 생략된 것 -->
+    select * from member where mem_id=#{id}
+   </select>
+   
+   <!-- 정보수정 -->
+   <update id="edit_ok">
+     update member set mem_pwd=#{mem_pw}, mem_name=#{mem_name},  mem_address=#{mem_address},mem_birth=#{mem_birth},
+     mem_addr2=#{mem_addr2}, mem_phone=#{mem_phone},  mail_id=#{mail_id},
+     mail_domain=#{mail_domain} where mem_id=#{mem_id}
+   </update>
+   
+   <!-- 회원탈퇴 -->
+   <update id="m_del">
+     update member set mem_delcont=#{mem_delcont}, mem_state=2, mem_deldate=sysdate where mem_id=#{mem_id}
+   </update>
+   <!-- 아이디 찾기 -->
+   <select id="findid" resultType="member">
+   	select mem_id from member where  mem_name=#{mem_name} and mem_email=#{mem_email}
+   </select>
+   <!-- 비번찾기 -->
+   <select id="find_pw" resultType="member">
+   	select mem_pw from member where mem_id=#{mem_id} and mem_name=#{mem_name} and mem_email=#{mem_email}
+   </select>
+   
+  <select id="loginCheck" resultType="member">
+     select mem_pw,mem_rank from member where mem_id=#{mem_id}
+   </select>
+   
+   <!-- 아이디에 해당하는 회원정보 구하기 -->
+   <select id="medit"  resultType="member">
+    <!-- parameterType 속성값 String에서 java.lang. 이 생략된 것 -->
+    select * from member where mem_id=#{mem_id}
+   </select>
+   
+   <!--  로그인 상태 -->
+   <select id="get_state" resultType="member">
+   	select mem_state from member where mem_id=#{mem_id}
+   </select>
+   
+   <!--  로그인  -->
+   <update id="loginup">
+   	update member set mem_state=1 where mem_id=#{mem_id}
+   </update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

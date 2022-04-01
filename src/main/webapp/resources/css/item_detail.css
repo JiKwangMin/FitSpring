@@ -1,0 +1,418 @@
+@charset "UTF-8";
+
+.container {
+    /* border: 1px solid red; */
+}
+
+/* 이미지 슬라이드 */
+#main_slide {
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.box-1 {
+    /* border: 1px solid blue; */
+    width: 400px; 
+    position: relative;
+}
+.img-box img{
+    width: 100%;
+    display: block;
+
+}
+/*이미지 슬라이드 끝*/
+
+
+/*주문정보*/
+.box {
+    /* border : 1px solid green; */
+	margin-top: 1vh;
+}
+.product_detail {
+	overflow: auto;
+}
+
+.sales_info {
+	width: 100%;
+	padding: 5px;
+}
+
+.info_area {
+	border-top: 2px solid #575757;
+}
+
+.info_title {
+	border-bottom: 1px solid #e7e7e7;
+}
+
+.info_title>h2 {
+	padding: 4px 15px;
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 1.6;
+	color: #2e2e2e;
+}
+
+.info_detail {
+	border-bottom: 1px solid #e7e7e7;
+	padding: 14px 15px 14px;
+	font-size: 11px;
+	line-height: 1.8;
+	color: #727272;
+}
+
+.info_detail table {
+	border: 0;
+	font-size: 12px;
+	margin: 8px 0;
+}
+
+.p-detail {
+	width: 100%;
+	border: 0;
+	border-collapse: collapse;
+	text-align: left;
+}
+
+p-detail th {
+	width: 30%
+}
+
+p-detail td {
+	width: 70%
+}
+
+.info_select {
+	border-bottom: 1px solid #e7e7e7;
+	padding: 14px 15px 14px;
+	font-size: 11px;
+	line-height: 1.8;
+	color: #727272;
+}
+
+.info_select table {
+	border: 0;
+	font-size: 12px;
+	margin: 8px 0;
+}
+
+select {
+	width: 100%;
+}
+
+#total_product {
+	margin: 17px 0 0;
+	font-family: Roboto, Arial, 'Nanum Gothic', 'Malgun Gothic', '맑은 고딕',
+		Dotum, '돋움', 'Apple SD Gothic Neo', 'AppleGothic', sans-serif;
+}
+
+#total_product table {
+	border-top: 1px solid #9c9c9c;
+	font-size: 12px;
+	margin: 8px 0;
+}
+
+#total_product thead th{
+	height: 0;
+	padding: 9px 10px;
+	font-size: 11px !important;
+	line-height: 1.5;
+	letter-spacing: 1px;
+	color: #777;
+	text-align: center;
+	border: 1px solid #e7e7e7;
+	border-top: 0;
+}
+#total_product tbody th {
+	height: 0;
+	padding: 9px 10px;
+	font-size: 11px !important;
+	line-height: 1.5;
+	letter-spacing: 1px;
+	color: black;
+	text-align: center;
+	border: 1px solid #e7e7e7;
+	border-top: 0;
+}
+
+#total_price {
+	font-size: 11px;
+	padding: 16px 6px 10px;
+	color: #353535;
+	vertical-align: middle;
+	text-align: right;
+}
+
+#total_price .total {
+	color: #222;
+}
+
+.base-button.action-botton {
+	padding: 10px 0;
+	margin-left: -5px;
+}
+
+.base-button {
+	padding-bottom: 8px !important;
+	text-align: center;
+}
+
+.base-button.action-button:after {
+	display: block;
+	content: "";
+	clear: both;
+}
+
+.ac-buy.wrap {
+	float: left;
+	width: 37%;
+}
+
+.base-button.action-button .df-btn {
+	display: block;
+	padding: 0;
+	border-radius: 0;
+	font-size: 14px;
+	height: 48px;
+	line-height: 48px;
+	margin-left: 5px;
+}
+
+.df-btn.buy {
+	border: 2px solid #4a4a4a;
+	background: #4b4b4b;
+	color: #fff;
+	letter-spacing: 2px;
+	font-weight: bold;
+}
+
+.ac-basket.wrap {
+	float: left;
+	width: 31.5%;
+}
+
+.df-btn.basket {
+	border: 2px solid #e7e7e7;
+	color: #6f6f6f;
+	letter-spacing: 1px;
+}
+
+.ac-wishlist.wrap {
+	float: left;
+	width: 31.5%;
+}
+
+.df-btn.wishlist {
+	border: 2px solid #e7e7e7;
+	color: #6f6f6f;
+	letter-spacing: 1px;
+}
+/* 주문정보 끝 */
+
+.max-auto {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0 0 0;
+}
+
+
+/* review랑 중복!!! */
+
+.max-auto {
+	display: flex;
+	justify-content: center;
+}
+
+.review-box {
+	width: 100%;
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.r-img-box img {
+	width: 100%;
+	display: block;
+}
+
+textarea {
+	width: 100%;
+	height: 200px;
+	padding: 10px;
+	box-sizing: border-box;
+	border: solid 2px #dadada;
+	border-radius: 5px;
+	font-size: 16px;
+	resize: none;
+}
+
+.rd_pwd, .rd_height, .rd_weight, .rd_size, .rd_writer{border: 2px solid #dadada; border-radius: 5px;}
+
+
+.reviewBtn {
+	height: 35px;
+	color: white;
+	background-color: #3f3f3f;
+}
+
+#myform fieldset {
+	display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+	border: 0; /* 필드셋 테두리 제거 */
+}
+
+#myform input[type=radio] {
+	display: none; /* 라디오박스 감춤 */
+}
+
+#myform label {
+	font-size: 17px; /* 이모지 크기 */
+	color: transparent; /* 기존 이모지 컬러 제거 */
+	text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+}
+
+#myform label:hover {
+	text-shadow: 0 0 0 #a00; /* 마우스 호버 */
+}
+
+#myform label:hover ~ label {
+	text-shadow: 0 0 0 #a00; /* 마우스 호버 뒤에오는 이모지들 */
+}
+
+#myform fieldset {
+	display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+	direction: rtl; /* 이모지 순서 반전 */
+	border: 0; /* 필드셋 테두리 제거 */
+}
+
+#myform fieldset legend {
+	text-align: left;
+}
+
+#myform input[type=radio]:checked ~ label {
+	text-shadow: 0 0 0 #a00; /* 마우스 클릭 체크 */
+}
+
+#review {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	margin-top: 15px;
+}
+
+#review tr {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+#review th {
+	text-align: center;
+	height: 40px
+}
+
+.r_writer, .r_rate {
+	text-align: center;
+}
+
+.r_cont {
+	color: #3f3f3f;
+	padding-top: 5px;
+}
+
+.r_cont:hover {
+	color: gray;
+}
+
+.r_cont a {
+	color: black;
+	text-decoration: none;
+	font-size: 14px;
+}
+
+.r_cont a:hover, a:active {
+	text-decoration: none;
+	color: #888;
+}
+
+.photo-box {
+	width: 35px;
+	padding: 3px;
+	position: relative;
+	margin: 0 auto;
+}
+
+.p-img-box img {
+	width: 100%;
+	display: block;
+	margin-top: 3px;
+}
+
+.clear {
+	clear: both;
+}
+
+.r_ratings {
+	color: #b70903;
+}
+
+input[id*="answer"] {
+	display: none;
+}
+
+input[id*="answer"]+label {
+	display: block;
+	cursor: pointer;
+}
+
+input[id*="answer"]+label+div {
+	max-height: 0;
+	transition: all .35s;
+	overflow: hidden;
+	background-color: #fafafa;
+	font-size: 13px;
+}
+
+input[id*="answer"]+label+div p {
+	display: inline-block;
+	padding: 0 5px;
+}
+
+input[id*="answer"]:checked+label+div {
+	max-height: 100%;
+}
+
+.photo-review {
+	width: 100px;
+	position: relative;
+	margin-left: 30px;
+}
+
+.pr-img-box img {
+	width: 100%;
+	display: block;
+}
+
+<!-- detail > qna -->
+input[id*="q_answer"] {
+	display: none;
+}
+
+input[id*="q_answer"]+label {
+	display: block;
+	cursor: pointer;
+}
+
+input[id*="q_answer"]+label+div {
+	max-height: 0;
+	transition: all .35s;
+	overflow: hidden;
+	background-color: #fafafa;
+	font-size: 13px;
+}
+
+input[id*="q_answer"]+label+div p {
+	display: inline-block;
+	padding: 0 5px;
+}
+
+input[id*="q_answer"]:checked+label+div {
+	max-height: 100%;
+}

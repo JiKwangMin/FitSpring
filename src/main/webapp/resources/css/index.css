@@ -1,0 +1,162 @@
+@charset "UTF-8";
+
+/* index */
+
+.container1 {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+@media ( min-width : 768px) {
+	.container1 {
+		width: 750px;
+	}
+}
+
+@media ( min-width : 992px) {
+	.container1 {
+		width: 970px;
+	}
+}
+
+@media ( min-width : 1200px) {
+	.container1 {
+		width: 1250px;
+	}
+}
+
+header, footer {
+	display: flex;
+	justify-content: center;
+}
+
+#main_slide {
+	display: flex;
+	justify-content: center;
+	box-sizing: border-box;
+}
+
+/*베스트 아이템*/
+.box-1 {
+	width: 360px;
+	position: relative;
+}
+
+.img-box img {
+	width: 100%;
+	display: block;
+}
+
+.box-1 .cover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	opacity: 0;
+	transition: opacity 1s;
+}
+
+.box-1:hover .cover {
+	opacity: 1;
+}
+
+.best_item, .new_item {
+	text-align: center;
+	font-size: 3.0em;
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	margin-top: 10%;
+	font-weight: bold;
+}
+
+/*베트스 아이템 끝*/
+.max-auto {
+	display: flex;
+	justify-content: center;
+	margin: 15px 0 0 0;
+}
+
+/*상품박스*/
+.box-2 {
+	width: 360px;
+	position: relative;
+	border: 1px solid #666;
+}
+
+.box-2 a {
+	color: black;
+}
+
+.box-2:hover {
+	transform: scale(1.05, 1.05);
+}
+
+.box-2 img {
+	width: 100%;
+	display: block;
+	/* border: 3px solid blue; */
+}
+
+.content_box {
+	margin-left: 3px;
+}
+
+.cbox0 {
+	height: 20px;
+	width: fit-content;
+}
+.cbox1 {
+	width: 15px;
+	height: 15px;
+	background-color: blue;
+	border-radius: 15px;
+	margin: 2px;
+	float: left;
+	border: 1px solid white;
+}
+.cbox2 {
+	width: 15px;
+	height: 15px;
+	background-color: green;
+	border-radius: 15px;
+	margin: 2px;
+	float: left;
+	border: 1px solid white;
+}
+
+.cbox3 {
+	width: 15px;
+	height: 15px;
+	background-color: red;
+	border-radius: 15px;
+	margin: 2px;
+	float: left;
+	border: 1px solid white;
+}
+
+.cont1 {
+	font-weight: bold;
+}
+
+.cont2 {
+	color: #666;
+}
+
+.cont3 {
+	font-weight: bold;
+}
+
+/*상품박스 끝*/
+
+#review_slide {
+	display: flex;
+	justify-content: center;
+}
+
+/* index 끝 */
+

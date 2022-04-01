@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="Board">
+  
+    <!-- 게시물 저장 -->
+    <insert id="board_in" parameterType="board">
+     <!-- parameterType속성은 전달인자 타입.생략가능 -->
+     insert into board (board_no,board_name,board_title,
+     board_pwd,board_cont,board_ref,board_step,
+     board_level,board_date) values(board_no_seq.nextval,
+     #{board_name},#{board_title},#{board_pwd},#{board_cont},
+     board_no_seq.nextval,0,0,sysdate)
+    </insert>
+    
+    <!-- 게시판 목록 -->
+    <select id="board_li" resultType="board" 
+    parameterType="board">
+     <!-- resultType은 반환 타입,parameterType은 전달인자 타입
+     (생략가능) -->
+     select * from 
+     (select rowNum rNum,board_no,board_name,board_title,
+     board_hit,board_ref,board_step,board_level,board_date
+     from (select * from board     
+     <where>
+     <if test="find_field == ''">
+      <!-- 검색조건이 없어서 총레코드 개수 -->
+     </if>
+     <if test="find_field == 'board_title'">
+      <!-- 검색 조건이 제목인 경우 -->
+      board_title like #{find_name} <!-- like는 오라클 검색
+      연산자 -->
+     </if>
+     <if test="find_field == 'board_cont'">
+      board_cont like #{find_name}
+     </if>
+     </where>     
+      order by board_ref desc,
+     board_level asc)) 
+     where rNum &gt;= #{startrow} and rNum &lt;= #{endrow}
+<!-- &gt;은 ~보다 크다(>), &lt;은 ~보다 작다(<) -->     
+    </select>
+    
+    <!-- 검색 전후 레코드 개수 -->
+    <select id="board_row" parameterType="board" 
+    resultType="int">
+     select count(board_no) from board
+     <where>
+     <if test="find_field == ''">
+      <!-- 검색조건이 없어서 총레코드 개수 -->
+     </if>
+     <if test="find_field == 'board_title'">
+      <!-- 검색 조건이 제목인 경우 -->
+      board_title like #{find_name} <!-- like는 오라클 검색
+      연산자 -->
+     </if>
+     <if test="find_field == 'board_cont'">
+      board_cont like #{find_name}
+     </if>
+     </where>
+    </select>
+    
+    <!-- 조회수 증가 -->
+    <update id="board_hi" parameterType="int">
+     update board set board_hit=board_hit+1 
+     where board_no=#{board_no}
+    </update>
+    
+    <!-- 내용보기 -->
+    <select id="board_co" resultType="board">
+     select * from board where board_no=#{board_no}
+    </select>
+    
+    <!-- 답변 레벨 증가 -->
+    <update id="reply_up" parameterType="board">
+     update board set board_level=board_level+1
+     where board_ref=#{board_ref} 
+     and board_level<![CDATA[ > ]]>#{board_level}
+    </update>
+    
+    <!-- 답변 저장 -->
+    <insert id="reply_in">
+     insert into board (board_no,board_name,board_title,
+     board_pwd,board_cont,board_ref,board_step,board_level,
+     board_date) values(board_no_seq.nextval,#{board_name},
+     #{board_title},#{board_pwd},#{board_cont},#{board_ref},
+     #{board_step}+1,#{board_level}+1,sysdate)
+    </insert>
+    
+    <!-- 게시판 수정 -->
+    <update id="board_up" parameterType="board">
+     update board set board_name=#{board_name},
+     board_title=#{board_title},board_cont=#{board_cont}
+     where board_no=#{board_no}
+    </update>
+    
+    <!-- 게시판 삭제 -->
+    <delete id="board_del" parameterType="int">
+     delete from board where board_no=#{board_no}
+    </delete>
+  </mapper>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

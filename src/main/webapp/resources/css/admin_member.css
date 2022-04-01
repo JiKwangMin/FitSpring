@@ -1,0 +1,51 @@
+@CHARSET "UTF-8";
+
+/* admin_member_info.jsp */
+#aMem_wrap{
+	width:460px; border:1px solid skyblue;
+	border-radius:15px; margin-left:auto; margin-right:auto;
+	margin-top:70px; box-shadow:15px 15px 15px #ccc;
+	margin-left:auto; margin-right:auto; margin-top:70px;
+	padding:10px;
+}
+#aMem_wrap .aMem_title{
+	margin:13px 0 0 150px; width:160px; background:pink;
+	border-radius:15px; padding:3px; text-align:center;
+	font-size:19px;
+}
+#aMem_t{
+	margin:20px 0 0 10px;
+}
+#aMem_t th{
+	background:pink; border-radius:15px;
+}
+#aMem_menu{
+    margin:20px 0 0 200px;	
+}
+
+/* admin_member_edit.jsp ui */
+#aMd_wrap{
+  width:530px; height:480px; border:1px solid skyblue;
+  border-radius:15px; margin-left:auto; margin-right:auto;
+  margin-top:8px;	
+}
+#aMd_wrap .aMd_title{
+	margin:10px 0 0 160px; width:200px; font-size:19px;
+	background:pink; border-radius:15px; text-align:center;
+	padding:2px;
+}
+#aMd_t{
+	margin:10px 0 0 20px;
+}
+#aMd_t .left_box{
+	background:pink; border-radius:15px;
+}
+
+
+
+
+
+
+
+
+

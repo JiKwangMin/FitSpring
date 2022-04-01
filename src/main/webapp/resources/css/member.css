@@ -1,0 +1,156 @@
+@CHARSET "UTF-8";
+
+/* member_login.jsp ui */
+#Login_wrap{
+	width:340px; height:190px; border:1px solid skyblue;
+	box-shadow:15px 15px 15px #ccc;
+	border-radius:15px;
+	margin-left:auto; margin-right:auto;
+	margin-top:100px;
+}
+#Login_wrap .Login_title{
+	margin:20px 0 0 110px; width:110px; font-size:19px;
+	background:pink; border-radius:15px;
+	text-align:center; padding:3px;	
+}
+#Login_t{
+	margin:20px 0 0 36px;
+}
+.login_box{
+	background:red; border-radius:15px;
+}
+.input_s{
+	width:50px; height:50px; border:1px solid blue;
+	border-radius:15px;
+}
+.input_s:hover{
+	cursor:pointer; cursor:hand; box-shadow:5px 5px 5px #ccc;
+}
+#Login_menu{
+    margin:20px 0 0 100px;	
+}
+
+/* member_join.jsp ui */
+#mJoin_wrap{
+	width:590px; height:430px; border:1px solid skyblue;
+	box-shadow:15px 15px 15px #ccc;
+	margin-left:auto; margin-right:auto;
+	margin-top:60px; border-radius:15px;
+}
+#mJoin_wrap .mJoin_title{
+    margin:27px 0 0 180px; width:100px; font-size:19px;
+    background:pink; border-radius:15px; text-align:center;
+    padding:3px;	
+}
+#mJoin_t{
+	margin:25px 0 0 35px;
+}
+#mJoin_t th{
+	background:pink; border-radius:15px; font-size:14px;
+}
+#mJoin_menu{
+	margin:30px 0 0 190px;
+}
+
+/* pwd_find.jsp ui */
+#pFind_wrap{
+	width:250px; height:200px; border:1px solid skyblue;
+	box-shadow:15px 15px 15px #ccc;
+	border-radius:15px; margin-left:auto;
+	margin-right:auto; margin-top:37px;
+}
+#pFind_wrap .pFind_title{
+	margin:30px 0 0 70px; width:100px; font-size:19px;
+	background:pink; border-radius:15px; padding:3px;
+	text-align:center;
+}
+#pFind_t{
+	margin:25px 0 0 10px;
+}
+#pFind_t th{
+    background:pink; border-radius:15px;	
+}
+#pFind_menu{
+	margin:20px 0 0 80px;
+}
+
+/*pwd_find_ok.jsp ui*/
+#pOK_wrap{
+	width:280px; height:180px;
+	border:1px solid skyblue; border-radius:15px;
+	box-shadow:5px 5px 5px #ccc;
+	margin-left:auto; margin-right:auto;
+	margin-top:30px;
+}
+#pOK_wrap .pOK_title{
+	margin:20px 0 0 70px; width:130px; font-size:19px;
+	text-align:center; background:pink;
+	border-radius:15px; padding:3px;
+}
+#pOK_t{
+	margin:20px 0 0 3px;
+}
+#pOK_menu{
+	margin:20px 0 0 116px;
+}
+
+/* 로그인 이후 member_login.jsp ui */
+#Index_wrap{
+	width:260px; height:120px; border:1px solid skyblue;
+	border-radius:15px; margin-left:auto; margin-right:auto;
+	margin-top:100px; box-shadow:15px 15px 15px #ccc;
+}
+#Index_wrap .Index_title{
+	margin:20px 0 0 39px; font-size:18px; 
+	background:pink; border-radius:15px;  width:180px; 
+	text-align:center;
+}
+#Index_t{
+	margin:20px 0 0 17px;
+}
+
+/* member_del.jsp ui */
+#mDel_wrap{
+	width:430px; height:350px; border:1px solid blue;
+	border-radius:15px;
+	box-shadow:10px 10px 10px #ccc;
+	margin-left:auto; margin-right:auto;
+	margin-top:70px;
+}
+#mDel_wrap .mDel_title{
+	margin:20px 0 0 175px; width:80px; font-size:19px;
+	text-align:center; border-radius:15px; padding:3px;
+	background:pink;
+}
+#mDel_t{
+	margin:20px 0 0 21px;
+}
+#mDel_t th{
+	background:pink; border-radius:15px;
+}
+#mDel_menu{
+    margin:20px 0 0 170px;	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

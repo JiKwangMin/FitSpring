@@ -1,0 +1,120 @@
+@charset "UTF-8";
+
+/* 			sub_mentomen_detail.css review쪽이랑 완전 동일
+.max-auto {
+	display: flex;
+	justify-content: center;
+}
+
+.review-box {
+	width: 100%;
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.r-img-box img {
+	width: 100%;
+	display: block;
+}
+
+#review {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	margin-top: 15px;
+}
+
+#review tr {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+#review th {
+	text-align: center;
+	height: 40px
+}
+
+.r_write, .r_ratings {
+	text-align: center;
+}
+*/
+
+.r_reviewcount {
+	text-align: center;
+}
+
+/*
+.r_title {
+	color: #3f3f3f;
+	padding-top: 5px;
+}
+
+.r_title:hover {
+	color: gray;
+}
+
+.r_title a {
+	color: black;
+	text-decoration: none;
+	font-size: 14px;
+}
+
+.r_title a:hover, a:active {
+	text-decoration: none;
+	color: #888;
+}
+*/
+
+.qr-box {width: 50px; padding: 3px; position: relative;}
+.qr-img-box img {width: 100%;display: block;}
+.qr-max-auto {display: flex;justify-content: center;}
+
+/*
+.clear {
+	clear: both;
+}
+
+.r_ratings {
+	color: #b70903;
+}
+
+input[id*="answer"] {
+	display: none;
+}
+
+input[id*="answer"]+label {
+	display: block;
+	cursor: pointer;
+}
+
+input[id*="answer"]+label+div {
+	max-height: 0;
+	transition: all .35s;
+	overflow: hidden;
+	background-color: #fafafa;
+	font-size: 13px;
+}
+
+input[id*="answer"]+label+div p {
+	display: inline-block;
+	padding: 0 5px;
+}
+
+input[id*="answer"]:checked+label+div {
+	max-height: 100%;
+}
+
+.photo-review {
+	width: 100px;
+	position: relative;
+	margin-left: 30px;
+}
+
+.pr-img-box img {
+	width: 100%;
+	display: block;
+}
+*/
+
+
+

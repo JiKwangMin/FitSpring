@@ -1,0 +1,136 @@
+@charset "UTF-8";
+
+.container2 {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  @media (max-width: 732px) { 
+     .container2 .menu-1 {
+          display: none;
+      }
+  }
+  @media (min-width: 732px) { 
+    .container2 .menu-2 {
+         display: none;
+     }
+ }
+
+  @media (min-width: 768px) {
+    .container2 {
+      width: 750px;
+     }
+  }
+  @media (min-width: 992px) {
+    .container2 {
+      width: 970px;
+     }
+  }
+  @media (min-width: 1200px) {
+    .container2 {
+      width: 100vw;
+     }
+  }
+
+.max-auto0 {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0px 0px 0px;
+}
+
+/* 로그인 */
+.login > ul {
+    display: inline-block;
+    margin-top: 5px;
+  }
+ .login > ul > li {
+   display: inline-block;
+   padding: 0px 5px;
+ }
+ .login a {
+     color: #666;
+     text-decoration: none;;
+ }
+ .login a:hover {
+    color: orange;
+ }
+/* 로그인 끝 */
+
+/* 게시판 */
+ .board > ul {
+    display: inline-block;
+    margin-top: 5px;
+ }
+ .board > ul > li {
+   display: inline-block;
+   padding: 0px 3px;
+ }
+ .board a {
+     color: #666;
+     text-decoration: none;;
+ }
+ .board a:hover {
+    color: orange;
+ }
+ /* 게시판 끝*/
+
+/* 로고 */
+.box-0 {
+    width: 600px;
+    position: relative;
+    margin-top: 35px;
+}
+.img-box img{
+    width: 100%;
+    display: block;
+}
+/*로고 끝*/
+
+/* navbar */
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+   }
+.menu-1 {
+    text-align: center;
+    font-size: 30px;
+  }
+.menu-1 > ul {
+    /* background-color: #dfdfdf; */
+    display: inline-block;
+    padding: 0 10px;
+    border-radius: 5px;
+  }
+ .menu-1 > ul > li {
+   display: inline-block;
+ }
+ .menu-1 li > a{
+   color: inherit;
+   text-decoration: inherit;
+   display: block;
+   padding: 10px;
+ }
+ .menu-1 li:hover > a{
+   color: orange;
+ }
+ .menu-1 li {
+   position:relative;
+ }
+ 
+ .menu-2 {
+  text-align: center;
+  font-size: 30px;
+ }
+ .menu-2 li {
+  margin-bottom: 10px;
+ }
+ .menu-2 li a {
+  color: #333;
+  text-decoration: none;
+ }
+ .menu-2 li:hover > a{
+   color: orange;
+ }
+/* navbar 끝*/ 
