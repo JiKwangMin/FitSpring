@@ -1,0 +1,22 @@
+package net.daum.service;
+
+import java.util.List;
+import java.util.Map;
+
+import net.daum.vo.CartVO;
+
+public interface CartService {
+
+	void cart(CartVO vo);
+
+	int cartCheck(CartVO vo);
+
+	List<CartVO> getList(CartVO vo);
+
+	void cartDel(CartVO vo);
+
+	void cartUpdate(CartVO vo);
+
+	List<CartVO> getorderitem(Map<String, Object> map);
+
+}

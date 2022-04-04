@@ -47,6 +47,8 @@ public interface AdminDAO {
 
 	ItemInfoVO getinfo(ItemInfoVO ii);
 
+	int getOption_total(ItemInfoVO ii);
+
 	
 	 
 

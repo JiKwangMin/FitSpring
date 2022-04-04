@@ -165,4 +165,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="viewinfo" resultType="item">
 		select * from ITEM_INFO where ITEM_NO=#{item_no}
 	</select>
+	
+	<!-- 옵션 개수 -->
+	<select id="getOptionTotal" resultType="int">
+		select count(*) from ITEM_OPTION where item_no=${item_no}
+	</select>
 </mapper>

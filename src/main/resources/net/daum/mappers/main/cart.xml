@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Cart">
+	<!-- 장바구니 상품 추가 -->
+	<insert id="cartInsert">
+		INSERT INTO CART (cart_no, cart_mem_id, cart_item_no, cart_item_name, cart_item_price, cart_option_no, cart_option_val, cart_sc)
+		VALUES((SELECT NVL(MAX(CART_NO), 0) + 1 FROM CART), #{cart_mem_id}, #{cart_item_no}, #{cart_item_name}, #{cart_item_price}, #{cart_option_no}, #{cart_option_val}, #{cart_sc})
+	</insert>
+	<!-- 중복체크 -->
+	<select id="cartChk" resultType="int">
+		SELECT COUNT(*) FROM CART WHERE CART_MEM_ID = #{cart_mem_id} AND CART_OPTION_NO = #{cart_option_no}
+	</select>
+	<!-- 장바구니 뷰 -->
+	<select id="getCartList" resultMap="CartVO">
+		select * from (
+        select * from(
+        select ROW_NUMBER() OVER(PARTITION BY ITEM_MAIN_IMG.ITEM_NO order by ITEM_MAIN_IMG.MAIN_FILE_NO asc)
+		AS RNUMA, ITEM_MAIN_IMG.* from ITEM_MAIN_IMG
+		)where RNUMA=1)A LEFT OUTER JOIN CART ON A.ITEM_NO = cart.cart_item_no
+        WHERE cart_mem_id = #{cart_mem_id} order by cart_no asc
+	</select>
+	<!-- 장바구니 상품 1개 삭제 -->
+	<delete id="cartDel">
+		DELETE FROM CART WHERE CART_MEM_ID = #{cart_mem_id} AND CART_OPTION_NO = #{cart_option_no}
+	</delete>
+	<!-- 장바구니 수량 변경 -->
+	<update id="cartUpdate">
+		UPDATE CART SET CART_SC = #{cart_sc} WHERE CART_MEM_ID = #{cart_mem_id} AND CART_OPTION_NO = #{cart_option_no}
+	</update>
+	<!-- 주문상품 불러오기 -->
+	<select id="getOrderItem" parameterType="hashmap" resultMap="CartVO">
+		SELECT * FROM CART 
+		WHERE CART_MEM_ID = #{cart_mem_id} AND 
+		 <foreach collection="cart" item="item" separator="or">
+			 CART_NO = #{item.cart_no}
+		</foreach> 
+		<foreach collection="cart" item="item" separator="or">
+			or CART_NO = #{item.cart_no}
+		</foreach>
+	</select>
+	<resultMap type="net.daum.vo.CartVO" id="CartVO">
+		<result column="cart_no" property="cart_no" />
+		<result column="cart_item_no" property="cart_item_no" />
+		<result column="cart_item_name" property="cart_item_name" />
+		<result column="cart_item_price" property="cart_item_price" />
+		<result column="cart_mem_id" property="cart_mem_id" />
+		<result column="cart_option_no" property="cart_option_no" />
+		<result column="cart_option_val" property="cart_option_val" />
+		<result column="cart_sc" property="cart_sc" />
+		<collection property="itemInfoVO" resultMap="ItemInfoVO"></collection>
+	</resultMap>
+	<resultMap type="net.daum.vo.ItemInfoVO" id="ItemInfoVO">
+		<result column="item_no" property="item_no" />
+		<result column="item_name" property="item_name" />
+		<result column="item_price" property="item_price" />
+		<result column="main_item_img" property="main_item_img" />
+	</resultMap>
+</mapper>

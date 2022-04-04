@@ -176,6 +176,11 @@ public class AdminServiceImpl implements AdminService {
 	public ItemInfoVO getinfo(ItemInfoVO ii) {
 		return this.adminDao.getinfo(ii);
 	}
+	//옵션개수
+	@Override
+	public int getOption_total(ItemInfoVO ii) {
+		return this.adminDao.getOption_total(ii);
+	}
 	
 	
 	

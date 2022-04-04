@@ -41,6 +41,8 @@ public interface AdminService {
 
 	ItemInfoVO getinfo(ItemInfoVO ii);
 
+	int getOption_total(ItemInfoVO ii);
+
 	
 
 	

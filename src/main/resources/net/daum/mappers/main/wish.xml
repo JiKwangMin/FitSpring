@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="WishList">
+	<!-- 찜 등록 -->
+	<insert id="wishInsert">
+		INSERT INTO WISHLIST (WISH_ITEM_NO, WISH_MEM_ID)
+		VALUES(#{wish_item_no},#{wish_mem_id})
+	</insert>
+	<!-- 찜 중복 조회 -->
+	<select id="wishCheck" resultType="int">
+		SELECT COUNT(*) FROM WISHLIST WHERE WISH_ITEM_NO = #{wish_item_no}
+		AND WISH_MEM_ID = #{wish_mem_id}
+	</select>
+	<!-- 찜 목록에서 삭제 -->
+	<delete id="wishDelete">
+		DELETE FROM WISHLIST WHERE WISH_ITEM_NO = #{wish_item_no}
+		AND WISH_MEM_ID = #{wish_mem_id}
+	</delete>
+	<!-- 마이페이지 찜 리스트 등록된 개수 -->
+	<select id="listCnt" resultType="int">
+		SELECT COUNT(*) FROM WISHLIST WHERE WISH_MEM_ID = #{wish_mem_id}
+	</select>
+	<!-- 찜 리스트 뷰 -->
+	<select id="getWishList" parameterType="String" resultMap="WishVO">
+		select * from (
+        select * from wishlist 
+        )A
+        left outer join
+        (
+        select * from (
+        select * from (
+        select * from(
+		select ROW_NUMBER() OVER(PARTITION BY ITEM_MAIN_IMG.ITEM_NO order by ITEM_MAIN_IMG.MAIN_FILE_NO asc)
+		AS RNUMA, ITEM_MAIN_IMG.* from ITEM_MAIN_IMG
+		)where RNUMA=1) A))C
+        on A.wish_item_no = C.item_no
+        left outer join item_info on item_info.item_no = c.item_no
+        where wish_mem_id = #{wish_mem_id}
+	</select>
+	
+	<resultMap type="net.daum.vo.WishVO" id="WishVO">
+		<result column="WISH_ITEM_NO" property="wish_item_no" />
+		<result column="WISH_MEM_ID" property="wish_mem_id" />
+		<collection property="itemInfoVO" resultMap="ItemInfoVO"></collection>
+	</resultMap>
+	<resultMap type="net.daum.vo.ItemInfoVO" id="ItemInfoVO">
+		<result column="item_no" property="item_no" />
+		<result column="item_name" property="item_name" />
+		<result column="item_price" property="item_price" />
+		<result column="main_item_img" property="main_item_img" />
+	</resultMap>
+</mapper>

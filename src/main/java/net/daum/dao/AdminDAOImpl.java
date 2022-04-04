@@ -118,6 +118,11 @@ public class AdminDAOImpl implements AdminDAO {
 		return sqlSession.selectOne("viewinfo",ii);
 	}
 
+	@Override
+	public int getOption_total(ItemInfoVO ii) {
+		return sqlSession.selectOne("getOptionTotal", ii);
+	}
+
 	
 	 
 	

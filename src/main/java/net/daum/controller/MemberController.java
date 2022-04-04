@@ -2,6 +2,7 @@ package net.daum.controller;
 
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import net.daum.service.AdminService;
 import net.daum.service.MemberService;
+import net.daum.service.WishListService;
 import net.daum.vo.ItemInfoVO;
 import net.daum.vo.MemberVO;
+import net.daum.vo.WishVO;
 
 @Controller
 public class MemberController {
@@ -29,6 +32,9 @@ public class MemberController {
 	
 	@Autowired
 	private AdminService adminservice;
+	
+	@Autowired
+	private WishListService wishService;
 	
 	//메인
 	@RequestMapping("/index")
@@ -275,6 +281,76 @@ public class MemberController {
 		return "redirect:/index";
 	}//member_logout()
 	
+	@RequestMapping("/mypage")
+	public String mypage_test() {
+		return "member/mypage";
+	}
+	
+	@RequestMapping("/mypage_order")
+	public String mypage_order() {
+		return "member/mypage_order";
+	}
+	
+	@RequestMapping("/mypage_order_detail")
+	public String mypage_order_detail() {
+		return "member/mypage_order_detail";
+	}
+	
+	@RequestMapping("/mypage_wish")
+	public String mypage_wish(HttpSession session,WishVO vo,Model model) {
+		vo.setWish_mem_id((String)session.getAttribute("id"));
+		//찜 상품 개수
+		int cnt = wishService.listCnt(vo);
+		
+		model.addAttribute("cnt",cnt);
+		model.addAttribute("wishlist",wishService.getlist(vo));
+		return "member/mypage_wish";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/mypage_wish/chkDelete")
+	public int wish_chk_del(HttpSession session,@RequestParam(value = "item_no[]") List<String> itemArr, WishVO wishVO)throws Exception {
+		int item_no = 0;
+		try {
+			wishVO.setWish_mem_id((String)session.getAttribute("id"));
+			for(String i : itemArr) {
+				System.out.println(i);
+				item_no = Integer.parseInt(i);
+				wishVO.setWish_item_no(item_no);
+				wishService.wishDelete(wishVO);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return 2;
+		}
+		
+		return 1;
+	}
+	
+	@RequestMapping("/mypage_info")
+	public String mypage_info() {
+		return "member/mypage_info";
+	}
+	
+	@RequestMapping("/mypage_info_login")
+	public String mypage_info_ok() {
+		return "member/mypage_info_login";
+	}
+	
+	@RequestMapping("/mypage_address")
+	public String mypage_address() {
+		return "member/mypage_address";
+	}
+	
+	@RequestMapping("/address/new")
+	public String address_new() {
+		return "address/address_new";
+	}
+	
+	@RequestMapping("/addressbook/edit")
+	public String address_edit() {
+		return "address/address_edit";
+	}
 }
 	
 	
