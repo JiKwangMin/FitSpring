@@ -28,4 +28,5 @@ public class OrderVO {
 	private Date order_date;			//주문 날짜
 	private int order_state;			//주문 상태
 	private int order_delivery_state;	//배송 상태
+	private int order_subtotal_price;	//할인 적용 안된 총 금액
 }

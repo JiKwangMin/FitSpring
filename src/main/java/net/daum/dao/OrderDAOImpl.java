@@ -1,5 +1,7 @@
 package net.daum.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,7 +20,7 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public OrderVO getOrder(OrderVO vo) {
-		return this.sqlSession.selectOne("getOrder",vo);
+	public List<OrderVO> getOrder(OrderVO vo) {
+		return this.sqlSession.selectList("getOrder",vo);
 	}
 }

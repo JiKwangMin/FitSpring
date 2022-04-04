@@ -20,7 +20,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public OrderVO getOrder(OrderVO vo) {
+	public List<OrderVO> getOrder(OrderVO vo) {
 		return this.dao.getOrder(vo);
 	}
 

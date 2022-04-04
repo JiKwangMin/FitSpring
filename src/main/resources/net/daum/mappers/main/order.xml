@@ -7,10 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="ord">
 	<insert id="orderInsert">
 		INSERT INTO ORD (order_no, order_mem_id, order_item_no, order_option_no,order_item_qty, order_item_price, order_addr, order_post, order_name, order_phone,
-		 order_message, order_use_point, order_paytype, order_total_price, order_item_name, order_option_val) VALUES (#{order_no}, #{order_mem_id},
+		 order_message, order_use_point, order_paytype, order_total_price, order_item_name, order_option_val, order_subtotal_price) VALUES (#{order_no}, #{order_mem_id},
 		 #{order_item_no}, #{order_option_no}, #{order_item_qty}, 
 		 #{order_item_price}, #{order_addr}, #{order_post}, #{order_name}, #{order_phone}, #{order_message},
-		 #{order_use_point}, #{order_paytype}, #{order_total_price}, #{order_item_name}, #{order_option_val})
+		 #{order_use_point}, #{order_paytype}, #{order_total_price}, #{order_item_name}, #{order_option_val}, #{order_subtotal_price})
 	</insert>
 	
 	<select id="getOrder" resultType="order">

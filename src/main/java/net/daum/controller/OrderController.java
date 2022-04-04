@@ -120,6 +120,8 @@ public class OrderController {
 			System.out.println(vo.getOrder_paytype());
 			vo.setOrder_total_price(Integer.parseInt(request.getParameter("order_total_price")));
 			System.out.println(vo.getOrder_total_price());
+			vo.setOrder_subtotal_price(Integer.parseInt(request.getParameter("order_subtotal_price")));
+			System.out.println(vo.getOrder_subtotal_price());
 			String[] order_item_no = request.getParameterValues("order_item_no");
 			String[] order_item_name = request.getParameterValues("order_item_name");
 			String[] order_option_no = request.getParameterValues("order_option_no");
@@ -127,6 +129,7 @@ public class OrderController {
 			String[] order_item_qty = request.getParameterValues("order_item_qty");
 			String[] order_item_price = request.getParameterValues("order_item_price");
 			int size = order_option_no.length;
+			System.out.println("size : "+size);
 			for(int i=0;i<size;i++) {
 				vo.setOrder_item_no(Integer.parseInt(order_item_no[i]));
 				System.out.println(vo.getOrder_item_no());
@@ -158,10 +161,12 @@ public class OrderController {
 		String onum = request.getParameter("order_no");
 		vo.setOrder_no(onum);
 		System.out.println(vo.getOrder_no());
-		vo = this.orderService.getOrder(vo);
+		List<OrderVO> list = this.orderService.getOrder(vo);
+		System.out.println(list.get(0));
 		if(vo.getOrder_no() != null) {
-			model.addAttribute("vo", vo);
+			model.addAttribute("vo", list.get(0));
 		}
+		
 		return "normal/order_completed";
 	}//주문성공
 }

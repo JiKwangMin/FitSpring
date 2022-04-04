@@ -107,7 +107,7 @@
 							<tbody class="border-bottom">
 								<tr>
 									<td style="height:40px;">주문금액</td>
-									<td class="text-end">${vo.order_item_price * vo.order_item_qty} 원</td>
+									<td class="text-end">${vo.order_subtotal_price} 원</td>
 								</tr>
 							</tbody>
 							<tfoot>

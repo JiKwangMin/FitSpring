@@ -350,7 +350,8 @@
 		console.log("받는분 전화번호 : ",order_phone);
 		console.log("배송 요청사항 : ",order_message);
 		console.log("사용 포인트 : ",order_use_point);
-		console.log("총 금액 : ", order_total_price);
+		console.log("총 금액 : ", subtotal);
+		console.log("할인 총 금액 : ", order_total_price);
 		var IMP = window.IMP; // 생략 가능
 	    IMP.init("imp43299011"); // 예: imp00000000
 		if($('input:radio[name="payType"]:checked').attr('value') == "CARD"){
@@ -389,7 +390,8 @@
 						order_message : order_message,
 						order_use_point : order_use_point,
 						order_paytype : rsp.pay_method,
-						order_total_price : order_total_price
+						order_total_price : order_total_price,
+						order_subtotal_price : subtotal
 					}
 					$.ajax({
 						url : "/order/orderInsert",
