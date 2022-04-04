@@ -10,11 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.daum.service.CartService;
 import net.daum.service.MemberService;
+import net.daum.service.OrderService;
 import net.daum.vo.CartVO;
 import net.daum.vo.MemberVO;
+import net.daum.vo.OrderVO;
 
 @Controller
 public class OrderController {
@@ -24,6 +28,9 @@ public class OrderController {
 	
 	@Autowired
 	private CartService cartService;
+	
+	@Autowired
+	private OrderService orderService;
 	
 	@RequestMapping("/order")
 	public String direct_order() {
@@ -86,8 +93,75 @@ public class OrderController {
 		return "normal/cart-order";
 	}
 	
+	@ResponseBody
+	@RequestMapping("/order/orderInsert")
+	public int orderInsert(HttpServletRequest request) {
+		int data = 0;
+		OrderVO vo = new OrderVO();
+		try {
+			System.out.println("=========주문 등록=========");
+			vo.setOrder_no(request.getParameter("order_no"));
+			System.out.println(vo.getOrder_no());
+			vo.setOrder_mem_id(request.getParameter("order_mem_id"));
+			System.out.println(vo.getOrder_mem_id());
+			vo.setOrder_name(request.getParameter("order_name"));
+			System.out.println(vo.getOrder_name());
+			vo.setOrder_addr(request.getParameter("order_addr"));
+			System.out.println(vo.getOrder_addr());
+			vo.setOrder_post(request.getParameter("order_post"));
+			System.out.println(vo.getOrder_post());
+			vo.setOrder_phone(request.getParameter("order_phone"));
+			System.out.println(vo.getOrder_phone());
+			vo.setOrder_message(request.getParameter("order_message"));
+			System.out.println(vo.getOrder_message());
+			vo.setOrder_use_point(Integer.parseInt(request.getParameter("order_use_point")));
+			System.out.println(vo.getOrder_use_point());
+			vo.setOrder_paytype(request.getParameter("order_paytype"));
+			System.out.println(vo.getOrder_paytype());
+			vo.setOrder_total_price(Integer.parseInt(request.getParameter("order_total_price")));
+			System.out.println(vo.getOrder_total_price());
+			String[] order_item_no = request.getParameterValues("order_item_no");
+			String[] order_item_name = request.getParameterValues("order_item_name");
+			String[] order_option_no = request.getParameterValues("order_option_no");
+			String[] order_option_val = request.getParameterValues("order_option_val");
+			String[] order_item_qty = request.getParameterValues("order_item_qty");
+			String[] order_item_price = request.getParameterValues("order_item_price");
+			int size = order_option_no.length;
+			for(int i=0;i<size;i++) {
+				vo.setOrder_item_no(Integer.parseInt(order_item_no[i]));
+				System.out.println(vo.getOrder_item_no());
+				vo.setOrder_item_name(order_item_name[i]);
+				System.out.println(vo.getOrder_item_name());
+				vo.setOrder_option_no(Integer.parseInt(order_option_no[i]));
+				System.out.println(vo.getOrder_option_no());
+				vo.setOrder_option_val(order_option_val[i]);
+				System.out.println(vo.getOrder_option_val());
+				vo.setOrder_item_qty(Integer.parseInt(order_item_qty[i]));
+				System.out.println(vo.getOrder_item_qty());
+				vo.setOrder_item_price(Integer.parseInt(order_item_price[i]));
+				System.out.println(vo.getOrder_item_price());
+				orderService.orderInsert(vo);
+			}
+			data = 1;
+		}catch(Exception e) {
+			e.printStackTrace();
+			data = 2;
+		}
+			
+		System.out.println(data);
+		return data;
+	}
+	
 	@RequestMapping("/order_completed")
-	public String order_completed() {
+	public String order_completed(HttpServletRequest request,Model model) {
+		OrderVO vo = new OrderVO();
+		String onum = request.getParameter("order_no");
+		vo.setOrder_no(onum);
+		System.out.println(vo.getOrder_no());
+		vo = this.orderService.getOrder(vo);
+		if(vo.getOrder_no() != null) {
+			model.addAttribute("vo", vo);
+		}
 		return "normal/order_completed";
 	}//주문성공
 }

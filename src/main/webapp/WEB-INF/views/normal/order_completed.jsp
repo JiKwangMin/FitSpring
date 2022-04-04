@@ -44,6 +44,7 @@
 		</div>
 	</div>
 	<!-- 무통장입금 -->
+	<c:if test="${vo.order_paytype == vbank}">
 	<div class="text-center py-5 border-bottom">
 		<div class="fs-1 fw-bold">
 			<span class="text-danger">상품이 품절될 수 있습니다.</span>
@@ -65,7 +66,7 @@
 			</div>
 		</div>
 	</div>
-	
+	</c:if>
 	<!-- 주문완료 테이블 -->
 	<div class="py-4 border-bottom">
 		<table style="width:100%;">
@@ -75,23 +76,23 @@
 						<div class="fs-2 fw-bold">받는사람 정보</div>
 						<table>
 							<colgroup>
-								<col width="50%"><col>
+								<col width="50%">
 								<col width="50%">
 							</colgroup>
 							<tbody>
 								<tr>
 									<td>받는사람</td>
-									<td>{이름} / {phone}</td>
+									<td>${vo.order_name} /${vo.order_phone}</td>
 									<td></td>
 								</tr>
 								<tr>
 									<td>받는주소</td>
-									<td>{우편번호}{상세주소}</td>
+									<td>${vo.order_post}${vo.order_addr}</td>
 									<td></td>
 								</tr>
 								<tr>
 									<td>배송요청사항</td>
-									<td>{message}</td>
+									<td>${vo.order_message}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -106,15 +107,15 @@
 							<tbody class="border-bottom">
 								<tr>
 									<td style="height:40px;">주문금액</td>
-									<td class="text-end">{주문금액} 원</td>
+									<td class="text-end">${vo.order_item_price * vo.order_item_qty} 원</td>
 								</tr>
 							</tbody>
 							<tfoot>
 								<tr>
 									<th class="fs-4" style="height:80px;">총 결제금액</th>
 									<td class="text-end">
-										<span>{payType}</span>
-										<span>{}</span>
+										<span>${vo.order_paytype}</span>
+										<span>${vo.order_total_price}</span>
 										<span>원</span>
 									</td>
 								</tr>

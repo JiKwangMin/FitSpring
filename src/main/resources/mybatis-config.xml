@@ -17,5 +17,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
       <typeAlias type="net.daum.vo.ItemInfoVO" alias="item"/>
       <typeAlias type="net.daum.vo.WishVO" alias="wish"/>
       <typeAlias type="net.daum.vo.CartVO" alias="cart"/>
+      <typeAlias type="net.daum.vo.OrderVO" alias="order"/>
    </typeAliases>
 </configuration>
