@@ -65,6 +65,11 @@ public class MemberDAOImpl implements MemberDAO {
 		return this.sqlSession.selectOne("get_state", mem_id);//정보가져오기
 	}
 
+	@Override
+	public MemberVO getMeminfo(MemberVO mm) {
+		return this.sqlSession.selectOne("get_cart",mm);
+	}
+
 	
 
 	

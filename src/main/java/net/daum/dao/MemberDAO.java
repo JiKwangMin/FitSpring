@@ -21,6 +21,8 @@ public interface MemberDAO {
 
 	public String getState(String mem_id);
 
+	public MemberVO getMeminfo(MemberVO mm);
+
 	
 
 }

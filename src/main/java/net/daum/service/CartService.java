@@ -19,4 +19,10 @@ public interface CartService {
 
 	List<CartVO> getorderitem(Map<String, Object> map);
 
+	void intotalprice(CartVO vo);
+
+	List<CartVO> getCartList(CartVO cart);
+
+	
+
 }

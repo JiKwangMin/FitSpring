@@ -44,4 +44,16 @@ public class CartServiceImpl implements CartService {
 	public List<CartVO> getorderitem(Map<String, Object> map) {
 		return this.dao.getorderitem(map);
 	}
+
+	@Override
+	public void intotalprice(CartVO vo) {
+		this.dao.intotalprice(vo);
+	}
+
+	@Override
+	public List<CartVO> getCartList(CartVO cart) {
+		return this.dao.getCartList(cart);
+	}
+
+	
 }

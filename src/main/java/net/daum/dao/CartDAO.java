@@ -19,4 +19,8 @@ public interface CartDAO {
 
 	List<CartVO> getorderitem(Map<String, Object> map);
 
+	void intotalprice(CartVO vo);
+
+	List<CartVO> getCartList(CartVO cart);
+
 }

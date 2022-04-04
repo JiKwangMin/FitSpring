@@ -13,7 +13,7 @@ public class CartVO {
 	private int cart_option_no;//상품 옵션 번호
 	private String cart_option_val;//상품 옵션 이름
 	private int cart_sc;//담는 수량
-	
+	private String subtotal;
 	
 	//join VO
 	private ItemInfoVO itemInfoVO;

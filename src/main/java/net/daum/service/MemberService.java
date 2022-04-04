@@ -24,6 +24,8 @@ public interface MemberService {
 
 		public String getState(String mem_id);
 
+		public MemberVO getCartInfo(MemberVO mm);
+
 		
 
 		

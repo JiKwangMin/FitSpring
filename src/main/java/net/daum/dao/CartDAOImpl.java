@@ -45,4 +45,14 @@ public class CartDAOImpl implements CartDAO{
 		return this.sqlSession.selectList("getOrderItem",map);
 	}
 
+	@Override
+	public void intotalprice(CartVO vo) {
+		this.sqlSession.update("intopr",vo);
+	}
+
+	@Override
+	public List<CartVO> getCartList(CartVO cart) {
+		return this.sqlSession.selectList("car2",cart);
+	}
+
 }

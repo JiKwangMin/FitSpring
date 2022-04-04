@@ -441,7 +441,16 @@ var login_id = "<%= session.getAttribute("id") %>"
 		
 	function totalprice(subtotal){
 		$('.final-order-price').html(numberWithCommas(subtotal)+'원');
-	}
+		
+		$.ajax({
+			type : "POST",
+			url : "/cart/final-orderOK",
+			dateType : "text",
+			data : {
+				"subtotal" : subtotal
+		}
+	});
+}
 		
 </script>
 </html>

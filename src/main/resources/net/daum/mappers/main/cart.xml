@@ -31,6 +31,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="cartUpdate">
 		UPDATE CART SET CART_SC = #{cart_sc} WHERE CART_MEM_ID = #{cart_mem_id} AND CART_OPTION_NO = #{cart_option_no}
 	</update>
+	
+	<!-- 총상품가격 넣기 -->
+	<insert id="intopr">
+		update CART set SUBTOTAL = #{subtotal} where CART_MEM_ID = #{cart_mem_id}
+	</insert>
+	
+	<!-- 주문상품정보 불러오기 -->
+	<select id="car2" resultType="cart">
+		select * from cart where cart_no = #{cart_no}
+	</select>
+	
 	<!-- 주문상품 불러오기 -->
 	<select id="getOrderItem" parameterType="hashmap" resultMap="CartVO">
 		SELECT * FROM CART 

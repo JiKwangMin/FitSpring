@@ -116,4 +116,16 @@ public class CartController {
 		
 		return result;
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/cart/final-orderOK")
+	public String fnon(HttpSession session, @RequestParam("subtotal") String subtotal, CartVO vo) {
+		
+		vo.setCart_mem_id((String)session.getAttribute("id"));
+		vo.setSubtotal(subtotal);
+		System.out.println(subtotal);
+		this.cartService.intotalprice(vo);
+		return null;
+	}
 }

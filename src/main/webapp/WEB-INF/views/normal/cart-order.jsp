@@ -46,15 +46,15 @@
 			<tbody>
 				<tr>
 					<th>이름</th>
-					<td>{member_name}</td>
+					<td>${mm.mem_name}</td>
 				</tr>
 				<tr>
 					<th>이메일</th>
-					<td>{member_email}</td>
+					<td>${mm.mem_email}</td>
 				</tr>
 				<tr>
 					<th>휴대폰 번호</th>
-					<td>{member_phone}</td>
+					<td>${mm.mem_phone}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -69,15 +69,15 @@
 				<tbody>
 					<tr>
 						<th>이름</th>
-						<td>{받는사람이름} <span class="border rounded-pill border-primary px-2">기본배송지</span></td>
+						<td>${mm.mem_name} <span class="border rounded-pill border-primary px-2">기본배송지</span></td>
 					</tr>
 					<tr>
 						<th>배송주소</th>
-						<td>{우편번호}{배송지주소}</td>
+						<td>${mm.mem_oaddress}${mm.mem_address} ${mm.mem_detailaddress}</td>
 					</tr>
 					<tr>
 						<th>연락처</th>
-						<td>{받는사람번호}</td>
+						<td>${mm.mem_phone}</td>
 					</tr>
 					<tr>
 						<th style="vertical-align:middle;">배송 요청사항</th>
@@ -95,10 +95,10 @@
 		<div class="table-responsive">
 			<table class="table align-middle">
 				<tbody>
-					<c:forEach items="${orderitem}" var="cart" begin="0">
+					<c:forEach items="${orderitem}" var="cart" begin="0" varStatus="status">
 						<tr>
-							<td>${cart.cart_item_name}</td>
-							<td>${cart.cart_option_val}/ 수량 ${cart.cart_sc}개</td>
+							<td>${cart[0].cart_item_name}</td>
+							<td>${cart[0].cart_option_val}/ 수량 ${cart[0].cart_sc}개</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -115,7 +115,7 @@
 				<tbody>
 					<tr>
 						<th>총상품가격</th>
-						<td>{total}</td>
+						<td>${subtotal}원</td>
 					</tr>
 					<tr class="align-middle">
 						<th style="vertical-align:middle;">적립금 사용</th>
@@ -124,7 +124,7 @@
 								<strong><span>{할인적용포인트}</span><span>원</span></strong>
 								<span>
 									<span>보유 : </span>
-									<strong>{member_point}</strong>
+									<strong>${mm.mem_point}</strong>
 									<span>원</span>
 								</span>
 								<button type="button" class="btn btn-light d-inline py-1 px-1 border">적립금 입력</button>
@@ -149,12 +149,12 @@
 							<div class="d-flex flex-row">
 								<div class="me-2">
 									<strong>
-										<span>{총금액 - 할인적용적립금}</span>
-										<span>원</span>
+										<span>{${subtotal} - 할인적용적립금}</span>
+										<span>${subtotal}원</span>
 									</strong>
 								</div>
 								<div>
-									<span>적립금 예정 <span>{총결제금액/100}</span>원</span>
+									<span>적립금 예정 <span>${point}</span>원</span>
 								</div>
 							</div>
 						</td>

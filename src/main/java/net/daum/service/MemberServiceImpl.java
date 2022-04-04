@@ -63,6 +63,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	@Override
+	public MemberVO getCartInfo(MemberVO mm) {
+		return this.dao.getMeminfo(mm);
+	}
+
+
 
 
 

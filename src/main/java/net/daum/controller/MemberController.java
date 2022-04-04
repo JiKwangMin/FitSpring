@@ -201,9 +201,7 @@ public class MemberController {
 	public String member_login_ok(Model list,@RequestParam("mem_id") String mem_id,@RequestParam("mem_pw") String mem_pw, HttpServletResponse response,HttpSession session,MemberVO m) throws Exception{
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out=response.getWriter();
-		
-		
-		
+	
 		if(mem_id == "" || mem_id==null) {
 			out.println("<script>");
 			out.println("alert('아이디를 입력해주세요.')");
