@@ -181,6 +181,14 @@ public class AdminServiceImpl implements AdminService {
 	public int getOption_total(ItemInfoVO ii) {
 		return this.adminDao.getOption_total(ii);
 	}
+	@Override
+	public ItemInfoVO getPp(ItemInfoVO ii) {
+		return this.adminDao.getPp(ii);
+	}
+	@Override
+	public void updatePay(ItemInfoVO ii) {
+		this.adminDao.updatePay(ii);
+	}
 	
 	
 	

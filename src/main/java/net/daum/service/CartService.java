@@ -23,6 +23,8 @@ public interface CartService {
 
 	List<CartVO> getCartList(CartVO cart);
 
+	void delPay(CartVO cv);
+
 	
 
 }

@@ -32,6 +32,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE CART SET CART_SC = #{cart_sc} WHERE CART_MEM_ID = #{cart_mem_id} AND CART_OPTION_NO = #{cart_option_no}
 	</update>
 	
+	<!-- 상품 결제 완료 장바구니 삭제 -->
+	<delete id="delPay">
+		delete from cart where CART_MEM_ID=#{cart_mem_id} and CART_OPTION_NO=#{cart_option_no}
+	</delete>
+	
 	<!-- 총상품가격 넣기 -->
 	<insert id="intopr">
 		update CART set SUBTOTAL = #{subtotal} where CART_MEM_ID = #{cart_mem_id}

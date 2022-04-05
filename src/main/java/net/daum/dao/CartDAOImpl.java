@@ -55,4 +55,9 @@ public class CartDAOImpl implements CartDAO{
 		return this.sqlSession.selectList("car2",cart);
 	}
 
+	@Override
+	public void delPay(CartVO cv) {
+		sqlSession.delete("delPay",cv);
+	}
+
 }

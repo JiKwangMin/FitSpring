@@ -25,4 +25,12 @@ public interface MemberDAO {
 
 	
 
+	public int getPoint(String mem_id);
+
+	public void mp(MemberVO mm);
+
+	
+
+	
+
 }

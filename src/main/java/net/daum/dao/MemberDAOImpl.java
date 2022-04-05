@@ -72,6 +72,18 @@ public class MemberDAOImpl implements MemberDAO {
 
 	
 
+	@Override
+	public int getPoint(String mem_id) {
+		return sqlSession.selectOne("getpoint",mem_id);
+	}
+
+	@Override
+	public void mp(MemberVO mm) {
+		sqlSession.update("mp",mm);
+	}
+
+	
+
 	
 
 

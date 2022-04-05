@@ -170,4 +170,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getOptionTotal" resultType="int">
 		select count(*) from ITEM_OPTION where item_no=${item_no}
 	</select>
+	
+	<!-- 결제전 수량확인 -->
+	<select id="getPp" resultType="item">
+		select OPTION_ITEM_NO, OPTION_VAL2, SELCOUNT, REAL_SELCOUNT from ITEM_OPTION where OPTION_ITEM_NO = #{option_item_no}
+	</select>
+	
+	<!-- 결제 후 업데이트 -->
+	<update id="pay1">
+		update ITEM_OPTION set SELCOUNT=#{selcount}, REAL_SELCOUNT=#{real_selcount} where OPTION_ITEM_NO = #{option_item_no}
+	</update>
 </mapper>

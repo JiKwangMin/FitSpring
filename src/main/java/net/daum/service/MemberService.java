@@ -27,6 +27,15 @@ public interface MemberService {
 		public MemberVO getCartInfo(MemberVO mm);
 
 		
+		
+
+		public int getPoint(String mem_id);
+
+		public void mp(MemberVO mm);
+
+		
+
+		
 
 		
 		

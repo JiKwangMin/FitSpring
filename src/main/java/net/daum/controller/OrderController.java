@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import net.daum.service.AdminService;
 import net.daum.service.CartService;
 import net.daum.service.MemberService;
 import net.daum.service.OrderService;
 import net.daum.vo.CartVO;
+import net.daum.vo.ItemInfoVO;
 import net.daum.vo.MemberVO;
 import net.daum.vo.OrderVO;
 
@@ -31,6 +32,9 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private AdminService adminService;
 	
 	@RequestMapping("/order")
 	public String direct_order() {
@@ -97,31 +101,85 @@ public class OrderController {
 	@RequestMapping("/order/orderInsert")
 	public int orderInsert(HttpServletRequest request) {
 		int data = 0;
+		
 		OrderVO vo = new OrderVO();
+		ItemInfoVO ii = new ItemInfoVO();
+		CartVO cv = new CartVO();
+		
+		//재고, 판매수 등록 -> order_option_no = option_item_no, order_item_qty = temp ItemInfoVO
+		//카트 비우기 -> order_option_no = cart_option_no, order_mem_id = cart_mem_id CartVO
+		String[] order_option_no1 = request.getParameterValues("order_option_no");
+		String[] order_item_qty1 = request.getParameterValues("order_item_qty");
+		cv.setCart_mem_id(request.getParameter("order_mem_id"));
+				
+		//selcount, real_selcount 받아서 계산
+		int temp = 0;
+		int temp01 = 0;
+		int temp02 = 0;
+				
+		for(int i=0; i<order_option_no1.length; i++) {
+			ii.setOption_item_no(Integer.parseInt(order_option_no1[i]));
+			cv.setCart_option_no(Integer.parseInt(order_option_no1[i]));
+					
+			temp = (Integer.parseInt(order_item_qty1[i]));
+					
+			ii = this.adminService.getPp(ii);
+			int real_selcount = ii.getReal_selcount();
+			int selcount = ii.getSelcount();
+					
+			int real_selcount1 = real_selcount + temp;
+			int selcount1 = selcount + temp;
+					
+			ii.setReal_selcount(real_selcount1);
+			ii.setSelcount(selcount1);
+					
+			this.adminService.updatePay(ii);
+			this.cartService.delPay(cv);
+			}
+		//포인트 차감 + 적립
+		int delpoint = Integer.parseInt(request.getParameter("order_use_point"));
+		int plusepoint = (Integer.parseInt(request.getParameter("order_total_price"))) / 100 ;
+		String mem_id = request.getParameter("order_mem_id");
+		int point = this.memberService.getPoint(mem_id);
+				
+		System.out.println("==========================================================");
+		System.out.println(delpoint);
+		System.out.println(plusepoint);
+		System.out.println(point);
+		System.out.println("==========================================================");
+		MemberVO mm = new MemberVO();
+		mm.setMem_id(mem_id);
+		if(delpoint > plusepoint) {
+			//사용한 포인트가 더 크면 temp11만큼 포인트 차감 
+			int temp10 = delpoint - plusepoint;
+			int temp11 = point - temp10;
+			mm.setTemp11(temp11);
+			System.out.println(temp11);
+					
+			this.memberService.mp(mm);
+		}else if(delpoint < plusepoint) {
+			//적립금이 더 높으면 temp11만큼 포인트 적립
+			int temp10 = plusepoint - delpoint;
+			int temp11 = temp10 + point;
+			System.out.println("+ : "+ temp11);
+			mm.setTemp11(temp11);
+			this.memberService.mp(mm);
+		}
+		
+		
 		try {
 			System.out.println("=========주문 등록=========");
 			vo.setOrder_no(request.getParameter("order_no"));
-			System.out.println(vo.getOrder_no());
 			vo.setOrder_mem_id(request.getParameter("order_mem_id"));
-			System.out.println(vo.getOrder_mem_id());
 			vo.setOrder_name(request.getParameter("order_name"));
-			System.out.println(vo.getOrder_name());
 			vo.setOrder_addr(request.getParameter("order_addr"));
-			System.out.println(vo.getOrder_addr());
 			vo.setOrder_post(request.getParameter("order_post"));
-			System.out.println(vo.getOrder_post());
 			vo.setOrder_phone(request.getParameter("order_phone"));
-			System.out.println(vo.getOrder_phone());
 			vo.setOrder_message(request.getParameter("order_message"));
-			System.out.println(vo.getOrder_message());
 			vo.setOrder_use_point(Integer.parseInt(request.getParameter("order_use_point")));
-			System.out.println(vo.getOrder_use_point());
 			vo.setOrder_paytype(request.getParameter("order_paytype"));
-			System.out.println(vo.getOrder_paytype());
 			vo.setOrder_total_price(Integer.parseInt(request.getParameter("order_total_price")));
-			System.out.println(vo.getOrder_total_price());
 			vo.setOrder_subtotal_price(Integer.parseInt(request.getParameter("order_subtotal_price")));
-			System.out.println(vo.getOrder_subtotal_price());
 			String[] order_item_no = request.getParameterValues("order_item_no");
 			String[] order_item_name = request.getParameterValues("order_item_name");
 			String[] order_option_no = request.getParameterValues("order_option_no");
@@ -129,29 +187,25 @@ public class OrderController {
 			String[] order_item_qty = request.getParameterValues("order_item_qty");
 			String[] order_item_price = request.getParameterValues("order_item_price");
 			int size = order_option_no.length;
-			System.out.println("size : "+size);
 			for(int i=0;i<size;i++) {
 				vo.setOrder_item_no(Integer.parseInt(order_item_no[i]));
-				System.out.println(vo.getOrder_item_no());
 				vo.setOrder_item_name(order_item_name[i]);
-				System.out.println(vo.getOrder_item_name());
 				vo.setOrder_option_no(Integer.parseInt(order_option_no[i]));
-				System.out.println(vo.getOrder_option_no());
 				vo.setOrder_option_val(order_option_val[i]);
-				System.out.println(vo.getOrder_option_val());
 				vo.setOrder_item_qty(Integer.parseInt(order_item_qty[i]));
-				System.out.println(vo.getOrder_item_qty());
 				vo.setOrder_item_price(Integer.parseInt(order_item_price[i]));
-				System.out.println(vo.getOrder_item_price());
+				
 				orderService.orderInsert(vo);
+				
+				
 			}
 			data = 1;
 		}catch(Exception e) {
 			e.printStackTrace();
 			data = 2;
 		}
-			
-		System.out.println(data);
+		
+		
 		return data;
 	}
 	

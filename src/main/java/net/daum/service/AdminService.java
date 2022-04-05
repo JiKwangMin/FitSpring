@@ -43,6 +43,10 @@ public interface AdminService {
 
 	int getOption_total(ItemInfoVO ii);
 
+	ItemInfoVO getPp(ItemInfoVO ii);
+
+	void updatePay(ItemInfoVO ii);
+
 	
 
 	

@@ -123,6 +123,16 @@ public class AdminDAOImpl implements AdminDAO {
 		return sqlSession.selectOne("getOptionTotal", ii);
 	}
 
+	@Override
+	public ItemInfoVO getPp(ItemInfoVO ii) {
+		return sqlSession.selectOne("getPp",ii);
+	}
+
+	@Override
+	public void updatePay(ItemInfoVO ii) {
+		sqlSession.update("pay1",ii);
+	}
+
 	
 	 
 	

@@ -111,6 +111,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    <select id="get_cart" resultType="member">
    	select * from member where mem_id=#{mem_id}
    </select>
+   
+   <!-- 포인트 가져오기 -->
+   <select id="getpoint" resultType="int">
+   	select MEM_POINT from MEMBER where MEM_ID = #{mem_id}
+   </select>
+   
+   <!-- 적립금 증,감소 -->
+   <update id="mp">
+   	update MEMBER set MEM_POINT = #{temp11} where MEM_ID=#{mem_id}
+   </update>
+   
+   
 </mapper>
 
 

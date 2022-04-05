@@ -20,13 +20,21 @@ public class MemberVO {
 	   private String mem_delcont;//탈퇴 사유
 	   private String mem_deldate;//탈퇴 날짜
 	   private int mem_rank;
-
+	   private int temp11;
 	   // private String mem_emailchk;
 	   // private String mem_address;
 	
 		
 
-	   public String getMem_oaddress() {
+	   public int getTemp11() {
+		return temp11;
+	}
+
+	public void setTemp11(int temp11) {
+		this.temp11 = temp11;
+	}
+
+	public String getMem_oaddress() {
 	      return mem_oaddress;
 	   }
 

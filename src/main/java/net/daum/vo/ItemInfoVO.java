@@ -42,4 +42,7 @@ public class ItemInfoVO {
 	private int banner_file_no;
 	private String banner_item_img;
 	private String banner_origin_name;
+	
+	//비교연산용
+	private int temp;
 }

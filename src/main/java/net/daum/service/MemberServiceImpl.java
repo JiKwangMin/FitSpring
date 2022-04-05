@@ -70,6 +70,21 @@ public class MemberServiceImpl implements MemberService {
 
 
 
+	
+
+	@Override
+	public int getPoint(String mem_id) {
+		return this.dao.getPoint(mem_id);
+	}
+
+
+	@Override
+	public void mp(MemberVO mm) {
+		this.dao.mp(mm);
+	}
+
+
+
 
 
 	
