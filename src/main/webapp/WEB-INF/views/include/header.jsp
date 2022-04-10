@@ -70,22 +70,20 @@
 		<div class="row">
 			<nav class="menu-1 col-sm-12 col-md-12 col-lg-12 max-auto0">
 				<ul>
-					<li><a href="#">NEW</a></li>
-					<li><a href="#">OUTER</a></li>
-					<li><a href="item?sortation=mentomen">TOP</a></li>
-					<li><a href="#">PANTS</a></li>
-					<li><a href="#">SHOES</a></li>
-					<li><a href="#">ACC</a></li>
+					<li><a href="item?bsortation=OUTER&sortation=coat">OUTER</a></li>
+					<li><a href="item?bsortation=TOP&sortation=mentomen">TOP</a></li>
+					<li><a href="item?bsortation=PANTS&sortation=pants">PANTS</a></li>
+					<li><a href="item?bsortation=SHOES&sortation=slippers">SHOES</a></li>
+					<li><a href="item?bsortation=ACC&sortation=bag">ACC</a></li>
 				</ul>
 			</nav>
 			<nav class="menu-2">
 				<ul>
-					<li><a href="#">NEW</a></li>
-					<li><a href="#">OUTER</a></li>
-					<li><a href="item?sortation=mentomen">TOP</a></li>
-					<li><a href="#">PANTS</a></li>
-					<li><a href="#">SHOES</a></li>
-					<li><a href="#">ACC</a></li>
+					<li><a href="item?bsortation=OUTER&sortation=coat">OUTER</a></li>
+					<li><a href="item?bsortation=TOP&sortation=mentomen">TOP</a></li>
+					<li><a href="item?bsortation=PANTS&sortation=pants">PANTS</a></li>
+					<li><a href="item?bsortation=SHOES&sortation=slippers">SHOES</a></li>
+					<li><a href="item?bsortation=ACC&sortation=bag">ACC</a></li>
 				</ul>
 			</nav>
 		</div>

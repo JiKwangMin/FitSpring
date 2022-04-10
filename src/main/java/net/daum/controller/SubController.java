@@ -30,11 +30,13 @@ public class SubController {
 	}
 	
 	@RequestMapping("/item")
-	public String sub_item(Model model, ItemInfoVO ii, @RequestParam("sortation")String sortation) {
+	public String sub_item(Model model, ItemInfoVO ii, @RequestParam("sortation")String sortation,@RequestParam("bsortation")String bsortation,HttpSession session) {
 		//sortation= 구분
 		//top끝
 		System.out.println(sortation);
 		List<ItemInfoVO> lilist = this.adminService.getManList(sortation);
+		
+		
 		String title = "";
 		if(sortation.equals("mentomen")) {
 			title="맨투맨/후드";
@@ -44,8 +46,41 @@ public class SubController {
 			title="셔츠";
 		}else if(sortation.equals("muji")) {
 			title="무지티";
+		}else if(sortation.equals("coat")) {
+			title="코트";
+		}else if(sortation.equals("cardigan")) {
+			title="가디건";
+		}else if(sortation.equals("jumper")) {
+			title="점퍼";
+		}else if(sortation.equals("jacket")) {
+			title="자켓";
+		}else if(sortation.equals("pants")) {
+			title="기본 바지";
+		}else if(sortation.equals("shorts")) {
+			title="반바지";
+		}else if(sortation.equals("denim")) {
+			title="데님";
+		}else if(sortation.equals("slippers")) {
+			title="슬리퍼";
+		}else if(sortation.equals("loafers")) {
+			title="로퍼";
+		}else if(sortation.equals("sneakers")) {
+			title="스니커즈";
+		}else if(sortation.equals("bag")) {
+			title="가방";
+		}else if(sortation.equals("hat")) {
+			title="모자";
 		}
 		
+		model.addAttribute("login_id",session.getAttribute("id"));
+		try {
+			model.addAttribute("login_rank",(int) session.getAttribute("rank"));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		model.addAttribute("bsortation",bsortation);
 		model.addAttribute("lilist", lilist);
 		model.addAttribute("title",title);
 		return "sub/item";

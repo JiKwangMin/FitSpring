@@ -87,7 +87,7 @@
 				<div class="col-md-3 col-sm-6 max-auto">
 					<div class="box-1 img-box">
 						<a href="/item_detail?item_no=${d.item_no}">
-							<img src="../resources/upload${d.main_item_img}">
+							<img src="../resources/upload${d.main_item_img}" style="height:330px; width:263px;">
 						</a>
 					</div>
 				</div>
@@ -106,7 +106,7 @@
 			<c:forEach items="${newMainlist}" var="e">
 				<div class="col-md-3 col-sm-6 max-auto">
 					<div class="box-2 img-box">
-						<a href="/item_detail?item_no=${e.item_no}"><img src="../resources/upload${e.main_item_img}"></a> 
+						<a href="/item_detail?item_no=${e.item_no}"><img src="../resources/upload${e.main_item_img}" style="height:330px; width:282px;"></a> 
 						<a href="/item_detail?item_no=${e.item_no}"><div class="content_box">
 								<div class="cont1">${e.item_name}</div>
 								<div class=cont3>₩ ${e.item_price}</div>
