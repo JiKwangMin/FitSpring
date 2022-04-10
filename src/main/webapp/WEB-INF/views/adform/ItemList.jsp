@@ -34,6 +34,27 @@
 	
 	footer#footer { background:#f9f9f9; padding:20px; }
 	footer#footer ul li { display:inline-block; margin-right:10px; } 
+	.bluetop {
+	  border-collapse: collapse;
+	  border-top: 3px solid #168;
+	}  
+	.bluetop th {
+	  color: #168;
+	  background: #f0f6f9;
+	}
+	.bluetop th, .bluetop td {
+	  padding: 10px;
+	  border: 1px solid #ddd;
+	}
+	.bluetop th:first-child, .bluetop td:first-child {
+	  border-left: 0;
+	}
+	.bluetop th:last-child, .bluetop td:last-child {
+	  border-right: 0;
+	}
+	th, td {
+	  text-align: center;
+	}
 </style>
 
 <style>
@@ -90,7 +111,7 @@
      			<div>총 상품 종류 : ${totalCount}</div>
      			<c:forEach items="${iilist}" var="a">
      			
-  				<table border="1">
+  				<table class="bluetop" style="width:100%" border="1">
   					<tr>
   						<th width="10%" rowspan="2">이미지</th>
    						<th width="5%">번호</th>

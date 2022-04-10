@@ -11,12 +11,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      <!--  parameterType mybatis 매퍼태그 속성은 전달인자 자료형이고 생략가능. resultType은 반환타입. java.lang.은 생략가능 -->
        select count(*) from member where mem_id=#{mem_id}
    </select>
-   
-   <!-- 우편 주소 검색 -->
-   <select id="m_zip" resultType="zip">
-     select * from zipcode where dong like #{dong}
-   </select>
-   
    <!-- 회원저장 -->
    <insert id="memberJoin">
     insert into member

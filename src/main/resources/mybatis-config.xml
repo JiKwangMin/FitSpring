@@ -7,7 +7,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
    <typeAliases>
       <typeAlias type="net.daum.vo.MemberVO" alias="member" />
-      <typeAlias type="net.daum.vo.ZipcodeVO" alias="zip" />
       <typeAlias type="net.daum.vo.QnaVO" alias="qna"/>
       <typeAlias type="net.daum.vo.ReviewVO" alias="review"/>
       <typeAlias type="net.daum.vo.ItemInfoVO" alias="item"/>

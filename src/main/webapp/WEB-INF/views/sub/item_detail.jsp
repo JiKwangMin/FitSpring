@@ -47,7 +47,7 @@
 		<!-- 주문정보 -->
 		<div class="col-sm-6 col-md-7 box" style="margin-top: 65px">
 			<div class="box">
-				<form>
+				<form id="form" method="post">
 				<div class="product_detail">
 					<div class="sales_info">
 						<div class="info_area">
@@ -105,7 +105,7 @@
 							</div>
 							<div class="base-button action-button">
 								<div class="ac-buy wrap">
-									<a class="df-btn buy"><span>바로구매</span></a>
+									<a class="df-btn buy" id="direct_order"><span>바로구매</span></a>
 								</div>
 								<div class="ac-basket wrap">
 									<a class="df-btn basket" id="cart_add"><span>장바구니</span></a>
@@ -129,6 +129,7 @@
 						</div>
 					</div>
 				</div>
+				<input type="hidden" name="cart_no" class="cart_no" />
 				</form>
 			</div>
 		</div>
@@ -457,7 +458,78 @@
 			fn_like_del();
 		});
 		
+		$("#direct_order").on("click", function(e){//바로구매 상품1개++ 옵션 여러개 
+			e.preventDefault();
+			fn_order();
+		});
 	});
+	
+	function orderpage(x){
+		
+		console.log(x);
+		$('.cart_no').val(x);
+		$('#form').attr("action", "cart/order");
+		$('#form').submit();
+	}
+	
+	function fn_order(){//다이렉트 주문 장바구니에 선택된 옵션들 바로 추가하고 페이지 이동
+		if(login_id != "null"){
+			if(cnt > 1){
+				var arr = new Array();
+				$("input:hidden[name='item_option_no']").each(function(){
+					arr.push($(this).attr('value'));
+				});
+				var arr3 = new Array();
+				$("input[name='item_quantity']").each(function(){
+					var cnt = $('.item-quantity input').val();
+					console.log("quantity",cnt);
+					arr3.push($(this).val());
+				});
+				var arr2 = new Array();
+				$("input:hidden[name='order_option']").each(function(){
+					arr2.push($(this).val());
+				});
+				
+				console.log("arr",arr);
+				console.log("arr2",arr2);
+				console.log("arr2",arr3);
+				$.ajax({
+					type : "POST",
+					url : "/cart/addmove",
+					traditional : true,
+					dataType : "json",
+					data : {
+						'cart_item_no' : item_no,
+						'cart_item_name' : item_name,
+						'cart_item_price' : item_price,
+						'cart_option_no' : arr, 
+						'cart_option_val' : arr2,
+						'cart_sc' : arr3
+					},
+					error : function(request, status, error) {
+						alert("code:"
+								+ request.status
+								+ "\n"
+								+ "message:"
+								+ request.responseText
+								+ "\n"
+								+ "error:"
+								+ error);
+					},
+					success : function(data){
+						console.log(data);
+						orderpage(data);
+					}
+				});
+			}else{
+				alert("상품 옵션을 선택해주세요.");			
+			}
+		}else{
+			if(confirm("로그인 후 이용 가능합니다.\n로그인페이지로 이동하시겠습니까?") == true){
+				location.href="/member_login";
+			}
+		}
+	}
 	
 	function fn_cart_add(){
 		

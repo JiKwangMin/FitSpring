@@ -28,6 +28,7 @@ public class CartController {
 		//장바구니 리스트
 		List<CartVO> cartlist = this.cartService.getList(vo);
 		System.out.println(cartlist);
+		model.addAttribute("login_id",id);
 		model.addAttribute("cartlist", cartlist);
 		return "normal/cart";
 	}
@@ -114,7 +115,7 @@ public class CartController {
 				}
 			}
 		}
-		System.out.println("카트 번호"+cart_num);
+		System.out.println("카트 번호"+cart_num.toString());
 		return cart_num;
 	}
 	
