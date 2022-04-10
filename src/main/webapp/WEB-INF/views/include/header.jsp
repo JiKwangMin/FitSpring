@@ -35,13 +35,13 @@
 				<ul>
 				<c:if test="${empty login_id}">
 					<li><a href="/member_login">LOGIN</a></li>
+					<li><a href="#">JOIN</a></li>
 				</c:if>
 				<c:if test="${not empty login_id}">
 					<li><a href="/member_logout">LOGOUT</a></li>
 					<li><a href="/cart">CART</a></li>
 					<li><a href="/mypage">MYPAGE</a></li>
 				</c:if>	
-					<li><a href="#">JOIN</a></li>
 				</ul>
 			</div>
 			<div class="board col-sm-12 col-md-6 max-auto0">

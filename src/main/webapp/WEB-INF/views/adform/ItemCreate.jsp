@@ -13,7 +13,7 @@
 <script src="/resources/ckeditor/ckeditor.js"></script>
 <script src="./resources/js/jquery.js"></script>
 <script src="./resources/js/product.js"></script>
-	
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 	body { font-family:'맑은 고딕', verdana; padding:0; margin:0; }
 	ul { padding:0; margin:0; list-style:none;  }
@@ -82,9 +82,7 @@ textarea#gdsDes { width:400px; height:180px; }
 			<ul>
 				<li><a href="/ItemCreate">상품 등록</a></li>
 				<li><a href="/ItemList">상품 목록</a></li>
-				<li><a href="">주문 목록</a></li>
-				<li><a href="">상품 소감</a></li>
-				<li><a href="">유저 목록</a></li>
+				<li><a href="/OrderList">주문 목록</a></li>
 			</ul>
 		</aside>
 		<div id="container_box">

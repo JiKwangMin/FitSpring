@@ -73,19 +73,19 @@
 				<tbody>
 					<tr>
 						<th>이름</th>
-						<td><span id="order_name">${mm.mem_name}</span> <span class="border rounded-pill border-primary px-2">기본배송지</span></td>
+						<td><span id="order_name">${ad.to_name}</span> <span class="border rounded-pill border-primary px-2">기본배송지</span></td>
 					</tr>
 					<tr>
 						<th>배송주소</th>
-						<td><span id="order_postcode">${mm.mem_oaddress}</span><span id="order_addr">${mm.mem_address} ${mm.mem_detailaddress}</span></td>
+						<td><span id="order_postcode">${ad.to_post}</span><span id="order_addr">${ad.to_addr} ${ad.to_detailaddr}</span></td>
 					</tr>
 					<tr>
 						<th>연락처</th>
-						<td id="order_phone">${mm.mem_phone}</td>
+						<td id="order_phone">${ad.to_phone}</td>
 					</tr>
 					<tr>
 						<th style="vertical-align:middle;">배송 요청사항</th>
-						<td><input id="order_message" type="text" /></td>
+						<td><input id="order_message" type="text" value="${ad.to_message}" /></td>
 					</tr>
 				</tbody>
 			</table>
@@ -177,12 +177,6 @@
 												<span>신용/체크카드</span>
 											</label>
 										</li>
-										<li class="payVbank">
-											<input type="radio" name="payType" id="payType02" value="Vbank" />
-											<label for="payType02" >
-												<span>무통장입금(가상계좌)</span>
-											</label>
-										</li>
 									</ul>
 								</div>
 							</div>
@@ -220,7 +214,6 @@
 		var a = $("#mem_phone").text();
 		var b = $("#order_phone").text();
 		$("#mem_phone").text(a.substring(0,3) + '-' + a.substring(3,7) + '-' + a.substring(7,11));
-		$("#order_phone").text(b.substring(0,3) + '-' + b.substring(3,7) + '-' + b.substring(7,11));
 		$("#order_message").on("focusout", function(){
 			var s=$(this).val();
 			console.log(s);
@@ -417,8 +410,6 @@
 		          }
 		          alert(msg);
 		      });
-		}else if($('input:radio[name="payType"]:checked').attr('value') == "Vbank"){
-			alert("미구현된 기능입니다.");
 		}else{
 			alert("결제방법을 선택해주세요!");
 		}

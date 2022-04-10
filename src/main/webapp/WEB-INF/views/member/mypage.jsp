@@ -68,23 +68,6 @@
 	                	</a>
                     </div>
                     <div class="col mb-5">
-                    	<a href="#" style="text-decoration : none; color : black;">
-	                        <div class="card h-100">
-	                            <div class="card-body p-4">
-	                                <div class="text-center">
-	                                    <h2 class="fw-bolder">COUPON</h2>
-	                                    (쿠폰)
-	                                    <br>
-	                                    <br>
-	                                    고객님이 보유하고 계신 쿠폰내역을 보여드립니다.
-	                                    <br><br><br>
-	                                    
-	                                </div>
-	                            </div>
-	                        </div>
-                        </a>
-                    </div>
-                    <div class="col mb-5">
                     	<a href="/mypage_address" style="text-decoration : none; color : black;">
                         <div class="card h-100">
                             <div class="card-body p-4">

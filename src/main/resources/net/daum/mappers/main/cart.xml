@@ -10,6 +10,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO CART (cart_no, cart_mem_id, cart_item_no, cart_item_name, cart_item_price, cart_option_no, cart_option_val, cart_sc)
 		VALUES((SELECT NVL(MAX(CART_NO), 0) + 1 FROM CART), #{cart_mem_id}, #{cart_item_no}, #{cart_item_name}, #{cart_item_price}, #{cart_option_no}, #{cart_option_val}, #{cart_sc})
 	</insert>
+	<!-- direct 주문 -->
+	<insert id="direct">
+		INSERT INTO CART (cart_no, cart_mem_id, cart_item_no, cart_item_name, cart_item_price, cart_option_no, cart_option_val, cart_sc, subtotal)
+		VALUES((SELECT NVL(MAX(CART_NO), 0) + 1 FROM CART), #{cart_mem_id}, #{cart_item_no}, #{cart_item_name}, #{cart_item_price}, #{cart_option_no}, #{cart_option_val}, #{cart_sc}, #{subtotal})
+	</insert>
 	<!-- 중복체크 -->
 	<select id="cartChk" resultType="int">
 		SELECT COUNT(*) FROM CART WHERE CART_MEM_ID = #{cart_mem_id} AND CART_OPTION_NO = #{cart_option_no}
@@ -47,17 +52,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from cart where cart_no = #{cart_no}
 	</select>
 	
-	<!-- 주문상품 불러오기 -->
-	<select id="getOrderItem" parameterType="hashmap" resultMap="CartVO">
-		SELECT * FROM CART 
-		WHERE CART_MEM_ID = #{cart_mem_id} AND 
-		 <foreach collection="cart" item="item" separator="or">
-			 CART_NO = #{item.cart_no}
-		</foreach> 
-		<foreach collection="cart" item="item" separator="or">
-			or CART_NO = #{item.cart_no}
-		</foreach>
+	<!-- 카트 번호 찾기 -->
+	<select id="getCartNo" resultType="int">
+		SELECT CART_NO FROM CART WHERE CART_MEM_ID = #{cart_mem_id} AND CART_ITEM_NO = #{cart_item_no} AND CART_OPTION_NO = #{cart_option_no} AND CART_SC = #{cart_sc}
 	</select>
+	
 	<resultMap type="net.daum.vo.CartVO" id="CartVO">
 		<result column="cart_no" property="cart_no" />
 		<result column="cart_item_no" property="cart_item_no" />

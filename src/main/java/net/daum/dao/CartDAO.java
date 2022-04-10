@@ -24,5 +24,8 @@ public interface CartDAO {
 	List<CartVO> getCartList(CartVO cart);
 
 	void delPay(CartVO cv);
+	
+	int getCartNo(CartVO vo);
 
+	void direct(CartVO vo);
 }

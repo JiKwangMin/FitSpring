@@ -60,5 +60,13 @@ public class CartServiceImpl implements CartService {
 		this.dao.delPay(cv);
 	}
 
-	
+	@Override
+	public int getCartNo(CartVO vo) {
+		return this.dao.getCartNo(vo);
+	}
+
+	@Override
+	public void direct(CartVO vo) {
+		this.dao.direct(vo);
+	}
 }

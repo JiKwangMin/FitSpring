@@ -150,7 +150,6 @@
 												<span class="sr-only">제품가격</span>
 												<fmt:formatNumber value="${cart.cart_item_price}" pattern="#,###" />원
 											</span>
-												${cart.cart_sc}
 											<span class="select-select">
 												<select class="quantity-select" id="qty_${cart.cart_option_no}" item_no="${cart.cart_item_no}" option_no="${cart.cart_option_no}" data-price="${cart.cart_item_price}" data-quantity="${cart.cart_sc}" data-all="true" title="${cart.cart_item_name}" style="width:10%;">
 													<option value="1" <c:if test="${cart.cart_sc eq 1}">selected</c:if>>1</option>

@@ -20,6 +20,7 @@ import net.daum.vo.CartVO;
 import net.daum.vo.ItemInfoVO;
 import net.daum.vo.MemberVO;
 import net.daum.vo.OrderVO;
+import net.daum.vo.ToAddressVO;
 
 @Controller
 public class OrderController {
@@ -35,12 +36,6 @@ public class OrderController {
 	
 	@Autowired
 	private AdminService adminService;
-	
-	@RequestMapping("/order")
-	public String direct_order() {
-		return "direct/order";
-	}//바로구매
-	
 	
 	@RequestMapping("/cart/order")
 	public String cart_order(Model model,HttpSession session, HttpServletRequest request) {
@@ -59,13 +54,13 @@ public class OrderController {
 		MemberVO mm = new MemberVO();
 		mm.setMem_id(login_id);
 		mm = this.memberService.getCartInfo(mm);
-		
-		
-		
+		//배송지 불러오기
+		ToAddressVO address = new ToAddressVO();
+		address.setMem_id(login_id);
+		address = this.memberService.getAddress(address);
 		//선택된 상품넘버
 		String cart_no = request.getParameter("cart_no");
 		String[] no = cart_no.split(",");
-		
 		//ArrayList에 이 값들이 저장됨.
 		ArrayList<String> no1 = new ArrayList<>();
 		for(String temp:no) {
@@ -73,7 +68,6 @@ public class OrderController {
 		}
 		
 		List<List<CartVO>> list3 = new ArrayList<>();
-		
 		
 		for(int i=0; i<no1.size(); i++) {
 			CartVO cart = new CartVO();
@@ -88,9 +82,10 @@ public class OrderController {
 			list3.add(list2);
 		}
 		
-		
 		//총 가격 구하기
 		model.addAttribute("mm",mm);
+		model.addAttribute("ad",address);
+		model.addAttribute("login_id",login_id);
 		model.addAttribute("point",Integer.parseInt(list3.get(0).get(0).getSubtotal())/100);
 		model.addAttribute("subtotal",list3.get(0).get(0).getSubtotal());
 		model.addAttribute("orderitem", list3);
@@ -166,7 +161,6 @@ public class OrderController {
 			this.memberService.mp(mm);
 		}
 		
-		
 		try {
 			System.out.println("=========주문 등록=========");
 			vo.setOrder_no(request.getParameter("order_no"));
@@ -194,33 +188,30 @@ public class OrderController {
 				vo.setOrder_option_val(order_option_val[i]);
 				vo.setOrder_item_qty(Integer.parseInt(order_item_qty[i]));
 				vo.setOrder_item_price(Integer.parseInt(order_item_price[i]));
-				
 				orderService.orderInsert(vo);
-				
-				
 			}
+			//반복문을 통한 1개씩 등록이라 날짜값이 0.01초 오차 발생 오차를 없애기 위한 날짜 업데이트
+			orderService.orderInDateUpdate(vo);
 			data = 1;
 		}catch(Exception e) {
 			e.printStackTrace();
 			data = 2;
 		}
 		
-		
 		return data;
 	}
 	
 	@RequestMapping("/order_completed")
-	public String order_completed(HttpServletRequest request,Model model) {
+	public String order_completed(HttpSession session,HttpServletRequest request,Model model) {
+		String login_id = (String)session.getAttribute("id");
 		OrderVO vo = new OrderVO();
 		String onum = request.getParameter("order_no");
 		vo.setOrder_no(onum);
-		System.out.println(vo.getOrder_no());
-		List<OrderVO> list = this.orderService.getOrder(vo);
-		System.out.println(list.get(0));
 		if(vo.getOrder_no() != null) {
+			List<OrderVO> list = this.orderService.getOrder(vo);
 			model.addAttribute("vo", list.get(0));
 		}
-		
+		model.addAttribute("login_id",login_id);
 		return "normal/order_completed";
 	}//주문성공
 }

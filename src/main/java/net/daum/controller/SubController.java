@@ -132,6 +132,7 @@ public class SubController {
 			model.addAttribute("wish_check", wish_check);
 			model.addAttribute("id",id);
 		}
+		model.addAttribute("login_id",id);
 		model.addAttribute("option_total", option_total);
 		model.addAttribute("point", point);
 		model.addAttribute("item_cont", item_cont);
@@ -139,7 +140,6 @@ public class SubController {
 		model.addAttribute("mainlist",mainlist);
 		model.addAttribute("sublist",sublist);
 		model.addAttribute("optionlist", optionlist);
-		
 		
 		// 리뷰목록 // (review테이블 내용 + 리뷰에 첫번째사진 ) + 리뷰들사진 
 		int page = 1; int limit = 6;
@@ -185,7 +185,6 @@ public class SubController {
 		int startpage1=(((int)((double)page1/6+0.9))-1)*6+1;
 		int endpage1=maxpage1;
 		if(endpage1 > startpage1+6-1) endpage1=startpage1+6-1;	
-		
 		
 		System.out.println("startpage1 : " + startpage1);
 		System.out.println("endpage1 : " + endpage1);
@@ -593,7 +592,7 @@ public class SubController {
 	
 	@ResponseBody
 	@RequestMapping("/wishlist_add")
-	public int wish_add(WishVO wishVO)throws Exception {
+	public int wish_add(WishVO wishVO)throws Exception {//찜목록 저장
 		
 		//중복제한
 		if(wishService.wishCheck(wishVO) != 0) {
@@ -607,7 +606,7 @@ public class SubController {
 	
 	@ResponseBody
 	@RequestMapping("/wishlist_del")
-	public int wish_del(WishVO wishVO)throws Exception {
+	public int wish_del(WishVO wishVO)throws Exception {//찜목록 삭제
 		
 		//중복제한
 		if(wishService.wishCheck(wishVO) == 0) {

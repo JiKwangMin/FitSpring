@@ -1,5 +1,7 @@
 package net.daum.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import net.daum.vo.MemberVO;
 import net.daum.vo.QnaVO;
 import net.daum.vo.ReviewVO;
+import net.daum.vo.ToAddressVO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -48,7 +51,6 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne("findid",vo);
 	}
 
-	
 
 	@Override
 	public MemberVO getMember(String mem_id) {
@@ -104,6 +106,39 @@ public class MemberDAOImpl implements MemberDAO {
 		return this.sqlSession.selectOne("get_rid", ri);
 	}	
 
-	
+	@Override
+	public void addressSave(ToAddressVO vo) {
+		this.sqlSession.insert("save",vo);
+	}
+
+	@Override
+	public int addressCnt(ToAddressVO vo) {
+		return this.sqlSession.selectOne("addressCnt",vo);
+	}
+
+	@Override
+	public void addressDefaultChange(ToAddressVO vo) {
+		this.sqlSession.update("addressDefaultChange",vo);
+	}
+
+	@Override
+	public List<ToAddressVO> addressBook(ToAddressVO vo) {
+		return this.sqlSession.selectList("addressBook",vo);
+	}
+
+	@Override
+	public void addressEdit(ToAddressVO vo) {
+		this.sqlSession.update("addressEdit",vo);
+	}
+
+	@Override
+	public void addressDel(int to_addr_no) {
+		this.sqlSession.delete("addressDel",to_addr_no);
+	}
+
+	@Override
+	public ToAddressVO getAddress(ToAddressVO address) {
+		return this.sqlSession.selectOne("getAddress",address);
+	}
 
 }

@@ -1,6 +1,5 @@
 package net.daum.controller;
 
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import net.daum.service.AdminService;
+import net.daum.utils.Paging;
 import net.daum.vo.ItemInfoVO;
+import net.daum.vo.OrderVO;
+import net.daum.vo.PageVO;
 
 
 
@@ -201,6 +204,70 @@ public class AdminController {
 			this.adminService.bannerin(ii,multireq);
 		}
 		return "redirect:/ItemList";
+	}
+	
+	//어드민 주문 목록
+	@RequestMapping("OrderList")
+	public String OrderList(HttpSession session,Model model,OrderVO vo,PageVO page) {
+		String login_id = (String)session.getAttribute("id");
+		int rank = (int)session.getAttribute("rank");
+		int listcnt = adminService.getOrderCnt();
+		//목록 개수 설정
+		page.setAmount(5);
+		Paging paging = new Paging(listcnt,page,2);
+		model.addAttribute("login_id",login_id);
+		model.addAttribute("rank",rank);
+		model.addAttribute("pageMaker",paging);
+		model.addAttribute("cnt",listcnt);
+		model.addAttribute("list",adminService.getOrderList(page));
+		return "/adform/OrderList";
+	}
+		
+	//배송상태 변경
+	@ResponseBody
+	@RequestMapping("/OrderList/DeliveryEdit")
+	public String stateDeliveryEdit(OrderVO vo) {
+		String result ="";
+		try {
+			adminService.deliveryStateUpdate(vo);
+			result="success";
+			System.out.println("배송 상태 변경 성공!!");
+		}catch(Exception e) {
+			e.printStackTrace();
+			result ="error";
+			System.out.println("변경 실패!!");
+		}
+		return result;
+	}
+		
+	//주문 상세 페이지
+	@RequestMapping("/OrderList/{order_no}")
+	public String orderDetail(@ModelAttribute OrderVO vo,Model model,HttpSession session) {
+		String login_id = (String)session.getAttribute("id");
+		int rank = (int)session.getAttribute("rank");
+		List<OrderVO> order = this.adminService.detail(vo);
+			
+		model.addAttribute("login_id",login_id);
+		model.addAttribute("rank",rank);
+		model.addAttribute("list",order);
+		return "/adform/OrderDetail";
+	}
+		
+	//주문상태 변경
+	@ResponseBody
+	@RequestMapping("/OrderList/stateUpdate")
+	public String stateUpdate(OrderVO vo) {
+		String result ="";
+		try {
+			adminService.stateUpdate(vo);
+			result="success";
+			System.out.println("주문 상태 변경 성공!!");
+		}catch(Exception e) {
+			e.printStackTrace();
+			result ="error";
+			System.out.println("변경 실패!!");
+		}
+		return result;
 	}
 }
 

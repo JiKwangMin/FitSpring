@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="address">
+	<!-- 배송지 추가 -->
+	<insert id="save">
+		INSERT INTO TOADDRESS (TO_ADDR_NO,MEM_ID, TO_NAME, TO_POST, TO_ADDR, TO_DETAILADDR, TO_PHONE, TO_MESSAGE, defaultaddress)
+		VALUES((SELECT NVL(MAX(TO_ADDR_NO), 0) + 1 FROM TOADDRESS),#{mem_id}, #{to_name}, #{to_post}, #{to_addr}, #{to_detailaddr}, #{to_phone}, #{to_message}, #{defaultaddress})
+	</insert>
+	<!-- 배송지 개수 -->
+	<select id="addressCnt" resultType="int">
+		SELECT COUNT(*) FROM TOADDRESS WHERE MEM_ID = #{mem_id}
+	</select>
+	<!-- 기본배송지 변경 -->
+	<update id="addressDefaultChange">
+		UPDATE TOADDRESS SET DEFAULTADDRESS = 'F' WHERE MEM_ID = #{mem_id} AND DEFAULTADDRESS = #{defaultaddress}
+	</update>
+	<!-- 배송지 목록 -->
+	<select id="addressBook" resultType="address">
+		SELECT * FROM TOADDRESS WHERE MEM_ID = #{mem_id} ORDER BY DEFAULTADDRESS DESC
+	</select>
+	<!-- 배송지 수정 -->
+	<update id="addressEdit">
+		UPDATE TOADDRESS SET TO_NAME = #{to_name}, TO_POST = #{to_post}, TO_ADDR = #{to_addr}, TO_DETAILADDR = #{to_detailaddr},
+		 TO_PHONE = #{to_phone}, TO_MESSAGE = #{to_message}, DEFAULTADDRESS = #{defaultaddress} WHERE MEM_ID = #{mem_id} AND TO_ADDR_NO = #{to_addr_no}
+	</update>
+	<!-- 배송지 삭제 -->
+	<delete id="addressDel" parameterType="int">
+		DELETE FROM TOADDRESS WHERE TO_ADDR_NO = #{to_addr_no}
+	</delete>
+	<!-- 주문페이지에서 기본설정된 배송지 불러오기 -->
+	<select id="getAddress" resultType="address">
+		SELECT * FROM TOADDRESS WHERE MEM_ID = #{mem_id} AND DEFAULTADDRESS = 'T'
+	</select>
+</mapper>

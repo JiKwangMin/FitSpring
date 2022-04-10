@@ -197,5 +197,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     where F.ITEM_CO2 = #{sortation}
 	</select>
 
-
+	<!-- 주문 목록 개수 -->
+	<select id="ListCnt" resultType="int">
+		SELECT COUNT(DISTINCT ORDER_NO) FROM ORD
+	</select>
 </mapper>

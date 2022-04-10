@@ -1,5 +1,7 @@
 package net.daum.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +9,7 @@ import net.daum.dao.MemberDAO;
 import net.daum.vo.MemberVO;
 import net.daum.vo.QnaVO;
 import net.daum.vo.ReviewVO;
+import net.daum.vo.ToAddressVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -104,6 +107,46 @@ public class MemberServiceImpl implements MemberService {
 	public String rfindid(ReviewVO ri) {
 		return this.dao.getrid(ri);
 	}
+	
+	@Override
+	public void addressSave(ToAddressVO vo) {
+		this.dao.addressSave(vo);
+	}
 
+
+	@Override
+	public int addressCnt(ToAddressVO vo) {
+		return this.dao.addressCnt(vo);
+	}
+
+
+	@Override
+	public void addressDefaultChange(ToAddressVO vo) {
+		this.dao.addressDefaultChange(vo);
+	}
+
+
+	@Override
+	public List<ToAddressVO> addressBook(ToAddressVO vo) {
+		return this.dao.addressBook(vo);
+	}
+
+
+	@Override
+	public void addressEdit(ToAddressVO vo) {
+		this.dao.addressEdit(vo);
+	}
+
+
+	@Override
+	public void addressDel(int to_addr_no) {
+		this.dao.addressDel(to_addr_no);
+	}
+
+
+	@Override
+	public ToAddressVO getAddress(ToAddressVO address) {
+		return this.dao.getAddress(address);
+	}
 
 }

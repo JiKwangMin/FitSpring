@@ -46,10 +46,18 @@ public class CartController {
 		String[] cart_option_val = request.getParameterValues("cart_option_val");
 		String[] cart_sc = request.getParameterValues("cart_sc");
 		int size = cart_option_no.length;
-		
-		
+		int cartCheck = 0;
+		int cartCheck2 = 0;
+		for(int i=0; i<size;i++) {
+			vo.setCart_option_no(Integer.parseInt(cart_option_no[i]));
+			cartCheck = cartService.cartCheck(vo);
+			if(cartCheck == 1) {
+				cartCheck2 = 1;
+			}
+		}
+		System.out.println("카트 중복체크값 : "+cartCheck);
 		if(id != null) {//세션 아이디 값이 있어야 등록 가능함
-			if(cartService.cartCheck(vo) == 0) {
+			if(cartCheck2 == 0) {
 				for(int i=0; i<size;i++) {
 					System.out.println("cart_option_no["+i+"]"+cart_option_no[i]);
 					System.out.println("cart_sc["+i+"]"+cart_sc[i]);
@@ -59,12 +67,55 @@ public class CartController {
 					cartService.cart(vo);
 				}
 				result = 1;
+				System.out.println("장바구니 담기 성공!!");
 			}else {
 				result = 2;
+				System.out.println("장바구니 담기 실패!!");
 			}
 		}
-		System.out.println(result);
 		return result;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/cart/addmove")//장바구니 상품 등록
+	public String[] cartAddMove(HttpSession session,HttpServletRequest request) {
+		String id = (String)session.getAttribute("id");
+		CartVO vo = new CartVO();
+		vo.setCart_mem_id(id);
+		vo.setCart_item_no(Integer.parseInt(request.getParameter("cart_item_no")));
+		vo.setCart_item_name(request.getParameter("cart_item_name"));
+		vo.setCart_item_price(Integer.parseInt(request.getParameter("cart_item_price")));
+		String[] cart_option_no = request.getParameterValues("cart_option_no");
+		String[] cart_option_val = request.getParameterValues("cart_option_val");
+		String[] cart_sc = request.getParameterValues("cart_sc");
+		int size = cart_option_no.length;
+		
+		String[] cart_num = new String[size];
+		int subtotal = 0;
+		if(id != null) {//세션 아이디 값이 있어야 등록 가능함
+			if(cartService.cartCheck(vo) == 0) {
+				for(int i=0; i<size;i++) {
+					//subtotal 수량 *가격
+					subtotal += vo.getCart_item_price() * Integer.parseInt(cart_sc[i]);
+				}
+				for(int i=0; i<size;i++) {
+					System.out.println("cart_option_no["+i+"]"+cart_option_no[i]);
+					System.out.println("cart_sc["+i+"]"+cart_sc[i]);
+					vo.setCart_option_no(Integer.parseInt(cart_option_no[i]));
+					vo.setCart_option_val(cart_option_val[i]);
+					vo.setCart_sc(Integer.parseInt(cart_sc[i]));
+					vo.setSubtotal(Integer.toString(subtotal));
+					//카트 등록
+					cartService.direct(vo);
+					//카트 등록된 넘버 값을 반환 받아야되는 상황
+					int cart_no = cartService.getCartNo(vo);
+					System.out.println(cart_no);
+					cart_num[i] = Integer.toString(cart_no);
+				}
+			}
+		}
+		System.out.println("카트 번호"+cart_num);
+		return cart_num;
 	}
 	
 	@ResponseBody

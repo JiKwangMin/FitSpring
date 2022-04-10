@@ -25,6 +25,8 @@ public interface CartService {
 
 	void delPay(CartVO cv);
 
-	
+	int getCartNo(CartVO vo);
+
+	void direct(CartVO vo);
 
 }

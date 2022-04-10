@@ -38,7 +38,7 @@
 		</div>
 	</div>
 	<!-- 일반결제 성공 -->
-	<div class="text-center">
+	<div class="text-center lh-lg" style="padding:100px;">
 		<div class="fs-1 fw-bold">
 			<span>주문이 완료되었습니다.</span>
 		</div>
@@ -68,7 +68,7 @@
 	</div>
 	</c:if>
 	<!-- 주문완료 테이블 -->
-	<div class="py-4 border-bottom">
+	<div class="py-4 border border-end-0 border-start-0">
 		<table style="width:100%;">
 			<tbody>
 				<tr>
@@ -80,17 +80,17 @@
 								<col width="50%">
 							</colgroup>
 							<tbody>
-								<tr>
+								<tr class="lh-lg">
 									<td>받는사람</td>
-									<td>${vo.order_name} /${vo.order_phone}</td>
+									<td>${vo.order_name} / ${vo.order_phone}</td>
 									<td></td>
 								</tr>
 								<tr>
 									<td>받는주소</td>
-									<td>${vo.order_post}${vo.order_addr}</td>
+									<td>${vo.order_post} ${vo.order_addr}</td>
 									<td></td>
 								</tr>
-								<tr>
+								<tr class="lh-lg">
 									<td>배송요청사항</td>
 									<td>${vo.order_message}</td>
 								</tr>
@@ -107,15 +107,22 @@
 							<tbody class="border-bottom">
 								<tr>
 									<td style="height:40px;">주문금액</td>
-									<td class="text-end">${vo.order_subtotal_price} 원</td>
+									<td class="text-end"><fmt:formatNumber value="${vo.order_subtotal_price}" type="number"/>&nbsp;원</td>
 								</tr>
 							</tbody>
 							<tfoot>
 								<tr>
 									<th class="fs-4" style="height:80px;">총 결제금액</th>
 									<td class="text-end">
-										<span>${vo.order_paytype}</span>
-										<span>${vo.order_total_price}</span>
+										<span class="fw-bold">
+											<c:if test="${vo.order_paytype == 'point'}">
+												카카오페이 포인트
+											</c:if>
+											<c:if test="${vo.order_paytype == 'card'}">
+												카드결제
+											</c:if>
+										</span>
+										<span><fmt:formatNumber value="${vo.order_total_price}" type="number"/></span>
 										<span>원</span>
 									</td>
 								</tr>
@@ -129,11 +136,17 @@
 	<!-- order_detail 이동버튼 -->
 	<div class="my-4">
 		<div class="mx-auto" style="width:240px;">
-			<button class="btn btn-outline-primary border-primary" type="button">주문 상세보기</button>
+			<button class="btn btn-outline-primary border-primary" type="button" onclick="detail()">주문 상세보기</button>
 			<button class="btn text-light" style="background-color: rgb(61, 130, 247);" type="button" onclick="location.href='/index'">쇼핑 계속하기</button>
 		</div>
 	</div>
 </div>
 
 </body>
+<script>
+	var order_no = ${vo.order_no};
+	function detail(){
+		location.href="/mypage_order/"+order_no;
+	}
+</script>
 </html>

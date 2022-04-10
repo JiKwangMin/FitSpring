@@ -1,4 +1,5 @@
 <%@ page  contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -61,40 +62,49 @@
 						<h3><span style="font-weight:bold;">배송지 관리</span></h3>
 					</div>
 					<div>
-						<div class="address-card">
+						<c:if test="${!empty book}">
+						<c:forEach items="${book}" var="ad">
+						<div class="address-card mb-4">
         					<div class="address-card__head">
              	 				<div class="mb-1">
-	                				<div class="address-card__title fw-bold fs-3">{name}</div>
+	                				<div class="address-card__title fw-bold fs-3">${ad.to_name}</div>
 	                			</div>
+	                			<c:if test="${ad.defaultaddress == 'T'}" >
 		                		<div class="address-card__fresh-mvp2">
 		                        	<span class="border rounded-pill border-primary px-2">기본배송지</span>
 		                		</div>
+		                		</c:if>
 		        			</div>
 			        		<div class="address-card__body">
-					            <div class="address-card__text address-card__text--address">{주소},{상세주소}</div>
-					            <div class="address-card__text address-card__text--cellphone">{phone}</div>
+					            <div class="address-card__text address-card__text--address">${ad.to_post}&nbsp;${ad.to_addr}&nbsp;${ad.to_detailaddr}</div>
+					            <div class="address-card__text address-card__text--cellphone">${ad.to_phone}</div>
 				    			<div class="address-card__text address-card__text--delivery-preference">
 				      		              요청사항&nbsp;:&nbsp;
-							                문 앞
+							      ${ad.to_message}
 							    </div>
 	     			 		</div>
     		     			<div class="address-card__foot">
-			                	<form action="/addressbook/edit" method="get" class="">
-				                 	<input name="deliveryType" value="STANDARD" type="hidden">
-									<input name="displayBackButton" value="false" type="hidden">
-									<input name="displayDeliveryPreferences" value="true" type="hidden">
+			                	<form action="/addressbook/edit" method="post">
+			                		<input type="hidden" name="to_addr_no" value="${ad.to_addr_no}" />
+				                 	<input type="hidden" name="recipientName" value="${ad.to_name}" />
+				                 	<input type="hidden" name="to_post" value="${ad.to_post}" />
+				                 	<input type="hidden" name="to_address" value="${ad.to_addr}" />
+				                 	<input type="hidden" name="to_detailaddress" value="${ad.to_detailaddr}" />
+				                 	<input type="hidden" name="phone" value="${ad.to_phone}" />
+				                 	<input type="hidden" name="message" value="${ad.to_message}" />
+				                 	<input type="hidden" name="defaultAddress" value="${ad.defaultaddress}" />
 									<button class="btn btn-outline-primary py-1 mt-3" style="border:1px solid #0d6efd;" type="submit">
 										<span class="addressbook__text">수정</span>
 									</button>
 								</form>
 							</div>
 						</div>
-						<form class="" method="get" action="/address/new">
-						    <input name="deliveryType" value="STANDARD" type="hidden">
-							<input name="displayBackButton" value="false" type="hidden">
-							<input name="displayDeliveryPreferences" value="true" type="hidden">
-							<input name="displayTitle" value="false" type="hidden">
-							<input name="historyCount" value="1" type="hidden">
+						</c:forEach>
+						</c:if>
+						<c:if test="${empty book}">
+							지금 배송지를 추가해 주세요!
+						</c:if>
+						<form class="" method="post" action="/address/new">
 						    <div class="d-grid mt-4">
 						        <button type="submit" class="btn border border-dark">
 						            <i class="bi bi-plus-lg" style="color:#0d6efd;"></i>

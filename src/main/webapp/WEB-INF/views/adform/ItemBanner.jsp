@@ -64,9 +64,7 @@
 			<ul>
 				<li><a href="/ItemCreate">상품 등록</a></li>
 				<li><a href="/ItemList">상품 목록</a></li>
-				<li><a href="">주문 목록</a></li>
-				<li><a href="">상품 소감</a></li>
-				<li><a href="">유저 목록</a></li>
+				<li><a href="/OrderList">주문 목록</a></li>
 			</ul>
 		</aside>
 		<div id="container_box">

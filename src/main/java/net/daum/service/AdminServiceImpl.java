@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import net.daum.dao.AdminDAO;
 import net.daum.utils.FileUtils;
 import net.daum.vo.ItemInfoVO;
+import net.daum.vo.OrderVO;
+import net.daum.vo.PageVO;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -193,7 +195,27 @@ public class AdminServiceImpl implements AdminService {
 	public List<ItemInfoVO> getManList(String sortation) {
 		return this.adminDao.getManList(sortation);
 	}
-	
+	//주문 목록 개수
+	@Override
+	public int getOrderCnt() {
+		return this.adminDao.getOrderCnt();
+	}
+	@Override
+	public List<OrderVO> getOrderList(PageVO page) {
+		return this.adminDao.getOrderList(page);
+	}
+	@Override
+	public void deliveryStateUpdate(OrderVO vo) {
+		this.adminDao.deliveryStateUpdate(vo);
+	}
+	@Override
+	public List<OrderVO> detail(OrderVO vo) {
+		return this.adminDao.detail(vo);
+	}
+	@Override
+	public void stateUpdate(OrderVO vo) {
+		this.adminDao.stateUpdate(vo);
+	}
 	
 	
 

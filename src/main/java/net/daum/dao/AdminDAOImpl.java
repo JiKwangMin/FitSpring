@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import net.daum.vo.ItemInfoVO;
+import net.daum.vo.OrderVO;
+import net.daum.vo.PageVO;
 
 
 @Repository
@@ -138,8 +140,29 @@ public class AdminDAOImpl implements AdminDAO {
 		return sqlSession.selectList("get_man",sortation);
 	}
 
-	
-	 
-	
+	@Override
+	public int getOrderCnt() {
+		return this.sqlSession.selectOne("ListCnt");
+	}
+
+	@Override
+	public List<OrderVO> getOrderList(PageVO page) {
+		return this.sqlSession.selectList("OrderList",page);
+	}
+
+	@Override
+	public void deliveryStateUpdate(OrderVO vo) {
+		this.sqlSession.update("deliveryUpdate",vo);
+	}
+
+	@Override
+	public List<OrderVO> detail(OrderVO vo) {
+		return this.sqlSession.selectList("Adetail",vo);
+	}
+
+	@Override
+	public void stateUpdate(OrderVO vo) {
+		this.sqlSession.update("stateUpdate",vo);
+	}
 	
 }

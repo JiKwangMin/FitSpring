@@ -1,4 +1,7 @@
 <%@ page  contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -57,14 +60,17 @@
 				</div>
 				<div class="col-8">
 					<div class="pb-5">
-						<h3><span style="font-weight:bold;">주문목록</span></h3>
+						<h3><span style="font-weight:bold;">주문상세</span></h3>
 					</div>
 					<div class="mb-4">
 						<div class="d-flex flex-row">
-							<div style="font-weight:bold;">2022.00.00 주문</div>
+						<c:forEach items="${list}" var="order" begin="0" end="0">
+							<div style="font-weight:bold;"><fmt:formatDate value="${order.order_date}" pattern="yyyy.MM.dd"/>&nbsp;주문</div>
 							<span class="px-1">•</span>
-							<span>주문번호 {ordernumber}</span>
+							<span>주문번호&nbsp;${order.order_no}</span>
+						</c:forEach>
 						</div>
+						<c:forEach var="ord" items="${list}" varStatus="status">
 						<div class="row border border-2 rounded-3 mt-4">
 							<table>
 								<colgroup>
@@ -75,35 +81,50 @@
 									<tr>
 										<td class="p-4 td_border">
 											<div>
-												<span style="font-weight:bold;">{배송준비중}</span>
+												<c:if test="${ord.order_delivery_state == 0}">
+													<span style="font-weight:bold;">배송준비중</span>
+												</c:if>
+												<c:if test="${ord.order_delivery_state == 1}">
+													<span style="font-weight:bold;">배송중</span>
+												</c:if>
+												<c:if test="${ord.order_delivery_state == 2}">
+													<span style="font-weight:bold;">배송완료</span>
+												</c:if>
 												<span class="px-1">•</span>
-												<span>3/22(화) 도착</span>
+												<span><fmt:formatDate value="${list2[status.index].order_date}" pattern="MM/dd (E)"/>&nbsp;도착</span>
 											</div>
 											<div>
 												<div class="mt-3">
 													<div class="d-flex">
 														<div>
 															<a target="_blank">
-																<img class="me-2" width="64" height="64" src="#" alt="상품 이름"/>
+																<img src="../resources/upload${ord.itemInfoVO.main_item_img}" class="me-2" width="64" height="64" src="#" alt="상품 이름"/>
 															</a>
 														</div>
 														<div class="">
 															<div class="">
-																<a class="mb-2" href="#" target="_blank">
-																	<span>상품 title</span>
-																</a>
-																<a class="d-flex justify-content-between" href="#" style="width:500px;">
+																<div>
+																	<a class="mb-2" href="/item_detail?item_no=${ord.order_item_no}" target="_blank">
+																		<span>${ord.order_item_name}</span>
+																	</a>
+																</div>
+																<div class="d-flex justify-content-between" href="javascript:void(0);" style="width:500px;">
 																	<div>
 																		<div>
-																			<span>100 원</span>
+																			<span><fmt:formatNumber value="${ord.order_item_price}" type="number" />원</span>
 																			<span class="px-1">•</span>
-																			<span>1 개</span>
+																			<span>${ord.order_item_qty} 개</span>
 																		</div>
 																	</div>
 																	<div>
-																		<button type="button" class="btn btn-light">장바구니 담기</button>
+																		<a type="button" class="btn btn-light cart" id="cart${ord.order_item_no}" onclick="fn_cart_add(${ord.order_item_no});">장바구니 담기</a>
+																		<input type="hidden" name="item_name" value="${ord.order_item_name}" />
+																		<input type="hidden" name="item_price" value="${ord.order_item_price}" />
+																		<input type="hidden" name="option_no" value="${ord.order_option_no}" />
+																		<input type="hidden" name="option_val" value="${ord.order_option_val}" />
+																		<input type="hidden" name="item_qty" value="${ord.order_item_qty}" />
 																	</div>
-																</a>
+																</div>
 															</div>
 														</div>
 													</div>
@@ -121,14 +142,17 @@
 								</tbody>
 							</table>
 						</div>
+						</c:forEach>
 					</div>
 				</div>
 			</div>
 		</div>
+		<c:forEach items="${list}" var="order" begin="0" end="0">
 		<div class="container mt-3">
 			<div class="row justify-content-start">
 				<div class="col-2">
 				</div>
+				
 				<div class="col-8">
 					<h4 class="pb-2"><span style="font-weight:bold;">받는사람 정보</span></h4>
 					<table class="table">
@@ -137,20 +161,20 @@
 						<tbody class="">
 							<tr class="">
 								<th class="" style="color: rgb(85, 85, 85);">받는사람</th>
-								<td class="">{김진성}</td>
+								<td class="">${order.order_name}</td>
 								<td class=""></td>
 							</tr>
 							<tr class="">
 								<th class="" style="color: rgb(85, 85, 85);">연락처</th>
-								<td class="">{010-3301-6808}</td>
+								<td class="">${order.order_phone}</td>
 								<td class=""></td>
 							</tr>
 							<tr class="">
 								<th class="" style="color: rgb(85, 85, 85);">받는주소</th>
-								<td class="">(우편번호) {주소}</td>
+								<td class="">${order.order_post}&nbsp;${order.order_addr}</td>
 								<td class=""></td></tr><tr class="">
 								<th class="" style="color: rgb(85, 85, 85);">배송요청사항</th>
-								<td class=""><div class=""><span>{문앞에 놓아주세요}</span></div></td>
+								<td class=""><div class=""><span>${order.order_message}</span></div></td>
 								<td class=""></td>
 							</tr>
 						</tbody>
@@ -172,7 +196,7 @@
 									<div class="d-flex justify-content-between">
 										<div class="">총 상품가격</div>
 										<div class="sc-1w2sdij-5 kTDTkp">
-											<strong>{52,450} 원</strong>
+											<strong><fmt:formatNumber type="number">${order.order_subtotal_price}</fmt:formatNumber> 원</strong>
 										</div>
 									</div>
 									<div class="d-flex justify-content-between">
@@ -184,20 +208,27 @@
 									<div class="d-flex justify-content-between">
 										<div class="sc-1w2sdij-4 jLknds">포인트</div>
 											<div class="">
-												<span>{1000} 원</span>
+												<span><fmt:formatNumber type="number">${order.order_use_point}</fmt:formatNumber> 원</span>
 											</div>
 									</div>
+									<c:if test="${empty order.order_use_cpn}" >
 									<div class="d-flex justify-content-between">
 										<div class="">할인 쿠폰</div>
 										<div class="">
-											<span>(10%할인),{1000} 원</span>
+											<span>(<fmt:formatNumber value="${order.order_use_cpn}" type="percent"/>),${order.order_subtotal_price*(order.order_use_cpn*0.01)} 원</span>
 										</div>
 									</div>
+									</c:if>
 								</th>
 							</tr>
 							<tr class="">
 								<th class="">
-									<div class="" style="color: rgb(17, 17, 17);">{결제수단}</div>
+									<c:if test="${order.order_paytype == 'point'}">
+										<div class="" style="color: rgb(17, 17, 17);">카카오페이 Point 결제</div>
+									</c:if>
+									<c:if test="${order.order_paytype == 'card'}">
+										<div class="" style="color: rgb(17, 17, 17);">CARD 결제</div>
+									</c:if>
 								</th>
 							</tr>
 						</tbody>
@@ -206,14 +237,14 @@
 								<td class="">
 									<div>
 										<span class=" ">포인트 적립예정  : </span>
-										<strong class="">{0} 원</strong>
+										<strong class=""><fmt:parseNumber var="test" value="${order.order_total_price*0.01}" integerOnly="true"/>${test}원</strong>
 									</div>
 								</td>
 								<td class="info">
 									<div class="d-flex justify-content-between">
 										<div class="" style="color: rgb(17, 17, 17);"><strong>총 결제금액 </strong></div>
 										<div class="">
-											<strong>52,450 원</strong>
+											<strong><fmt:formatNumber value="${order.order_total_price}" type="number"/> 원</strong>
 										</div>
 									</div>
 								</td>
@@ -229,14 +260,110 @@
 						<button type="button" class="btn" style="border-color:blue; color:blue;" onclick="history.back();"><i class="bi bi-chevron-left"></i>주문목록 돌아가기</button>
 					</div>
 					<div>
-						<button type="button" class="btn" style="border-color:blue; color:blue;">주문내역 삭제</button>
+						<button type="button" class="btn" style="border-color:blue; color:blue;" onclick="order_del(${order.order_no})">주문내역 삭제</button>
 					</div>
 				</div>
 			</div>
 		</div>
+		</c:forEach>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="../../js/scripts.js"></script>
     </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+	//세션 아이디값 받아오기
+	var login_id = "<%= session.getAttribute("id") %>"
+		//주문내역 삭제
+		function order_del(x){
+			var order_no = x;
+			console.log("주문번호",order_no);
+			if(confirm("정말 삭제하시겠습니까? 삭제하면 복구할 수 없습니다.") == true){
+				$.ajax({
+					url : "/mypage_order/delete",
+					type : "POST",
+					data : {
+						"order_no" : order_no
+					},
+					dataType : "json",
+					error : function(request, status, error) {
+						alert("code:"
+								+ request.status
+								+ "\n"
+								+ "message:"
+								+ request.responseText
+								+ "\n"
+								+ "error:"
+								+ error);
+					},
+					success : function(data){
+						console.log(data);
+						if(data == 1){
+							alert("삭제되었습니다.");
+							location.href="/mypage_order";
+						}else{
+							alert("error");
+						}
+					}
+				});
+			}
+		}
+		//장바구니 담기
+		function fn_cart_add(x){
+			var item_no = x;
+			var a = $("#cart"+item_no).parent();
+			var item_name = a.children('input[name="item_name"]').val();
+			var item_price = a.children('input[name="item_price"]').val();
+			var option_no = a.children('input[name="option_no"]').val();
+			var option_val = a.children('input[name="option_val"]').val();
+			var item_qty = a.children('input[name="item_qty"]').val();
+			if(login_id != "null"){
+				var arr = new Array();
+				arr.push(option_no);
+				var arr2 = new Array();
+				arr2.push(option_val);
+				var arr3 = new Array();
+				arr3.push(item_qty);
+				console.log("arr",arr);
+				console.log("arr2",arr2);
+				$.ajax({
+					type : "POST",
+					url : "/cart/add",
+					traditional : true,
+					dataType : "json",
+					data : {
+						'cart_item_no' : item_no,
+						'cart_item_name' : item_name,
+						'cart_item_price' : item_price,
+						'cart_option_no' : arr, 
+						'cart_option_val' : arr2,
+						'cart_sc' : arr3
+					},
+					error : function(request, status, error) {
+						alert("code:"
+								+ request.status
+								+ "\n"
+								+ "message:"
+								+ request.responseText
+								+ "\n"
+								+ "error:"
+								+ error);
+					},
+					success : function(data){
+						console.log(data);
+						if(data == 1){
+							alert("장바구니에 상품을 담으셨습니다.");
+						}else if(data != 1){
+							alert("이미 추가 된 상품입니다.");
+						}
+					}
+				});
+			}else{
+				if(confirm("로그인 후 이용 가능합니다.\n로그인페이지로 이동하시겠습니까?") == true){
+					location.href="/member_login";
+				}
+			}
+		}
+    </script>
 </html>

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import net.daum.vo.ItemInfoVO;
+import net.daum.vo.OrderVO;
+import net.daum.vo.PageVO;
 
 
 public interface AdminDAO {
@@ -55,8 +57,14 @@ public interface AdminDAO {
 
 	List<ItemInfoVO> getManList(String sortation);
 
-	
-	 
+	int getOrderCnt();
 
+	List<OrderVO> getOrderList(PageVO page);
+
+	void deliveryStateUpdate(OrderVO vo);
+
+	List<OrderVO> detail(OrderVO vo);
+
+	void stateUpdate(OrderVO vo);
 	
 }

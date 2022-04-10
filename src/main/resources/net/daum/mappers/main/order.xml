@@ -5,15 +5,121 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ord">
+	<!-- 주문내역 추가 -->
 	<insert id="orderInsert">
 		INSERT INTO ORD (order_no, order_mem_id, order_item_no, order_option_no,order_item_qty, order_item_price, order_addr, order_post, order_name, order_phone,
-		 order_message, order_use_point, order_paytype, order_total_price, order_item_name, order_option_val, order_subtotal_price) VALUES (#{order_no}, #{order_mem_id},
+		 order_message, order_use_point, order_paytype, order_total_price, order_item_name, order_option_val, order_subtotal_price) VALUES (#{order_no, jdbcType=VARCHAR}, #{order_mem_id},
 		 #{order_item_no}, #{order_option_no}, #{order_item_qty}, 
 		 #{order_item_price}, #{order_addr}, #{order_post}, #{order_name}, #{order_phone}, #{order_message},
 		 #{order_use_point}, #{order_paytype}, #{order_total_price}, #{order_item_name}, #{order_option_val}, #{order_subtotal_price})
 	</insert>
-	
+	<!-- 주문내역 등록 후 날짜 초기화 -->
+	<update id="orderInDateUpdate">
+		UPDATE ORD SET ORDER_DATE=sysdate WHERE ORDER_NO = #{order_no}
+	</update>
+	<!-- 주문완료 페이지에 정보 불러오기 -->
 	<select id="getOrder" resultType="order">
 		SELECT * FROM ORD WHERE ORDER_NO = #{order_no}
 	</select>
+	
+	<!-- 마이페이지 주문 목록 -->
+	<select id="getOrderList" resultMap="OrderVO">
+		select * from (
+        select * from(
+        select ROW_NUMBER() OVER(PARTITION BY ITEM_MAIN_IMG.ITEM_NO order by ITEM_MAIN_IMG.MAIN_FILE_NO asc)
+		AS RNUMA, ITEM_MAIN_IMG.* from ITEM_MAIN_IMG
+		)where RNUMA=1)A LEFT OUTER JOIN ord ON A.ITEM_NO = ord.order_item_no
+        WHERE order_mem_id = #{order_mem_id} order by order_date desc
+	</select>
+	<!-- 마이페이지 주문 목록 개수 -->
+	<select id="getTotal" parameterType="Map" resultType="int">
+		select count(distinct order_no) from ord where order_mem_id = #{mem_id}
+	</select>
+	<!-- 주문 목록 정렬을 위한 중복제거된 주문번호와 날짜 select -->
+	<select id="getOrderNo"  parameterType="Map" resultType="order">
+	<![CDATA[
+		select RN,order_no,order_date
+	    from
+	    (
+	    SELECT ROW_NUMBER() OVER(ORDER BY ORDER_DATE DESC)AS RN,ORDER_NO,ORDER_DATE,order_mem_id FROM(
+	        SELECT ORDER_NO ,ORDER_DATE , order_mem_id, ROW_NUMBER()OVER(PARTITION BY ORDER_NO ORDER BY ORDER_DATE ASC)AS RNUM FROM ORD)T
+	    WHERE RNUM = 1 AND ORDER_MEM_ID = #{mem_id}
+	    )WHERE RN<= #{pageNum} * #{amount} AND RN > (#{pageNum}-1) * #{amount}
+	]]>
+	</select>
+	<!-- 주문 상세  -->
+	<select id="getDetail" resultMap="OrderVO">
+		select * from (
+        select * from(
+        select ROW_NUMBER() OVER(PARTITION BY ITEM_MAIN_IMG.ITEM_NO order by ITEM_MAIN_IMG.MAIN_FILE_NO asc)
+		AS RNUMA, ITEM_MAIN_IMG.* from ITEM_MAIN_IMG
+		)where RNUMA=1)A LEFT OUTER JOIN ord ON A.ITEM_NO = ord.order_item_no
+        WHERE order_mem_id = #{order_mem_id} and order_no = #{order_no}
+	</select>
+	<!-- 회원 주문내역 삭제 -->
+	<select id="orderDel">
+		DELETE FROM ORD WHERE ORDER_NO = #{order_no}
+	</select>
+	<!-- 회원 주문 취소요청 -->
+	<update id="orderCancel">
+		UPDATE ORD SET ORDER_STATE = 1 WHERE ORDER_MEM_ID = #{order_mem_id} AND ORDER_NO = #{order_no} AND ORDER_OPTION_NO = #{order_option_no}
+	</update>
+	<!-- 어드민 주문 목록 조회 -->
+	<select id="OrderList" resultType="order">
+	<![CDATA[
+		select * from (
+		select ROW_NUMBER() OVER(ORDER BY ORDER_DATE DESC)AS RN, t.* from(
+	    select ROW_NUMBER()OVER(PARTITION BY ORDER_NO ORDER BY ORDER_DATE ASC)AS RNUM,t.* FROM ORD t)t
+	    where rnum = 1)WHERE RN<= #{pageNum} * #{amount} AND RN > (#{pageNum}-1) * #{amount}
+	]]>
+	</select>
+	<!-- 어드민 배송상태 변경 -->
+	<update id="deliveryUpdate">
+		UPDATE ORD SET ORDER_DELIVERY_STATE = #{order_delivery_state} WHERE ORDER_NO = #{order_no}
+	</update>
+	<!-- 어드민 주문상태 변경 -->
+	<update id="stateUpdate">
+		UPDATE ORD SET ORDER_STATE = #{order_state} WHERE ORDER_NO = #{order_no} AND ORDER_OPTION_NO = #{order_option_no}
+	</update>
+	<!-- 어드민 주문 상세 조회 -->
+	<select id="Adetail" resultMap="OrderVO">	
+		select * from (
+        select * from(
+        select ROW_NUMBER() OVER(PARTITION BY ITEM_MAIN_IMG.ITEM_NO order by ITEM_MAIN_IMG.MAIN_FILE_NO asc)
+		AS RNUMA, ITEM_MAIN_IMG.* from ITEM_MAIN_IMG
+		)where RNUMA=1)A LEFT OUTER JOIN ord ON A.ITEM_NO = ord.order_item_no
+        WHERE order_no = #{order_no}
+	</select>
+	<resultMap type="net.daum.vo.OrderVO" id="OrderVO">
+		<result column="ORDER_NO" property="order_no" />
+		<result column="ORDER_MEM_ID" property="order_mem_id" />
+		<result column="ORDER_ITEM_NO" property="order_item_no" />
+		<result column="ORDER_OPTION_NO" property="order_option_no" />
+		<result column="ORDER_OPTION_VAL" property="order_option_val" />
+		<result column="ORDER_ITEM_NAME" property="order_item_name" />
+		<result column="ORDER_ITEM_QTY" property="order_item_qty" />
+		<result column="ORDER_ITEM_PRICE" property="order_item_price" />
+		<result column="ORDER_DELIVERY_CHARGE" property="order_delivery_charge" />
+		<result column="ORDER_ADDR" property="order_addr" />
+		<result column="ORDER_POST" property="order_post" />
+		<result column="ORDER_NAME" property="order_name" />
+		<result column="ORDER_PHONE" property="order_phone" />
+		<result column="ORDER_MESSAGE" property="order_message" />
+		<result column="ORDER_USE_POINT" property="order_use_point" />
+		<result column="ORDER_USE_CPN_NAME" property="order_use_cpn_name" />
+		<result column="ORDER_USE_CPN" property="order_use_cpn" />
+		<result column="ORDER_PAYTYPE" property="order_paytype" />
+		<result column="ORDER_TOTAL_PRICE" property="order_total_price" />
+		<result column="ORDER_DATE" property="order_date" />
+		<result column="ORDER_STATE" property="order_state" />
+		<result column="ORDER_DELIVERY_STATE" property="order_delivery_state" />
+		<result column="ORDER_SUBTOTAL_PRICE" property="order_subtotal_price" />
+		<collection property="itemInfoVO" resultMap="ItemInfoVO"></collection>
+	</resultMap>
+	<resultMap type="net.daum.vo.ItemInfoVO" id="ItemInfoVO">
+		<result column="item_no" property="item_no" />
+		<result column="item_name" property="item_name" />
+		<result column="item_price" property="item_price" />
+		<result column="main_item_img" property="main_item_img" />
+	</resultMap>
 </mapper>
