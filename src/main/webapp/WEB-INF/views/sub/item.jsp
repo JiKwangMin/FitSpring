@@ -53,13 +53,13 @@
 
     <div class="container1">
 		<div class="row new_item">${title}</div>
-		<div class="row">
+			<div class="row">
 	<!--ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ-->
 		<c:if test="${!empty lilist}">
 		<c:forEach items="${lilist}" var="a">
 			<div class="col-md-3 col-sm-6 max-auto">
 				<div class="box-2 img-box">
-					<a href="/item_detail?item_no=${a.item_no}"><img src="../resources/upload${a.main_item_img}"></a> 
+					<a href="/item_detail?item_no=${a.item_no}"><img src="../resources/upload${a.main_item_img}" style="width:280px; height:360px;"></a> 
 					<a href="/item_detail?item_no=${a.item_no}">
 						<div class="content_box">
 							<div class="cont1">${a.item_name}</div>
@@ -69,8 +69,8 @@
 			</div>
 		</c:forEach>
 		</c:if>
-	<!--ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ-->
 		</div>
+	<!--ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ-->
 	</div>
 	<br><br><br>
 </body>

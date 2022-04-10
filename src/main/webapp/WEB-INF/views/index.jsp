@@ -99,23 +99,27 @@
 		<!-- 뉴아이템 -->
 		<div class="container1">
 			<div class="row new_item">- NEW ITEM -</div>
-			<div class="row">
 				<!--ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ-->
+				<div class="row">
 			<c:if test="${!empty newMainlist}">
 			<c:forEach items="${newMainlist}" var="e">
 				<div class="col-md-3 col-sm-6 max-auto">
 					<div class="box-2 img-box">
-						<a href="/item_detail?item_no=${e.item_no}"><img src="../resources/upload${e.main_item_img}"></a> 
-						<a href="/item_detail?item_no=${e.item_no}"><div class="content_box">
+						<a href="/item_detail?item_no=${e.item_no}">
+							<img src="../resources/upload${e.main_item_img}" style="width:280px; height:320px;">
+						</a> 
+						<a href="/item_detail?item_no=${e.item_no}">
+							<div class="content_box">
 								<div class="cont1">${e.item_name}</div>
 								<div class=cont3>₩ ${e.item_price}</div>
-							</div></a>
+							</div>
+						</a>
 					</div>
 				</div>
 			</c:forEach>
 			</c:if>
-				<!--ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ-->
 			</div>
+				<!--ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ-->
 		</div>
 		<!-- 뉴 아이템 끝 -->
 	</div>

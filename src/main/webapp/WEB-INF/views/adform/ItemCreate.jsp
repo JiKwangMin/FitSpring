@@ -160,7 +160,7 @@ textarea#gdsDes { width:400px; height:180px; }
 			</div>
 			
 			<div class="inputArea">
-				<span class="input-group-text">제품 소개</span>
+				<span class="input-group-text" style="width:30vw;">제품 소개</span>
 			</div>
 			<div class="inputArea">
 				<textarea class="form-control" style="width:30vw; height: 20vh;" aria-label="With textarea" name="item_cont"></textarea>
