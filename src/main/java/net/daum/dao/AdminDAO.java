@@ -53,6 +53,8 @@ public interface AdminDAO {
 
 	void updatePay(ItemInfoVO ii);
 
+	List<ItemInfoVO> getManList(String sortation);
+
 	
 	 
 

@@ -189,6 +189,10 @@ public class AdminServiceImpl implements AdminService {
 	public void updatePay(ItemInfoVO ii) {
 		this.adminDao.updatePay(ii);
 	}
+	@Override
+	public List<ItemInfoVO> getManList(String sortation) {
+		return this.adminDao.getManList(sortation);
+	}
 	
 	
 	

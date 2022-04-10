@@ -72,7 +72,7 @@
 				<ul>
 					<li><a href="#">NEW</a></li>
 					<li><a href="#">OUTER</a></li>
-					<li><a href="Best">TOP</a></li>
+					<li><a href="item?sortation=mentomen">TOP</a></li>
 					<li><a href="#">PANTS</a></li>
 					<li><a href="#">SHOES</a></li>
 					<li><a href="#">ACC</a></li>
@@ -82,7 +82,7 @@
 				<ul>
 					<li><a href="#">NEW</a></li>
 					<li><a href="#">OUTER</a></li>
-					<li><a href="Best">TOP</a></li>
+					<li><a href="item?sortation=mentomen">TOP</a></li>
 					<li><a href="#">PANTS</a></li>
 					<li><a href="#">SHOES</a></li>
 					<li><a href="#">ACC</a></li>

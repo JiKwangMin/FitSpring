@@ -11,7 +11,7 @@
 			<nav class="navbar sub_nav1">
 				<ul class="nav navbar-nav sub_nav2">
 					<li><a href="Best" class="nav_bgcolor">BEST</a></li>
-					<li><a href="item">맨투맨/후드</a></li>
+					<li><a href="item?sortation=mentomen">맨투맨/후드</a></li>
 					<li><a href="#">니트</a></li>
 					<li><a href="#">셔츠</a></li>
 					<li><a href="#">무지티</a></li>

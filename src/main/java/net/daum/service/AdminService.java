@@ -47,6 +47,8 @@ public interface AdminService {
 
 	void updatePay(ItemInfoVO ii);
 
+	List<ItemInfoVO> getManList(String sortation);
+
 	
 
 	

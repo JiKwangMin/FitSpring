@@ -133,6 +133,11 @@ public class AdminDAOImpl implements AdminDAO {
 		sqlSession.update("pay1",ii);
 	}
 
+	@Override
+	public List<ItemInfoVO> getManList(String sortation) {
+		return sqlSession.selectList("get_man",sortation);
+	}
+
 	
 	 
 	

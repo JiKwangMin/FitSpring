@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import net.daum.service.AdminService;
 import net.daum.service.WishListService;
 import net.daum.vo.ItemInfoVO;
-import net.daum.vo.MemberVO;
 import net.daum.vo.WishVO;
 
 @Controller
@@ -31,7 +30,24 @@ public class SubController {
 	}
 	
 	@RequestMapping("/item")
-	public String sub_item() {
+	public String sub_item(Model model, ItemInfoVO ii, @RequestParam("sortation")String sortation) {
+		//sortation= 구분
+		//top끝
+		System.out.println(sortation);
+		List<ItemInfoVO> lilist = this.adminService.getManList(sortation);
+		String title = "";
+		if(sortation.equals("mentomen")) {
+			title="맨투맨/후드";
+		}else if(sortation.equals("knit")) {
+			title="니트";
+		}else if(sortation.equals("shirts")) {
+			title="셔츠";
+		}else if(sortation.equals("muji")) {
+			title="무지티";
+		}
+		
+		model.addAttribute("lilist", lilist);
+		model.addAttribute("title",title);
 		return "sub/item";
 	}
 	
