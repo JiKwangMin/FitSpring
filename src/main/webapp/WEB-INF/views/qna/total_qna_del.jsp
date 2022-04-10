@@ -23,10 +23,16 @@
 <br>
 <h3>QnA 삭제</h3>
 <hr>
-<form method="post" action="total_qna_del_ok" onsubmit="return del_check();">
-    <input type="hidden" name="q_no" value="${q.q_no}" />
-    <input type="hidden" name="page" value="${page}" />
+<form method="post" action="total_qna_del_OK" onsubmit="return del_check();" enctype="multipart/form-data" accept-charset="UTF-8">
+    <input type="hidden" name="q_no" value="${q_no}" />
+	<input type="hidden" id="item_no" name="item_no" value="${item_no}">
     <table>
+     <tr>
+      <th>작성자&nbsp;&nbsp;</th>
+      <td>
+		<input type="text" style="margin-bottom: 10px;" name="q_writer" id="q_writer" value="${mem_id}" readonly>	      
+      </td>
+     </tr>
      <tr>
       <th>비밀번호&nbsp;&nbsp;</th>
       <td>
@@ -37,7 +43,7 @@
     <br>
     <div>
     	<input type="submit" value="삭제" />
-    	<input type="reset" value="취소" onclick="$('#del_pwd').focus();" />    
+    	<input type="reset" value="취소" onclick="history.back();" />    
     </div>    
 </form>
 

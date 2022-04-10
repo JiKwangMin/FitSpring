@@ -5,144 +5,246 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import net.daum.service.TotalQnaService;
+import net.daum.service.AdminService;
+import net.daum.service.MemberService;
+import net.daum.service.QnaService;
+import net.daum.vo.ItemInfoVO;
 import net.daum.vo.QnaVO;
 
 @Controller
 public class TotalQnaController {
+
+	@Autowired
+	private QnaService qnaService;
 	
 	@Autowired
-	private TotalQnaService totalQnaService;
+	private MemberService memberService;
 	
-	// qna 목록
+	//total qna 목록
 	@RequestMapping("/total_qna_list")
-	public ModelAndView total_qna_list(@ModelAttribute QnaVO tq, HttpServletRequest request) {
-		int page = 1;
-		int limit = 5;
-		if(request.getParameter("page") != null) {
-			page=Integer.parseInt(request.getParameter("page"));
+	public String totalqna(Model model, QnaVO qi, HttpServletRequest request, HttpSession hs) throws Exception {
+		model.addAttribute("login_id",hs.getAttribute("id"));
+		try {
+			model.addAttribute("login_rank",(int) hs.getAttribute("rank"));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}	
+		
+		int page1 = 1; int limit1 = 8;
+		if(request.getParameter("page1") != null) {
+			  page1 =Integer.parseInt(request.getParameter("page1")); 
 		}
+		
+		int listcount = this.qnaService.getTotalQnaListCount(qi);
+		qi.setStartrow1((page1-1)*8+1);//시작행번호
+		qi.setEndrow1(qi.getStartrow1()+limit1-1);//끝행번호
+			
+		int maxpage1=(int)((double)listcount/limit1+0.95); 
+		int startpage1=(((int)((double)page1/8+0.9))-1)*8+1;
+		int endpage1=maxpage1;
+		if(endpage1 > startpage1+8-1) endpage1=startpage1+8-1;
+		
 		String find_name=request.getParameter("find_name");//검색어
 		String find_field=request.getParameter("find_field");//검색
 		
-		tq.setFind_field(find_field);
-		tq.setFind_name("%"+find_name+"%");
-		
-		int listcount=this.totalQnaService.getTotalListCount(tq);
+		qi.setFind_field(find_field);
+		qi.setFind_name("%"+find_name+"%");
 
-		tq.setStartrow((page-1)*5+1);//시작행번호
-		tq.setEndrow(tq.getStartrow()+limit-1);//끝행번호
 		
-		List<QnaVO> qlist=this.totalQnaService.getTotalQnaList(tq);
-		
-		int maxpage=(int)((double)listcount/limit+0.95);
-		int startpage=(((int)((double)page/5+0.9))-1)*5+1;
-		int endpage=maxpage;
-		if(endpage > startpage+5-1) endpage=startpage+5-1;
-
-		ModelAndView listM = new ModelAndView();
-		listM.addObject("qlist", qlist);
-		listM.addObject("page",page);
-		listM.addObject("startpage",startpage);
-		listM.addObject("endpage",endpage);
-		listM.addObject("maxpage",maxpage);
-		listM.addObject("listcount",listcount);	
-		listM.addObject("find_field",find_field);
-		listM.addObject("find_name", find_name);
-		
-		listM.setViewName("qna/total_qna_list");
-		
-		return listM;
-	}
+		//qna가 뿌려질때 정보 + 사진
+		List<QnaVO> litoqna = this.qnaService.getlitoqna(qi);
 	
-	// 수정폼, 답변폼, 삭제폼
-	@RequestMapping("/total_qna_cont")
-	public ModelAndView total_qna_cont(@RequestParam("no") int q_no, @RequestParam("state") String state, int page, @ModelAttribute QnaVO q) {
+		model.addAttribute("qi", qi);
+		model.addAttribute("litoqna", litoqna);
+		model.addAttribute("page1",page1);
+		model.addAttribute("startpage1",startpage1);
+		model.addAttribute("endpage1",endpage1);
+		model.addAttribute("maxpage1",maxpage1);
+		model.addAttribute("listcount",listcount);
+		model.addAttribute("find_field",find_field);
+		model.addAttribute("find_name", find_name);
 		
-		q = this.totalQnaService.getTotalQnaCont(q_no);
-		String q_cont = q.getQ_cont().replace("\n", "<br/>");
 		
-		ModelAndView m = new ModelAndView();
-		m.addObject("q", q);
-		m.addObject("q_cont",q_cont);
-		m.addObject("page", page);
-		
-		if(state.equals("cont")) {
-			m.setViewName("qna/total_qna_list");
-		}else if(state.equals("reply")) {//답변폼일때
-			m.setViewName("qna/total_qna_reply");
-		}else if(state.equals("edit")) {//수정폼
-			m.setViewName("qna/total_qna_edit");
-		}else if(state.equals("del")) {//삭제폼
-			m.setViewName("qna/total_qna_del");
-		}
-		return m;
+		return "/qna/total_qna_list";
 	}
-	// 답변저장 + 레벨증가
-	@RequestMapping("total_qna_reply_ok")
-	public String qna_reply_ok(@ModelAttribute QnaVO rq, HttpServletRequest request) {
-		int page=1;
-		if(request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page"));
+	//qna 수정
+	@RequestMapping("TotalQnaEdit")
+	public String TotalQnaEdit(Model model, HttpServletRequest request, HttpSession hs, QnaVO qi, @RequestParam("q_no")int q_no) {
+		model.addAttribute("login_id",hs.getAttribute("id"));
+		try {
+			model.addAttribute("login_rank",(int) hs.getAttribute("rank"));
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
-		this.totalQnaService.TotalReplyQna(rq); // 답변저장 + 레벨증가		
-		return "redirect:/total_qna_list?page="+page; // 목록보기로 이동
-	}
-	
-	// 수정완료
-		@RequestMapping("total_qna_edit_ok")
-		public String total_qna_edit_ok(@ModelAttribute QnaVO eq, HttpServletResponse response, HttpServletRequest request) throws Exception {
-			response.setContentType("text/html;charset=utf-8");
-			PrintWriter out = response.getWriter();
+		
+		//qna리스트출력
+		qi=this.qnaService.getQnaCont(q_no);
+		
+		int item_no = Integer.parseInt(request.getParameter("item_no"));
+		
+		int page1=1;
+		if(request.getParameter("page1") != null) {
+			page1=Integer.parseInt(request.getParameter("page1"));
+		}
+		model.addAttribute("item_no", item_no);
+		model.addAttribute("mem_id", (String)hs.getAttribute("id"));
+		model.addAttribute("qi",qi);
+		model.addAttribute("q_no", q_no);
+		model.addAttribute("page1", page1);		
 			
-			int page=1;
-			if(request.getParameter("page") != null) {
-				page = Integer.parseInt(request.getParameter("page"));
-			}
-			QnaVO db_pwd = this.totalQnaService.getTotalQnaCont(eq.getQ_no());
+			return "/qna/total_qna_edit";
+		}
 			
-			if(!db_pwd.getQ_pwd().equals(eq.getQ_pwd())) {
+		// qna수정완료
+		@RequestMapping("/total_qna_edit_OK")
+		public String total_qna_edit_OK(QnaVO qi, HttpServletRequest request, HttpServletResponse response, MultipartHttpServletRequest multireq) throws Exception {
+			
+			String mem_pw = this.memberService.qfindpw(qi);
+			
+			if(!mem_pw.equals(qi.getQ_pwd())) {
+				response.setContentType("text/html;charset=UTF-8");
+				PrintWriter out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('비번이 다릅니다!');");
+				out.println("alert('비밀번호가 다릅니다.');");
 				out.println("history.back();");
 				out.println("</script>");
-			} else {
-				this.totalQnaService.editTotalQna(eq); // 수정
-				return "redirect:/total_qna_list?no="+eq.getQ_no()+"&page="+page+"&state=list";
+				out.flush();
+			
+				return null;
+			} else if(mem_pw.equals(qi.getQ_pwd())) {
+				
+				this.qnaService.editQna(qi,multireq);
+			
+			return "redirect:/total_qna_list";
 			}
+			
 			return null;
 		}
+	
+	//qna 답변폼
+	@RequestMapping("TotalQnaReply")
+	public String TotalQnaReply(Model model,HttpServletRequest request, HttpSession hs, QnaVO qi, @RequestParam("q_no")int q_no) {
+		//로그인아이디
+		model.addAttribute("login_id",hs.getAttribute("id"));
+		//세션유지
+		try {
+			model.addAttribute("login_rank",(int) hs.getAttribute("rank"));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}		
 		
-		// 삭제
-		@RequestMapping("/total_qna_del_ok")
-		public String total_qna_del_ok(@RequestParam("q_no") int q_no, @RequestParam("del_pwd") String del_pwd,
-								HttpServletResponse response, HttpServletRequest request) throws Exception {
+		qi = this.qnaService.getQnaCont(q_no);
+		int item_no = Integer.parseInt(request.getParameter("item_no"));
+		
+		int page1=1;
+		if(request.getParameter("page1") != null) {
+			page1=Integer.parseInt(request.getParameter("page1"));
+		}
+		model.addAttribute("item_no", item_no);
+		model.addAttribute("mem_id", (String)hs.getAttribute("id"));
+		model.addAttribute("qi",qi);
+		model.addAttribute("q_no", q_no);
+		model.addAttribute("page1", page1);	
+		
+	
+		return "/qna/total_qna_reply";
+	}
+	
+	//답변저장+레벨증가
+	@RequestMapping("total_qna_reply_OK")
+	public String total_qna_reply_OK(QnaVO qi, HttpServletRequest request,HttpServletResponse response) throws Exception{
+				  
+		//회원 비번
+		String mem_pw = this.memberService.qfindpw(qi);
+		String mem_id = this.memberService.qfindid(qi);
+		
+		if(!mem_pw.equals(qi.getQ_pwd())) {
 			response.setContentType("text/html;charset=UTF-8");
-			PrintWriter out=response.getWriter();
-			int page=1;
-			if(request.getParameter("page") != null) {
-				page=Integer.parseInt(request.getParameter("page"));
-			}
-			QnaVO db_pwd = this.totalQnaService.getTotalQnaCont(q_no);
-			if(!db_pwd.getQ_pwd().equals(del_pwd)) {
-				out.println("<script>");
-				out.println("alert('비번이 다릅니다!');");
-				out.println("history.back();");
-				out.println("</script>");
-			} else {
-				this.totalQnaService.delTotalQna(q_no); // 삭제
-				return "redirect:/total_qna_list?page="+page;
-			}
+			PrintWriter out = response.getWriter();
+			out.println("<script>");
+			out.println("alert('비밀번호가 다릅니다.');");
+			out.println("history.back();");
+			out.println("</script>");
+			out.flush();
+		
 			return null;
+		} else if(mem_pw.equals(qi.getQ_pwd())) {
+			qnaService.replyQna(qi);
+			return "redirect:/total_qna_list";
+		} else if(mem_id.equals("aaaaaaa") && mem_pw.equals("aaaaaaa")) {
+			qnaService.replyQna(qi);
+			return "redirect:/total_qna_list";
 		}
+		return null;
+	}
+	
+	// 삭제
+	@RequestMapping("/TotalQnaDel")
+	public String TotalQnaDel(Model model, HttpServletRequest request, HttpSession hs, QnaVO qi)throws Exception {
+		
+		model.addAttribute("login_id",hs.getAttribute("id"));
+		try {
+			model.addAttribute("login_rank",(int) hs.getAttribute("rank"));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	
+		int page1=1;
+		if(request.getParameter("page1") != null) {
+			page1=Integer.parseInt(request.getParameter("page1"));
+		}
+
+		int q_no = Integer.parseInt(request.getParameter("q_no"));
+		int item_no = Integer.parseInt(request.getParameter("item_no"));
+		
+		qi=this.qnaService.getQnaCont(q_no);
+		
+		model.addAttribute("qi", qi);
+		model.addAttribute("item_no", item_no);
+		model.addAttribute("mem_id", (String)hs.getAttribute("id"));
+		model.addAttribute("q_no",q_no);
+		model.addAttribute("page1", page1);
+		
+		return "/qna/total_qna_del";	
+	}
+	
+	// 삭제완료
+	@RequestMapping("/total_qna_del_OK")
+	public String total_qna_del_OK(QnaVO qi, @RequestParam(value="q_no")int q_no, @RequestParam("item_no")int item_no,
+			@RequestParam("del_pwd")String del_pwd, HttpServletResponse response) throws Exception {
+		
+		String mem_pw = this.memberService.qfindpw(qi);
+		String mem_id = this.memberService.qfindid(qi);
+		
+		if(!mem_pw.equals(del_pwd)) {
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>");
+			out.println("alert('비밀번호가 다릅니다.');");
+			out.println("history.back();");
+			out.println("</script>");
+			out.flush();
+			
+			return null;
+		} else if(mem_pw.equals(del_pwd)) {
+			this.qnaService.delQna(q_no);
+			return "redirect:/total_qna_list";
+		} else if(mem_id.equals("aaaaaaa") && del_pwd.equals("aaaaaaa")) {
+			this.qnaService.delQna(q_no);
+			return "redirect:/total_qna_list";
+		}
+	return null;
+	}
+	
 }
 
 

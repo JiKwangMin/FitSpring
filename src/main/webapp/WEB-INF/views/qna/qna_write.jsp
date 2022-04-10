@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:include page="../include/header.jsp"/>
 
 <script src="./resources/js/jquery.js"></script>
@@ -16,22 +18,13 @@
 <br>
 <div class="qna"><p>Q & A 게시판입니다.</p></div>
 
-<div style="border: 1px solid #e8e8e8; height: 102px;">
-    <div class="qw-box qw-img-box">
-        <a href="#"><img src="./resources/images/qna/No_Image.png"></a>
-    </div>
-    
-    <hr width="70%" style="margin:25px 0 15px 0">
-    
-    <div class="qw-search">
-        <a href="#">상품정보선택</a>
-    </div>
-</div>
-
 <div class="clear"></div>
-<br>
+<br>	
 
-<form method="post" action="qna_write_ok" onsubmit="return qw_check(); ">
+<form method="post" action="qna_write_OK" onsubmit="return qw_check();" enctype="multipart/form-data" accept-charset="utf-8">
+
+
+										 
 <table style="width: 100%;" class="qnatable">
     <colgroup>
         <col style="width: 10%">
@@ -51,19 +44,18 @@
  </tr>
  <tr>
      <th>작성자</th>
-     <td><input id ="q_writer" name="q_writer" size="15px"></td>
+     <td><input id ="q_writer" name="q_writer" size="15px" value="${mem_id }" readonly><input type="hidden" id="item_no" name="item_no" value="${item_no}"></td>
  </tr>
  <tr>
     <th colspan="2">
-        <textarea id="q_cont" name="q_cont" rows="9" cols="36"></textarea>
+        <textarea id="q_cont" name="q_cont" rows="9" cols="36" placeholder="여기에 질문을 남겨주세요."></textarea>
     </th>
  </tr>
  <tr>
-     <th>첨부파일1</th> <td>파일선택!<!--<input type="file">--></td>
+     <th>첨부파일</th> <td><input type="file" id="qimg" name="qimg" /><span style="color:red;"><b>사진을 등록해주세요.</b></span>
+</td>
  </tr>
- <tr>
-    <th>첨부파일2</th> <td>파일선택!<!--<input type="file">--></td>
-</tr>
+ 
 <tr style="border-bottom: 1px solid #e8e8e8;">
     <th>비밀번호</th> 
     <td>
@@ -74,11 +66,10 @@
 
 <br>
 
-<input type="button" class="listBtn" value="목록"
-onclick="location='item_detail?page=${page}';" />    
-<input type="submit" class="submitBtn "value="등록" />
+
 <input type="reset" class="cancleBtn" value="취소" 
-    onclick="$('#q_writer').focus();" />
+    onclick="history.back();" />
+<input type="submit" class="submitBtn "value="등록" />
 <div class="clear"></div>
 
 <br><br><br>
@@ -87,3 +78,5 @@ onclick="location='item_detail?page=${page}';" />
 
 </body>
 </html>
+
+

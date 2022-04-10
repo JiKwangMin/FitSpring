@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <jsp:include page="../include/header.jsp"/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 	
 <!-- review -->
 	<div style="margin-bottom: 60px;"></div>
@@ -43,9 +45,7 @@
 				</div>
 			</div>
 		</div>
-
 		<br> <br>
-
 		<div class="row">
 			<div class="col-md-2 col-sm-12">
 				<span style="font-size: 35px;">REVIEW<span>
@@ -57,205 +57,98 @@
 		</div>
 
     <br><br>
-    <form>
-        <table style="height: 50px; width: 100%;">
-            <colgroup>
-                <col style="width: 8%;">
-                <col style="width: 68%">
-                <col style="width: 11%">
-                <col style="width: 12%">
-            </colgroup>
-            <tr>
-                <th style="text-align: center;">카테고리 분류</th>
-                <td style=" padding-left: 5px;">
-                    <select id="category" style="width: 100%; height: 30px;">
-                        <option value="*">카테고리를 선택해주세요</option>
-                        <option value="1">아우터</option>
-                        <option value="2">상의</option>
-                        <option value="3">하의</option>
-                    </select>
-                </td>
-                <td style="padding-left: 5px;">
-                    <select id="cgroup" style="width: 100%; height: 30px;">
-                        <option value="1">최신순</option>
-                        <option value="2">평점순</option>
-                    </select>
-                </td>
-                <td style="padding-left: 5px;">
-                    <input type="text" style="width: 100%; height: 30px; font-size: 10px;" placeholder="&nbsp;&nbsp;검색어 입력">
-                </td>
-            </tr>
-        </table>
-    </form>
+	<table id="review">
+		<colgroup>			
+			<col style="width: 10%">
+			<!--<col style="width: 7%"> -->
+			<col style="width: 63%">
+			<col style="width: 10%">
+			<col style="width: 20%">
+		</colgroup>
+		<tr>
+			<th class="rno">번 호</th>
+			<!-- <th class="rphoto">사 진</th> -->
+			<th class="rcont">내 용</th>
+			<th class="rwrite">작성자</th>
+			<th class="ratings">평 점</th>
+		</tr>
+	
+																<!-- 루프 -->
+		<c:if test="${!empty litore }">
+			<c:forEach var="r" items="${litore }">
+			
+		<tr>
+			<td style="text-align: center">${r.r_no }</td>
 
-		<table id="review">
-			<colgroup>
-				<col style="width: 7%">
-				<col style="width: 63%">
-				<col style="width: 13%">
-				<col style="width: 10%">
-				<col style="width: 7%">
-			</colgroup>
-			<tr>
-				<th class="rphoto">사 진</th>
-				<th class="rtitle">제목</th>
-				<th class="rwrite">작성자</th>
-				<th class="ratings">평 점</th>
-				<th >리 뷰</th>
-			</tr>
+			<td style="padding: 5px;"><!-- <input type="checkbox" id="answer+${r.r_no }"> -->
 
-			<tr>
-				<td>
-					<div class="qr-max-auto">
-						<div class="qr-box qr-img-box">
-                    		<a href="#"><img src="./resources/images/qna/change1.png"></a>
-                		</div>					 
+				<div>
+					<p>
+					<div class="photo-review pr-img-box">
+						<img src="../resources/upload${r.review_img}" style="width: 170px; height: 190pxl;" alt="이미지없음"/>
 					</div>
-				</td>
-				<td style="padding: 5px;"><input type="checkbox" id="answer01">
-					<label for="answer01">
-						<div class="r_title">
-							카테고리이름(ex..상의 or 상품이름??)<br>
-							조금 크게 나온 것 같습니다 참고해서 구매하세요.진짜 좋아요 진짜로 만족합...
-						</div>
-				</label>
-					<div>
-					<br>
-						<p>&nbsp;카테고리이름(ex..상의 or 상품이름??)</p>
-						<p>
-						<div style="padding: 20px;">
-							<table style="width: 270px; border: 1px solid gray;">
-								<colgroup>
-									<col style="width: 2%;">
-									<col style="width: 3%;">
-									<col style="width: 5%;">
-								</colgroup>
-								<tr>
-									<th>키</th>
-									<th>몸무게</th>
-									<th>평소 사이즈</th>
-								</tr>
-								<tr>
-									<th>181cm</th>
-									<th>64kg</th>
-									<th>xl</th>
-								</tr>
-							</table>
-							<br>
-							조금 크게 나온 것 같습니다 참고해서 구매하세요.진짜 좋아요 진짜로 만족합니다. 굿굿!
-						</div>
-						<div class="photo-review pr-img-box">
-							<img src="./resources/images/review/top1.png">
-						</div>
-						</p>
-					</div></td>
-				<td class="r_writer">양아치</td>
-				<td class="r_ratings">★★★★<br>3.7</td>
-				<td class="r_reviewcount">(48)</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="qr-max-auto">
-						<div class="qr-box qr-img-box">
-                    		<a href="#"><img src="./resources/images/qna/change1.png"></a>
-                		</div>					 
+					<div style="padding: 20px;">
+						<table style="width: 270px; border: 1px solid gray;">
+							<colgroup>
+								<col style="width: 2%;">
+								<col style="width: 3%;">
+								<col style="width: 5%;">
+							</colgroup>
+							<tr>
+								<th>키</th>
+								<th>몸무게</th>
+								<th>구매 사이즈</th>
+							</tr>
+							<tr>
+								<th>${r.r_height}cm</th>
+								<th>${r.r_weight}kg</th>
+								<th>${r.r_size}</th>
+							</tr>
+						</table>
+						<br>${r.r_cont }
+						<div style="text-align: right;"><a href="item_detail?item_no=${r.item_no}">해당 아이템 보러가기</a></div>	  
 					</div>
-				</td>
-				<td style="padding: 5px;"><input type="checkbox" id="answer02">
-					<label for="answer02">
-						<div class="r_title">
-							카테고리이름(ex..상의 or 상품이름??)<br>
-							조금 크게 나온 것 같습니다 참고해서 구매하세요.진짜 좋아요 진짜로 만족합...
-						</div>
-				</label>
-					<div>
-						<br>
-						<p>&nbsp;카테고리이름(ex..상의 or 상품이름??)</p>
-						<p>
-						<div style="padding: 20px;">
-							<table style="width: 270px; border: 1px solid gray;">
-								<colgroup>
-									<col style="width: 2%;">
-									<col style="width: 3%;">
-									<col style="width: 5%;">
-								</colgroup>
-								<tr>
-									<th>키</th>
-									<th>몸무게</th>
-									<th>평소 사이즈</th>
-								</tr>
-								<tr>
-									<th>181cm</th>
-									<th>64kg</th>
-									<th>xl</th>
-								</tr>
-							</table>
-							<br>
-							조금 크게 나온 것 같습니다 참고해서 구매하세요.진짜 좋아요 진짜로 만족합니다. 굿굿!
-						</div>
-						<div class="photo-review pr-img-box">
-							<img src="./resources/images/review/top1.png">
-						</div>
-						</p>
-					</div></td>
-				<td class="r_writer">양아치</td>
-				<td class="r_ratings">★★★★★<br>4.7</td>
-				<td class="r_reviewcount">(55)</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="qr-max-auto">
-						<div class="qr-box qr-img-box">
-                    		<a href="#"><img src="./resources/images/qna/change1.png"></a>
-                		</div>					 
-					</div>
-				</td>
-				<td style="padding: 5px;"><input type="checkbox" id="answer03">
-					<label for="answer03">
-						<div class="r_title">
-							카테고리이름(ex..상의 or 상품이름??)<br>
-							조금 크게 나온 것 같습니다 참고해서 구매하세요.진짜 좋아요 진짜로 만족합...
-						</div>
-				</label>
-					<div>
-						<br>
-						<p>&nbsp;카테고리이름(ex..상의 or 상품이름??)</p>
-						<p>
-						<div style="padding: 20px;">
-							<table style="width: 270px; border: 1px solid gray;">
-								<colgroup>
-									<col style="width: 2%;">
-									<col style="width: 3%;">
-									<col style="width: 5%;">
-								</colgroup>
-								<tr>
-									<th>키</th>
-									<th>몸무게</th>
-									<th>평소 사이즈</th>
-								</tr>
-								<tr>
-									<th>181cm</th>
-									<th>64kg</th>
-									<th>xl</th>
-								</tr>
-							</table>
-							<br>
-							조금 크게 나온 것 같습니다 참고해서 구매하세요.진짜 좋아요 진짜로 만족합니다. 굿굿!
-						</div>
-						<div class="photo-review pr-img-box">
-							<img src="./resources/images/review/top1.png">
-						</div>
-						</p>
-					</div></td>
-				<td class="r_writer">양아치</td>
-				<td class="r_ratings">★★★<br>3.2</td>
-				<td class="r_reviewcount">(48)</td>
-			</tr>
-		</table>
+
+			</td>
+			<td class="r_writer">${r.r_writer}</td>
+			<td class="r_rate" style="color: red;">${r.r_rate }★</td>
+		</tr>
+		
+			</c:forEach>	
+		</c:if>
+	</table>
+																<!-- 루프 끝 -->
+	
+	<br>
+	
+	<div id="page_control" class="text-center">
+        <%--페이징 즉 쪽나누기 추가 --%>
+			<div>
+				<c:if test="${(!empty page)}">
+					<c:if test="${page<=1}">[이전]&nbsp;</c:if>
+					<c:if test="${page>1}">
+						<a href="photo?page=${page-1}">[이전]</a>&nbsp;
+    				</c:if>
+
+					<%--현재 쪽번호 출력--%>
+					<c:forEach var="a" begin="${startpage}" end="${endpage}" step="1">
+						<c:if test="${a == page}"><${a}></c:if>	<%--현재 페이지가 선택되었다면--%>
+						<c:if test="${a != page}">				
+							<a href="photo?page=${a}">[${a}]</a>&nbsp;
+     					</c:if><%--현재 페이지가 선택되지 않았다면 --%>
+					</c:forEach>
+
+					<c:if test="${page >= maxpage}">[다음]</c:if>
+					<c:if test="${page<maxpage}">
+						<a href="photo?page=${page+1}">[다음]</a>
+					</c:if>
+				</c:if>
+			</div>			
+    </div>
 	
 	<br><br><br><br><br><br><br>
 
-
 	</div>
 </body>
+
 	

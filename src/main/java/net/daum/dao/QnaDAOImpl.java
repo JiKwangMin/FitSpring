@@ -1,10 +1,10 @@
 package net.daum.dao;
 
 import java.util.List;
-
-import javax.inject.Inject;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import net.daum.vo.QnaVO;
@@ -12,48 +12,92 @@ import net.daum.vo.QnaVO;
 @Repository
 public class QnaDAOImpl implements QnaDAO {
 
-	@Inject
+	@Autowired
 	private SqlSession sqlSession;
 
+	//qna작성
 	@Override
-	public void insertQna(QnaVO q) {
-		this.sqlSession.insert("qna_in",q);
-	}//저장
-
+	public void insertQna(QnaVO qi) {
+		this.sqlSession.insert("qna_in",qi);
+		
+	}
+	
+	//qna이미지삽입
 	@Override
-	public int getListCount(QnaVO q) {
-		return this.sqlSession.selectOne("qna_row",q);
-	}//총레코드 개수
+	public void qnaimgin(Map<String, Object> map) {
+		this.sqlSession.insert("qna_img_in",map);
+	}
 
+	//qna목록
 	@Override
-	public List<QnaVO> getQnaList(QnaVO q) {
-		return this.sqlSession.selectList("qna_li", q);
-	}//목록보기
+	public List<QnaVO> getqnali(QnaVO qi) {
+		return sqlSession.selectList("maqna", qi);
+	}
 
+	//qna카운트
+	@Override
+	public int getQnaListCount(QnaVO qi) {
+		return sqlSession.selectOne("qna_count", qi);
+	}
+
+	//qna정보
 	@Override
 	public QnaVO getQnaCont(int q_no) {
-		return this.sqlSession.selectOne("qna_co", q_no);
-	}//내용보기
+		return this.sqlSession.selectOne("q_cont", q_no);
+	}
+
+	//qna수정
+	@Override
+	public void editQna(QnaVO qi) {
+		this.sqlSession.update("qna_up",qi);
+	}
 	
+	//qna이미지 수정
 	@Override
-	public void replyQna(QnaVO rq) {
-		this.sqlSession.insert("reply_in", rq);
-	} //답변저장
+	public void qnaimgedit(Map<String, Object> map) {
+		this.sqlSession.update("qna_img_up",map);
+		
+	}
 
+	//답변레벨증가
 	@Override
-	public void updateLevel(QnaVO rq) {
-		this.sqlSession.update("reply_up", rq);
-	} //답변레벨 증가
+	public void updateLevel(QnaVO qi) {
+		this.sqlSession.update("reply_up1",qi);
+		
+	}
 
+	//답변저장
 	@Override
-	public void editQna(QnaVO eq) {
-		this.sqlSession.update("qna_up", eq);
-	} //qna수정
-
+	public void replyQna(QnaVO qi) {
+		this.sqlSession.insert("reply_in1", qi);
+		
+	}
+	
 	@Override
 	public void delQna(int q_no) {
-		this.sqlSession.delete("qna_del",q_no);
-	} //qna삭제
+		this.sqlSession.delete("qna_del1",q_no);
+		this.sqlSession.delete("qna_del2",q_no);
+		
+	}
+
+	//토탈qna카운트
+	@Override
+	public int getTotalQnaCount(QnaVO qi) {
+		return this.sqlSession.selectOne("totalqna_count",qi);
+	}
+
+	//토탈qna목록
+	@Override
+	public List<QnaVO> getlitoqna(QnaVO qi) {
+		return sqlSession.selectList("matoqna", qi);
+	}
 
 	
+
+	
+
+	
+
+
+
 }

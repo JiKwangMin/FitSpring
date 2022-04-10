@@ -1,6 +1,8 @@
 package net.daum.service;
 
 import net.daum.vo.MemberVO;
+import net.daum.vo.QnaVO;
+import net.daum.vo.ReviewVO;
 
 
 public interface MemberService {
@@ -34,7 +36,13 @@ public interface MemberService {
 		public void mp(MemberVO mm);
 
 		
+		public String rfindpw(ReviewVO ri);
 
+		public String qfindpw(QnaVO qi);
+
+		public String qfindid(QnaVO qi);
+
+		public String rfindid(ReviewVO ri);
 		
 
 		

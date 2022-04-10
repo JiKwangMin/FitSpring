@@ -6,41 +6,85 @@
   <mapper namespace="Review">
 	
 	<!-- 디테일 리뷰 저장 -->
-	<insert id="review_in" parameterType="re">
-		insert into review (r_no, r_writer, r_pwd, r_cont, r_rate, r_height, r_weight, r_size, r_date)
-		values (review_no_seq.nextval, #{r_writer}, #{r_pwd}, #{r_cont}, #{r_rate}, #{r_height}, #{r_weight}, #{r_size}, sysdate)
+	<insert id="review_in" parameterType="net.daum.vo.ReviewVO" useGeneratedKeys="true" keyProperty="r_no">
+		<selectKey keyProperty="r_no" resultType="int" order="BEFORE">
+			SELECT REVIEW_NO_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+			insert into review (item_no, r_no, r_writer, r_pwd, r_cont, r_rate, r_height, r_weight, r_size, r_date)
+			values (#{item_no},#{r_no}, #{r_writer}, #{r_pwd}, #{r_cont}, #{r_rate}, #{r_height}, #{r_weight}, #{r_size}, sysdate)	
 	</insert>
-	
-	<!-- 디테일 리뷰 목록 -->
-	<select id="review_li" resultType="re">
-		select * from
-			(select rowNum rNum,r_no,r_writer,r_cont,r_rate,r_height,r_weight,r_size
-			from (select * from review order by r_no desc))
-			where rNum &gt;= #{startrow} and rNum &lt;= #{endrow}
-	</select>
-	
+							
+	<!-- 리뷰 이미지 저장 -->
+	<insert id="review_img_in" parameterType="HashMap">
+		insert into REVIEW_IMG (
+		r_no, review_file_no, review_img, review_orign_name
+		)
+		values(
+		#{r_no}, REVIEW_IMG_NO_SEQ.NEXTVAL, #{review_img}, #{review_orign_name} 
+		)		
+	</insert>
+
 	<!-- 레코드 개수 -->
-	<select id="review_row" parameterType="re" resultType="int">
-		select count(r_no) from review
+	<select id="review_count" parameterType="review" resultType="int">
+		select count(r_no) from review where item_no=#{item_no}
 	</select>
  	
- 	<!-- 디테일 리뷰 내용 -->
- 	<select id="review_co" resultType="re">
- 		select * from review where r_no=#{r_no}
- 	</select>
- 	
- 	<!-- 수정 -->
- 	<update id="review_up" parameterType="re">
-		update review set r_cont=#{r_cont},r_height=#{r_height},r_weight=#{r_weight},r_size=#{r_size},r_writer=#{r_writer},r_pwd=#{r_pwd},r_rate=#{r_rate}
+ 	<!-- 수정  -->
+ 	<update id="review_up" parameterType="review">
+		update review set r_writer=#{r_writer}, r_cont=#{r_cont},r_height=#{r_height},r_weight=#{r_weight},r_size=#{r_size},r_pwd=#{r_pwd},r_rate=#{r_rate}
 		where r_no = #{r_no}
  	</update>
+ 	 	
+	<!-- 리뷰 이미지 수정 -->
+	<update id="review_img_up">
+		update review_img set review_img=#{review_img}
+		where r_no = #{r_no}
+	</update>
  	
  	<!-- 삭제 -->
- 	<delete id="review_del">
+ 	<delete id="review_del1">
  		delete from review where r_no=#{r_no}
  	</delete>
+ 	<delete id="review_del2">
+ 		delete from review_img where r_no=#{r_no}
+ 	</delete>
  	
- 
  	
+ 	<!-- 리뷰사진 상세페이지-->
+ 	<select id="reviewmain">
+ 		select * from REVIEW_IMG where ITEM_NO=#{item_no} order by REVIEW_FILE_NO asc
+ 	</select>
+	
+	<!-- 리뷰목록 -->
+	<select id="mare" resultType="review">
+	SELECT * FROM (
+	SELECT ROWNUM RN, A.* FROM 
+	(SELECT * FROM REVIEW LEFT OUTER JOIN REVIEW_IMG ON REVIEW.R_NO = REVIEW_IMG.R_NO  ORDER BY REVIEW.R_NO DESC)A)
+	WHERE item_no = #{item_no} and RN BETWEEN #{startrow} AND #{endrow}	
+	</select>
+	
+	
+<!-- 포토리뷰  -->	
+	
+	<!-- 레코드 개수 -->
+	<select id="totalreview_count" resultType="int">
+		select count(r_no) from review
+	</select>
+	
+	<!-- 포토리뷰 목록 -->
+	<select id="matore" resultType="review">
+	SELECT * FROM (
+	SELECT ROWNUM RN, A.* FROM 
+	(SELECT * FROM REVIEW LEFT OUTER JOIN REVIEW_IMG ON REVIEW.R_NO = REVIEW_IMG.R_NO  ORDER BY REVIEW.R_NO DESC)A)
+	WHERE RN BETWEEN #{startrow} AND #{endrow}
+  
+	</select>
+    
+    <!-- 리뷰내용보기 -->
+    <select id="r_cont" resultType="review">
+    	select * from review where r_no=#{r_no}
+    </select>
+  
   </mapper> 
+  
   

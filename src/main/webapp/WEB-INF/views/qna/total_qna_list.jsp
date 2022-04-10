@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col-md-12 text-right">
-            <p class="root"><a href="/">홈</a> > Q & A</p>
+            <p class="root"><a href="index">홈</a> > Q & A</p>
         </div>
     </div>
         
@@ -15,38 +15,30 @@
 <br>
 <div class="qna"><p>FitSpring 상품문의 및 교환&반품문의입니다.</p></div>
 
-<form method="get"  action="total_qna_list">
+
     <table id="notice"> 
         <colgroup>
             <col style="width: 7%">
-            <col style="width: 13%">
             <col style="width: 55%">
             <col style="width: 15%">
             <col style="width: 10%">
         </colgroup>
         <tr>
             <th class="tno">번호</th>
-            <th class="p_info">상품정보</th>
             <th class="ttitle">제목</th>
             <th class="twrite">작성자</th>
             <th class="tdate">작성일</th>
         </tr>
         
 <!-- 루프 -->
- 		 <c:if test="${!empty qlist }">
- 		 	<c:forEach var="q" items="${qlist }">
+ 		 <c:if test="${!empty litoqna }">
+ 		 	<c:forEach var="q" items="${litoqna }">
 
 		 <tr>
-            <td class="tno"><c:if test="${q.q_step == 0 }">${q.q_ref }</c:if></td>
-            <td>
-            <div class="q-max-auto">
-                <div class="q-box q-img-box">
-                    <a href="#"><img src="./resources/images/qna/change1.png"></a>
-                </div>
-            </div>
-            </td>
+            <!--<td class="tno"><c:if test="${q.q_step == 0 }">${q.q_ref }</c:if></td>-->
+            <td class="tno">${q.no}</td>
             <td style="padding: 5px;">
-                <span class="product-name"><a href="#">나중에바꿔(상품이름)</a><br></span>
+                <span style="font-size: 10px;">분류&nbsp;:</span>
                 
                 <input type="checkbox" id="q_answer+${q.q_no }">
 					<label for="q_answer+${q.q_no }">
@@ -57,16 +49,18 @@
 					<div>
 						<p>
 						<div>&nbsp;							
+							<input type="text" value="${q.q_writer }" style="display: none;">
 							<p>${q.q_cont }</p>
 						</div>
 						<div class="photo-review pr-img-box">
-							<img src="./resources/images/qna/change1.png">
+							<img src="../resources/upload${q.qna_img}" style="width: 170px; height: 190pxl;" alt="이미지없음"/>
 							<br>
 						</div>&nbsp;&nbsp;
 					<div style="float: right;margin: 0 5% 10px 0">	
-					<input type="button" value="답변" onclick="location= 'total_qna_cont?no=${q.q_no}&page=${page}&state=reply';" />
-   					<input type="button" value="수정" onclick="location= 'total_qna_cont?no=${q.q_no}&page=${page}&state=edit';" />
-   					<input type="button" value="삭제" onclick="location= 'total_qna_cont?no=${q.q_no}&page=${page}&state=del';" /></div>
+					
+					<input type="submit" value="답변" onclick="location='TotalQnaReply?q_no=${q.q_no}&page1=${page1}&state=reply&item_no=${q.item_no}';" />
+   					<input type="submit" value="수정" onclick="location='TotalQnaEdit?q_no=${q.q_no}&page1=${page1}&state=edit&item_no=${q.item_no}';" />
+   					<input type="submit" value="삭제" onclick="location='TotalQnaDel?q_no=${q.q_no}&page1=${page1}&state=del&item_no=${q.item_no}';" /></div>  
 						</p>
 					</div>
             </td>
@@ -77,7 +71,7 @@
        	 	</c:forEach>
 		 </c:if>
 																		<!-- 루프 -->
-         <c:if test="${empty qlist }">
+         <c:if test="${empty litoqna }">
          	<tr>
          		<th colspan="5">목록이 없습니다.</th>
          	</tr>
@@ -85,59 +79,55 @@
     </table>
     
 	<br>
+<form method="get"  action="total_qna_list">	
 	
 	<div id="page_control" class="text-center">
         <%--페이징 즉 쪽나누기 추가 --%>
 			<div>
 				<%-- 검색전 페이징 --%>
 				<c:if test="${(empty find_field) && (empty find_name)}">
-					<c:if test="${page<=1}">[이전]&nbsp;</c:if>
-					<c:if test="${page>1}"><a href="total_qna_list?page=${page-1}">[이전]</a>&nbsp;</c:if>
+					<c:if test="${page1<=1}">[이전]&nbsp;</c:if>
+					<c:if test="${page1>1}"><a href="total_qna_list?page1=${page1-1}">[이전]</a>&nbsp;</c:if>
 
 					<%--현재 쪽번호 출력--%>
-					<c:forEach var="a" begin="${startpage}" end="${endpage}" step="1">
-						<c:if test="${a == page}"><${a}></c:if>	<%--현재 페이지가 선택되었다면--%>
-						<c:if test="${a != page}"><a href="total_qna_list?page=${a}">[${a}]</a>&nbsp;</c:if> 	<%--현재 페이지가 선택되지 않았다면 --%>
+					<c:forEach var="a" begin="${startpage1}" end="${endpage1}" step="1">
+						<c:if test="${a == page1}"><${a}></c:if>	<%--현재 페이지가 선택되었다면--%>
+						<c:if test="${a != page1}"><a href="total_qna_list?page1=${a}">[${a}]</a>&nbsp;</c:if> 	<%--현재 페이지가 선택되지 않았다면 --%>
 					</c:forEach>
 
-					<c:if test="${page >= maxpage}">[다음]</c:if>
-					<c:if test="${page<maxpage}"><a href="total_qna_list?page=${page+1}">[다음]</a></c:if>
+					<c:if test="${page1 >= maxpage1}">[다음]</c:if>
+					<c:if test="${page1 < maxpage1}"><a href="total_qna_list?page1=${page1+1}">[다음]</a></c:if>
 				</c:if>
 
 				<%-- 검색후 페이징 --%>
 				<c:if test="${(!empty find_field) || (!empty find_name)}">
-					<c:if test="${page<=1}">[이전]&nbsp;</c:if>
-					<c:if test="${page>1}">
-						<a href="total_qna_list?page=${page-1}&find_field=${find_field}&find_name=${find_name}">[이전]</a>&nbsp;
+					<c:if test="${page1 <= 1}">[이전]&nbsp;</c:if>
+					<c:if test="${page1 > 1}">
+						<a href="total_qna_list?page1=${page1-1}&find_field=${find_field}&find_name=${find_name}">[이전]</a>&nbsp;
     				</c:if>
 
 					<%--현재 쪽번호 출력--%>
-					<c:forEach var="a" begin="${startpage}" end="${endpage}" step="1">
-						<c:if test="${a == page}"><${a}></c:if>	<%--현재 페이지가 선택되었다면--%>
-						<c:if test="${a != page}">				
-							<a href="total_qna_list?page=${a}&find_field=${find_field}&find_name=${find_name}">[${a}]</a>&nbsp;
+					<c:forEach var="a" begin="${startpage1}" end="${endpage1}" step="1">
+						<c:if test="${a == page1}"><${a}></c:if>	<%--현재 페이지가 선택되었다면--%>
+						<c:if test="${a != page1}">				
+							<a href="total_qna_list?page1=${a}&find_field=${find_field}&find_name=${find_name}">[${a}]</a>&nbsp;
      					</c:if><%--현재 페이지가 선택되지 않았다면 --%>
 					</c:forEach>
 
-					<c:if test="${page >= maxpage}">[다음]</c:if>
-					<c:if test="${page<maxpage}">
-						<a href="total_qna_list?page=${page+1}&find_field=${find_field}&find_name=${find_name}">[다음]</a>
+					<c:if test="${page1 >= maxpage1}">[다음]</c:if>
+					<c:if test="${page1< maxpage1}">
+						<a href="total_qna_list?page1=${page1+1}&find_field=${find_field}&find_name=${find_name}">[다음]</a>
 					</c:if>
 				</c:if>
 			</div>
     </div>
+ 
     <br>
 
     <div>
-        <!-- <select id="search_date" name="search_date">
-            <option value="week">일주일</option>
-            <option value="month">한달</option>
-            <option value="month3">세달</option>
-            <option value="all">전체</option>
-        </select> -->
         
         <select id="search_key" name="find_field">
-            <option value="q_title" <c:if test="${find_field=='q_title'}">${'selected'}</c:if>>제목</option>
+            <option value="q_title" <c:if test="${find_field=='q_title'}">${'selected'}</c:if>>분류</option>
             <option value="q_cont" <c:if test="${find_field=='q_cont'}">${'selected'}</c:if>>내용</option>
             <option value="q_writer" <c:if test="${find_field=='q_writer'}">${'selected'}</c:if>>작성자</option>
         </select>

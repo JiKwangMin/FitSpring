@@ -24,6 +24,8 @@
 <link rel="stylesheet" href="/resources/css/review.css">
 <link rel="stylesheet" href="/resources/css/qna_list.css">
 <link rel="stylesheet" href="/resources/css/qna_write.css">
+<link rel="stylesheet" href="/resources/css/index.css">
+
 
 </head>
 <body>

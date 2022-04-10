@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import net.daum.dao.MemberDAO;
 import net.daum.vo.MemberVO;
+import net.daum.vo.QnaVO;
+import net.daum.vo.ReviewVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -69,9 +71,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
-
-	
-
 	@Override
 	public int getPoint(String mem_id) {
 		return this.dao.getPoint(mem_id);
@@ -83,13 +82,28 @@ public class MemberServiceImpl implements MemberService {
 		this.dao.mp(mm);
 	}
 
+	@Override
+	public String rfindpw(ReviewVO ri) {
+		return this.dao.getpwd(ri);
+	}
 
 
+	@Override
+	public String qfindpw(QnaVO qi) {
+		return this.dao.getrepwd(qi);
+	}
 
 
-	
+	@Override
+	public String qfindid(QnaVO qi) {
+		return this.dao.getqid(qi);
+	}
 
 
+	@Override
+	public String rfindid(ReviewVO ri) {
+		return this.dao.getrid(ri);
+	}
 
 
 }

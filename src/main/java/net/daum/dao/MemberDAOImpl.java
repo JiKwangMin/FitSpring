@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import net.daum.vo.MemberVO;
+import net.daum.vo.QnaVO;
+import net.daum.vo.ReviewVO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -82,10 +84,26 @@ public class MemberDAOImpl implements MemberDAO {
 		sqlSession.update("mp",mm);
 	}
 
-	
+	@Override
+	public String getpwd(ReviewVO ri) {
+		return this.sqlSession.selectOne("get_pwd", ri);
+	}
+
+	@Override
+	public String getrepwd(QnaVO qi) {
+		return this.sqlSession.selectOne("get_qpwd",qi);
+	}
+
+	@Override
+	public String getqid(QnaVO qi) {
+		return this.sqlSession.selectOne("get_qid", qi);
+	}
+
+	@Override
+	public String getrid(ReviewVO ri) {
+		return this.sqlSession.selectOne("get_rid", ri);
+	}	
 
 	
-
-
 
 }

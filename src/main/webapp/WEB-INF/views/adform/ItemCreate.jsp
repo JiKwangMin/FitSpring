@@ -95,10 +95,10 @@ textarea#gdsDes { width:400px; height:180px; }
 				<label style="width:6vw;">제품 1차 분류</label>
 				<select class="category1"style="width:6vw;" name="item_co1">
 					<option value="--">선택해주세요</option>
-					<option value="outer">아우터</option>
+					<option value="outers">아우터</option>
 					<option value="top">상의</option>
 					<option value="bottom">하의</option>
-					<option value="shoose">신발</option>
+					<option value="shoes">신발</option>
 					<option value="acc">ACC</option>
 				</select>
 				
@@ -106,22 +106,22 @@ textarea#gdsDes { width:400px; height:180px; }
 				<label style="width:6vw;">제품 2차 분류</label>
 				<select class="category2" style="width:6vw;" name="item_co2">
 					<option value="--">선택해주세요</option>
-					<option value="outer1">가디건</option>
-					<option value="outer2">코트</option>
-					<option value="outer3">점퍼</option>
-					<option value="outer4">자켓</option>
-					<option value="top1">맨투맨/후드</option>
-					<option value="top2">니트</option>
-					<option value="top3">셔츠</option>
-					<option value="top4">무지</option>
-					<option value="bottom1">팬츠</option>
-					<option value="bottom2">데님</option>
-					<option value="bottom3">반바지</option>
-					<option value="shoose1">슬리퍼</option>
-					<option value="shoose2">로퍼</option>
-					<option value="shoose3">스니커즈</option>
-					<option value="acc1">가방</option>
-					<option value="acc2">모자</option>
+					<option value="coat">코트</option>
+					<option value="cardigan">가디건</option>
+					<option value="jumper">점퍼</option>
+					<option value="jacket">자켓</option>
+					<option value="mentomen">맨투맨/후드</option>
+					<option value="knit">니트</option>
+					<option value="shirts">셔츠</option>
+					<option value="muji">무지</option>
+					<option value="pants">팬츠</option>
+					<option value="denim">데님</option>
+					<option value="shorts">반바지</option>
+					<option value="slippers">슬리퍼</option>
+					<option value="loafers">로퍼</option>
+					<option value="sneakers">스니커즈</option>
+					<option value="bag">가방</option>
+					<option value="hat">모자</option>
 				</select>
 			</div>
 			

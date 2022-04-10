@@ -380,7 +380,6 @@ input[id*="answer"]:checked+label+div {
 }
 
 .photo-review {
-	width: 100px;
 	position: relative;
 	margin-left: 30px;
 }

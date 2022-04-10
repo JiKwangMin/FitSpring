@@ -1,6 +1,8 @@
 package net.daum.dao;
 
 import net.daum.vo.MemberVO;
+import net.daum.vo.QnaVO;
+import net.daum.vo.ReviewVO;
 
 public interface MemberDAO {
 
@@ -23,13 +25,18 @@ public interface MemberDAO {
 
 	public MemberVO getMeminfo(MemberVO mm);
 
-	
 
 	public int getPoint(String mem_id);
 
 	public void mp(MemberVO mm);
 
-	
+	public String getpwd(ReviewVO ri);
+
+	public String getrepwd(QnaVO qi);
+
+	public String getqid(QnaVO qi);
+
+	public String getrid(ReviewVO ri);
 
 	
 

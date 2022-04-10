@@ -181,18 +181,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update ITEM_OPTION set SELCOUNT=#{selcount}, REAL_SELCOUNT=#{real_selcount} where OPTION_ITEM_NO = #{option_item_no}
 	</update>
 	
-	<!--  맨투맨/후드 리스트 -->
+	
+	<!-- 상품 리스트 -->
 	<select id="get_man" resultType="item">
-		select * from(
-        select ROWNUM RN, D.* from(
-        select * from (
-        select * from ITEM_INFO LEFT OUTER JOIN(
-		select * from(
-		select ROW_NUMBER() OVER(PARTITION BY ITEM_MAIN_IMG.ITEM_NO order by ITEM_MAIN_IMG.MAIN_FILE_NO asc)
-		AS RNUM, ITEM_MAIN_IMG.* from ITEM_MAIN_IMG
-		)where RNUM=1
-		)B
-		ON ITEM_INFO.ITEM_NO = B.ITEM_NO order by ITEM_INFO.ITEM_NO asc)C order by C.ITEM_WRITE_DATE DESC)D)F
-        where F.ITEM_CO2 = #{sortation}
+	select * from(
+	select ROWNUM RN, D.* from(
+    select * from (
+	select * from ITEM_INFO LEFT OUTER JOIN(
+	select * from(
+	select ROW_NUMBER() OVER(PARTITION BY ITEM_MAIN_IMG.ITEM_NO order by ITEM_MAIN_IMG.MAIN_FILE_NO asc)
+	AS RNUM, ITEM_MAIN_IMG.* from ITEM_MAIN_IMG
+	)where RNUM=1
+	)B
+	ON ITEM_INFO.ITEM_NO = B.ITEM_NO order by ITEM_INFO.ITEM_NO asc)C order by C.ITEM_WRITE_DATE DESC)D)F
+    where F.ITEM_CO2 = #{sortation}
 	</select>
+
+
 </mapper>
