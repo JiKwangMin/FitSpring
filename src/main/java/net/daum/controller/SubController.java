@@ -42,11 +42,6 @@ public class SubController {
 	
 	@Autowired
 	private WishListService wishService;
-
-	@RequestMapping("/Best")
-	public String BestTOP() {
-		return "sub/Best";
-	}
 	
 	@RequestMapping("/item")
 	public String sub_item(Model model, ItemInfoVO ii, @RequestParam("sortation")String sortation,@RequestParam("bsortation")String bsortation,HttpSession session) {
@@ -54,7 +49,6 @@ public class SubController {
 		//top끝
 		System.out.println(sortation);
 		List<ItemInfoVO> lilist = this.adminService.getManList(sortation);
-		
 		
 		String title = "";
 		if(sortation.equals("mentomen")) {

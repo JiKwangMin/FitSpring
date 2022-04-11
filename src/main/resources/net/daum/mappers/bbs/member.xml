@@ -116,6 +116,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    	update MEMBER set MEM_POINT = #{temp11} where MEM_ID=#{mem_id}
    </update>
    
+   <select id="get_pwd" resultType="String">
+   	select MEM_PW from MEMBER where MEM_ID=#{r_writer}
+   </select>
+   
+   <select id="get_qpwd" resultType="String">
+    select MEM_PW from MEMBER where MEM_ID=#{q_writer}
+   </select>
+   
+   <select id="get_qid" resultType="String">
+   	select MEM_ID from MEMBER where MEM_ID=#{q_writer}
+   </select>
+   
+   <select id="get_rid" resultType="String">
+   	select MEM_ID from MEMBER where MEM_ID=#{r_writer}
+   </select>
    
 </mapper>
 

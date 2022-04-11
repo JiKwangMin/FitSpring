@@ -328,14 +328,12 @@
     <table id="notice"> 
         <colgroup>
             <col style="width: 7%">
-            <col style="width: 13%">
             <col style="width: 55%">
             <col style="width: 15%">
             <col style="width: 10%">
         </colgroup>
         <tr>
             <th class="tno">번호</th>
-            <th class="p_info">상품정보</th>
             <th class="ttitle">제목</th>
             <th class="twrite">작성자</th>
             <th class="tdate">작성일</th>
@@ -345,15 +343,7 @@
  		 <c:if test="${!empty limaqna }">
  		 	<c:forEach var="q" items="${limaqna }">
 		 <tr>
-           <!--  <td class="tno"><c:if test="${q.q_step == 0 }">${q.q_ref }</c:if></td> -->
             <td class="tno">${q.no}</td>
-            <td>
-            <div class="q-max-auto">
-                <div class="photo-box p-img-box">
-                    <img src="./resources/images/review/picture.png">
-                </div>
-            </div>
-            </td>
             <td style="padding: 5px;">
                 <span class="product-name">제목</a><br></span>
                 
@@ -374,7 +364,6 @@
 						</div>&nbsp;&nbsp;
 					<div style="float: right;margin: 0 5% 10px 0">	
 				
-		
    					<input type="submit" value="답변" onclick="location='QnaReply?q_no=${q.q_no}&page1=${page1}&state=reply&item_no=${ii.item_no}';" />
    					<input type="submit" value="수정" onclick="location='QnaEdit?q_no=${q.q_no}&page1=${page1}&state=edit&item_no=${ii.item_no}';" />
    					<input type="submit" value="삭제" onclick="location='QnaDel?q_no=${q.q_no}&page1=${page1}&state=del&item_no=${ii.item_no}';" /></div> 				
@@ -405,29 +394,29 @@
 			
 	<div id="page_control" class="text-center">
         <%--페이징 즉 쪽나누기 추가 --%>
-			<div>
-				<c:if test="${(!empty page1)}">
-					<c:if test="${page1<=1}">[이전]&nbsp;</c:if>
-					<c:if test="${page1>1}">
-						<a href="item_detail?item_no=${ii.item_no}&page1=${page1-1}">[이전]</a>&nbsp;
-    				</c:if>
+		<div>
+			<c:if test="${(!empty page1)}">
+				<c:if test="${page1<=1}">[이전]&nbsp;</c:if>
+				<c:if test="${page1>1}">
+					<a href="item_detail?item_no=${ii.item_no}&page1=${page1-1}">[이전]</a>&nbsp;
+    			</c:if>
 
-					<%--현재 쪽번호 출력--%>
-					<c:forEach var="a" begin="${startpage1}" end="${endpage1}">
-						<c:if test="${a == page1}"><${a}></c:if>	<%--현재 페이지가 선택되었다면--%>
-						<c:if test="${a != page1}">				
-							<a href="item_detail?item_no=${ii.item_no}&page1=${a}">[${a}]</a>&nbsp;
-     					</c:if><%--현재 페이지가 선택되지 않았다면 --%>
-					</c:forEach>
+				<%--현재 쪽번호 출력--%>
+				<c:forEach var="a" begin="${startpage1}" end="${endpage1}">
+					<c:if test="${a == page1}"><${a}></c:if>	<%--현재 페이지가 선택되었다면--%>
+					<c:if test="${a != page1}">				
+						<a href="item_detail?item_no=${ii.item_no}&page1=${a}">[${a}]</a>&nbsp;
+     				</c:if><%--현재 페이지가 선택되지 않았다면 --%>
+				</c:forEach>
 
-					<c:if test="${page1 >= maxpage1}">[다음]</c:if>
-					<c:if test="${page1 < maxpage1}">
-						<a href="item_detail?item_no=${ii.item_no}&page1=${page1+1}">[다음]</a>	
-					</c:if>
+				<c:if test="${page1 >= maxpage1}">[다음]</c:if>
+				<c:if test="${page1 < maxpage1}">
+					<a href="item_detail?item_no=${ii.item_no}&page1=${page1+1}">[다음]</a>	
 				</c:if>
-			</div>			
+			</c:if>
+		</div>			
     </div>
-    
+    <br><br><br><br><br>
 </div>
 
 </body>
